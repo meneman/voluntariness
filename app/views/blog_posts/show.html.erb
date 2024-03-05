@@ -1,6 +1,13 @@
 <h1> hi</h1>
 
 title:<%=  @blog_post.title %>
+<p>
+published:<%=  @blog_post.published_at %></p>
+<p>
+
+updated:<%=  @blog_post.updated_at %>
+</p>
+
 
 <%= link_to "edit", edit_blog_post_path(@blog_post) if user_signed_in?  %>
 
