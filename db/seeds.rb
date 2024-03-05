@@ -10,3 +10,9 @@
 user = User.where(email: "tsk@gmail.com").first_or_initialize
 
 user.update!(password: "password", password_confirmation: "password" )
+
+
+# 100.times do |i|
+#     BlogPost.create title: "Blog Post #{i + 1}", content: "Test blog number #{i + 1}"
+# end
+    
