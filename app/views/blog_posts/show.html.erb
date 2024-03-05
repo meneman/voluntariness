@@ -2,6 +2,6 @@
 
 title:<%=  @blog_post.title %>
 
-<%= link_to "edit", edit_blog_post_path  %>
+<%= link_to "edit", edit_blog_post_path(@blog_post) if user_signed_in?  %>
 
     
