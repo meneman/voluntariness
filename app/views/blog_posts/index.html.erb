@@ -3,8 +3,12 @@
 
 
 <div class="my-16">
-
-    <%==  pagy_nav(@pagy) %>
+    <% if @pagy.vars.size > 1 %>
+    
+    <%==  
+        console
+    pagy_nav(@pagy) %>
+    <% end %>
 
 </div>
 <% @blog_posts.each do |e| %>
