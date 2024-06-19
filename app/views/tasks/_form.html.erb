@@ -1,0 +1,33 @@
+<%= form_with model: task do |form| %>
+
+<% if form.object.errors.any? %>
+    <div>
+        <% form.object.errors.full_messages.each do |m| %>
+        <div> <%= m %> </div>
+        <% end %>
+    </div>
+<% end %>
+
+<div>
+<%= form.label :title %>
+<%= form.text_field :title %>
+</div>
+
+<div>
+<%= form.label :worth %>
+<%= form.text_field :worth %>
+</div>
+
+<div>
+<%= form.label :interval  %>
+<%= form.text_field :interval  %>
+
+</div>
+
+<div>
+<%= form.button  %>
+</div>
+
+
+
+<%  end %>

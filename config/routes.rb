@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users
+  get 'articles/index'
+  # devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  resources :blog_posts
+  resources :tasks
+  resources :participants do
+    member do 
+        patch :update_points
+    end
+  end
 
+  resources :actions
+  
+  post :action, to: "action#create", defaults: {format: :turbo_stream}
   # get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post
   # get "/blog_posts/:id", to: "blog_posts#show", as: :blog_post
   # delete "/blog_posts/:id", to: "blog_posts#destroy"
@@ -15,5 +24,5 @@ Rails.application.routes.draw do
   
   # Defines the root path route ("/") 
 
-  root "blog_posts#index"
+  root "pages#home"
 end

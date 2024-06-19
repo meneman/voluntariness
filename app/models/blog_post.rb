@@ -9,7 +9,6 @@ class BlogPost < ApplicationRecord
     scope :published, -> { where( "published_at <= :now", now: Time.current) }
     scope :scheduled, -> { where( "published_at > :now", now: Time.current) }
 
-
     def draft? 
          published_at.nil?
     end

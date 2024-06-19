@@ -1,0 +1,6 @@
+<h1>edit record</h1>
+
+<%= render partial: "form", locals: {participant: @participant} %>
+
+
+<%= button_to "delete", @participant, method: :delete, data: {turbo_confirm: "Are you sure?" } %>

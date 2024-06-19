@@ -1,0 +1,31 @@
+<%= form_with model: participant do |form| %>
+
+<% if form.object.errors.any? %>
+    <div>
+        <% form.object.errors.full_messages.each do |m| %>
+        <div> <%= m %> </div>
+        <% end %>
+    </div>
+<% end %>
+
+<div>
+<%= form.label :name %>
+<%= form.text_field :name %>
+</div>
+
+<div>
+<%= form.label :color %>
+<%= form.text_field :color %>
+</div>
+
+<div>
+<%= form.label :avatar %>
+<%= form.text_field :avatar %>
+</div>
+<div>
+<%= form.button  %>
+</div>
+
+
+
+<%  end %>

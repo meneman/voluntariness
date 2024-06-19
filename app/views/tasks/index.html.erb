@@ -1,0 +1,27 @@
+
+
+<h1> hi</h1>
+<%= link_to "add", new_task_path  %>
+
+
+<div class="my-16">
+
+</div>
+    <div class="flex flex-wrap">
+    <% @tasks.each do |e| %>
+        <div class="hover:bg-blue-100 m-4 p-2 border-b border-gray-200 shadow-lg rounded">
+            <p class="font-bold text-l "><%=  e.title  %></h2>
+                <div class="flex overflow-hidden" > 
+                    <div class="m-2 whitespace-nowrap" >worth:  <%=  e.worth  %></div>
+                    <div class="m-2 whitespace-nowrap"> interval:  <%=  e.interval  %></div>
+<%= button_to "delete", e, method: :delete %>
+                </div>
+               
+        </div>
+    <% end %>
+    <%= turbo_frame_tag "new_task" do %>
+        <div class="border-gray-2 bg-blue-200 p-4">
+                <div class="m-auto" ><%= link_to "add", new_task_path  %></div>
+        </div>
+    <% end %>
+     </div>

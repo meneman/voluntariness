@@ -4,7 +4,8 @@ class BlogPostsController < ApplicationController
     before_action :set_blog_post, except: [:index, :new, :create]
 
     def index
-        @blog_posts = user_signed_in? ?  BlogPost.all.sorted : BlogPost.published.sorted
+        # @blog_posts = user_signed_in? ?  BlogPost.all.sorted : BlogPost.published.sorted
+
          @pagy, @blog_posts = pagy(@blog_posts)
          rescue Pagy::OverflowError 
             params[:page] = 1
@@ -42,7 +43,6 @@ class BlogPostsController < ApplicationController
 
 
     def destroy 
-
         @blog_post.destroy()
         redirect_to :root
     end
@@ -54,9 +54,8 @@ class BlogPostsController < ApplicationController
     end
 
     def set_blog_post
-        
-
         @blog_post = user_signed_in? ? BlogPost.find(params[:id]) : BlogPost.published.find(params[:id])
+        
         
     rescue ActiveRecord::RecordNotFound
         redirect_to root_path

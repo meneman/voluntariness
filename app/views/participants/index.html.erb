@@ -1,0 +1,15 @@
+
+
+<%= link_to "add", new_participant_path  %>
+
+
+<div class="my-16">
+
+</div>
+<% @participants.each do |e| %>
+    <div>
+        <div class="font-sans">Name: <%=  e.name  %></div>
+        
+        <%= button_to "delete", e, method: :delete, data: {turbo_confirm: "Are you sure?" } %>
+     </div>
+<% end %>

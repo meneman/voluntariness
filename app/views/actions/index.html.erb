@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "actions_list" do %> 
+    <% @actions.each do |e| %>
+        <div class="flex">
+            <div class="font-sans">p: <%=  e.participant_id  %> task: <%=  e.task_id  %> </div>
+            <div class="font-sans">Name: <%=  e.task_id  %></div>        
+            <div class="font-sans">created_at: <%=  e.created_at  %></div>        
+
+            <%= button_to "delete", e, method: :delete, data: {turbo_confirm: "Are you sure?" } %>
+        </div>
+    <% end %>
+<%= end %>

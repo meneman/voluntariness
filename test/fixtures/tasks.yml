@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  worth: 1
+  interval: 1
+  description: MyText
+
+two:
+  title: MyString
+  worth: 1
+  interval: 1
+  description: MyText

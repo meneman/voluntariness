@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task: one
+  participant: one
+  timestamp: 2024-06-17 21:05:15
+
+two:
+  task: two
+  participant: two
+  timestamp: 2024-06-17 21:05:15
