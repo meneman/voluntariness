@@ -5,6 +5,10 @@ class TasksController < ApplicationController
 
     def index
          @tasks = Task.all()
+         respond_to do |format|
+            format.html
+            format.turbo_stream
+          end
     end
 
     def show
@@ -12,10 +16,10 @@ class TasksController < ApplicationController
 
     def new 
         @task = Task.new
-        respond_to do |format| 
-            format.html { }
-            format.turbo_stream
-        end
+        # respond_to do |format|
+        #     format.html
+        #     format.turbo_stream
+        # end
     end
 
     def edit 
@@ -26,6 +30,10 @@ class TasksController < ApplicationController
         @task = Task.new(task_params)
         if @task.save
             redirect_to @task
+            respond_to do |format|
+                format.html
+                format.turbo_stream
+            end
         else
             render :new, status: :unprocessable_entity
         end

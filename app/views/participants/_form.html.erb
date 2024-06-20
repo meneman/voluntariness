@@ -1,31 +1,21 @@
-<%= form_with model: participant do |form| %>
-
-<% if form.object.errors.any? %>
-    <div>
-        <% form.object.errors.full_messages.each do |m| %>
-        <div> <%= m %> </div>
+<%= simple_form_for @participant, html: { class: "bg-gray-800 p-8 rounded-lg shadow-md max-w-md mx-auto" } do |f| %>
+  <% if f.object.errors.any? %>
+    <div class="mb-4 p-4 bg-red-600 text-white rounded">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
         <% end %>
+      </ul>
     </div>
+  <% end %>
+
+  <div class="form-inputs space-y-4">
+    <%= f.input :name, label: "Name", input_html: { class: "w-full p-2 bg-gray-700 text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :color, label: "Favorite Color", input_html: { type: 'color', class: "w-full p-2 h-10 bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :avatar, label: "Avatar", input_html: { class: "w-full p-2 bg-gray-700 text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+  </div>
+
+  <div class="form-actions mt-6">
+    <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded" %>
+  </div>
 <% end %>
-
-<div>
-<%= form.label :name %>
-<%= form.text_field :name %>
-</div>
-
-<div>
-<%= form.label :color %>
-<%= form.text_field :color %>
-</div>
-
-<div>
-<%= form.label :avatar %>
-<%= form.text_field :avatar %>
-</div>
-<div>
-<%= form.button  %>
-</div>
-
-
-
-<%  end %>

@@ -1,4 +1,4 @@
-<h1>new record</h1>
 
-<%= render partial: "form", locals: {task: @task} %>
-
+<%=  turbo_frame_tag "new_task" do %>
+    <%= render partial: "form", locals: {task: @task} %>
+<% end %>

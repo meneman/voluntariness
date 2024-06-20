@@ -1,42 +1,39 @@
 
-  
-  <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-    <thead class="bg-gray-200 border-b-2 border-gray-300">
-        <tr>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Tasks / Participants</th>
-               <% @participants.each do |participant| %>
-            <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">   <div class=" p-2 text-center">participant: <%= participant.name %> <span ><%= participant.avatar %></span></div>
-          <div class="p-2 text-center"> <%= render partial: "points", locals: { id: participant.id, total_points: participant.total_points } %></div></th>
-          <% end %>
 
-            </tr>
-    </thead>
-    <tbody>
+<%= turbo_frame_tag "tasks_list_home" do %> 
+    <%= render partial: "participants/list", locals: {tasks: @participants} %>
+<% end %>
+<div class="flex">
        <% @tasks.each do |task| %>
-        <tr class="border-b border-gray-200 hover:bg-gray-100">
-            <td class="px-6 py-4 text-gray-700">      <div class=""><%= task.title %> - points: <%= task.worth %></div></td>
-             <% @participants.each do |participant| %>
-            <td class="px-6 py-4 text-gray-700">
-              <div class="bg-white p-2 border-b border-gray-200 flex justify-center items-center">
 
-          <%= button_to "abhaken! (#{participant.name})",
+
+            <div class="relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+                <p class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
+                    <div class="flex overflow-hidden text-slate-500 dark:text-slate-400 mt-2 text-sm" > 
+                        <div class="m-2 whitespace-nowrap" >worth:  <%=  task.worth  %></div>
+                        <div class="m-2 whitespace-nowrap"> interval:  <%=  task.interval  %></div>
+                    </div>
+                    
+                        <%= button_to "delete", task, method: :delete, class: "text-red-600 absolute top-0 right-0 m-2 font-bold font-medium" %>
+                <div class="flex">
+                  
+             <% @participants.each do |participant| %>
+          <%= button_to "#{participant.name}: Check",
            { controller: "actions", action:"create" , method:"post",
             data: {task_id: task, participant_id: participant }},
-             {class:"bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded shadow-lg transform hover:scale-105 transition-transform duration-200"} %>
-
-          
+             { style: "background-color: #{ participant.color || " inherit"};", class:"bg-blue-800 hover:bg-blue-800 text-slate-100 font-bold p-4 rounded shadow-sm transform hover:scale-105 transition-transform duration-200"} %>
         
-        </div>
-            </td>
-            <%end%>
-          
-        </tr>
+            <%end%>     
+              </div>
+            </div>
+
+        
+        
+       
         <%end%>
-        <!-- More rows as needed -->
-    </tbody>
-</table>
-  
-  
-  
-      <%= turbo_stream_from "participants_points" %>
   </div>
+ <%= turbo_frame_tag "tasks_list_home" do %> 
+    <%= render partial: "tasks/tasks_list", locals: {tasks: @tasks} %>
+  <% end %>
+      <%= turbo_stream_from "participants_points" %>
+  

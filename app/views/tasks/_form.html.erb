@@ -1,3 +1,28 @@
+<%= simple_form_for @task, html: { class: "bg-gray-800 p-2 mx-auto w-200px", style: "width: 200px;" } do |f| %>
+  <% if f.object.errors.any? %>
+    <div class="mb-4 p-4 bg-red-600 text-white rounded">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-inputs space-y-2">
+    <%= f.input :title, label: "Title", input_html: { class: "w-full p-2 bg-gray-700 text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+  
+  </div>
+    <div class="form-inputs flex space-x-2" >
+          <%= f.input :worth, label: "Worth", input_html: { type: 'number', class: "w-full p-2 h-10 bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
+          <%= f.input :interval, label: "Interval", input_html: { type: 'number', class: "w-full p-2 bg-gray-700 text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+    </div>
+  <div class="form-actions mt-6">
+    <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded" %>
+  </div>
+<% end %>
+
+
 <%= form_with model: task do |form| %>
 
 <% if form.object.errors.any? %>
@@ -8,26 +33,5 @@
     </div>
 <% end %>
 
-<div>
-<%= form.label :title %>
-<%= form.text_field :title %>
-</div>
 
-<div>
-<%= form.label :worth %>
-<%= form.text_field :worth %>
-</div>
-
-<div>
-<%= form.label :interval  %>
-<%= form.text_field :interval  %>
-
-</div>
-
-<div>
-<%= form.button  %>
-</div>
-
-
-
-<%  end %>
+<% end %>

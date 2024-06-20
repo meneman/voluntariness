@@ -1,13 +1,12 @@
 
 
-<%= link_to "add", new_participant_path  %>
+<%= link_to "add", new_participant_path , class:"text-slate-400" %>
 
 
-<div class="my-16">
 
-</div>
+
 <% @participants.each do |e| %>
-    <div>
+    <div class="text-slate-400">
         <div class="font-sans">Name: <%=  e.name  %></div>
         
         <%= button_to "delete", e, method: :delete, data: {turbo_confirm: "Are you sure?" } %>

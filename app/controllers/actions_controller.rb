@@ -12,6 +12,10 @@ class ActionsController < ApplicationController
 
     def new 
         @action = Action.new
+        respond_to do |format| 
+            format.html
+            format.turbo_stream
+        end
     end
 
     def edit 
