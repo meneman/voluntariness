@@ -1,5 +1,10 @@
-<div class="flex space-x-4 p-4">
-    <div class="w-12 h-12 bg-blue-500 text-white flex items-center justify-center rounded-full">
-      <span class="text-lg font-bold">AB</span>
+  <div class="flex space-x-4 p-4">
+<% participants.each do |p| %>
+    <div style=<%="background-color: #{ p.color || " inherit"};"%> class="w-12 h-12 bg-blue-500 text-white flex flex-col items-center justify-center rounded-full">
+    
+      <span class="leading-none font-bold"><%= p.name[0, 2].upcase %></span>
+      <span class="leading-none text-lg "><%= render partial: "points", locals: { id: p.id, total_points: p.total_points }%></span>
+      
     </div>
+<%end%>
 </div>
