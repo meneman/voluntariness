@@ -1,14 +1,17 @@
+<%= turbo_frame_tag "home" do %> 
 <div class="flex">
   <%= turbo_frame_tag "tasks_list_home" do %>
     <%= render partial: "participants/list", locals: {participants: @participants} %>
   <% end %>
   <div class="flex-1"></div>
-  <%= button_to "add task", {}, {class: "m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"}%>
-</div>
+  <%= link_to "add task",  new_task_path, { class: "m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"}%>
+
+  </div>
+   <%= turbo_frame_tag "new_task" %>
+   
 <div class="flex flex-wrap">
-  <% @tasks.each do |task| %>
-    <%= turbo_frame_tag "new_task" %>
-    
+  <% @tasks.each do |task| %> 
+    <%= turbo_frame_tag "new_task" %>  
     <div class="relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
       <p class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
       <div class="flex overflow-hidden text-slate-500 dark:text-slate-400 mt-2 text-sm" >
@@ -18,6 +21,7 @@
       <%= button_to "delete", task, method: :delete, class: "text-red-600 absolute top-0 right-0 m-2 font-bold font-medium" %>
       <div class="flex  space-x-4 p-4">
         <% @participants.each do |participant| %>
+          <% next if participant.archived  %>
           <%= button_to "#{participant.name} ✓",
            { controller: "actions", action:"create" , method:"post",
             data: {task_id: task, participant_id: participant }},
@@ -27,4 +31,5 @@
     </div>
   <%end%>
 </div>
+<%end%>
 <%= turbo_stream_from "participants_points" %>

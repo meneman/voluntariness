@@ -5,6 +5,7 @@ class BlogPost < ApplicationRecord
     validates :content, presence: true
 
     scope :sorted, ->  {(order(Arel.sql("published_at DESC NULLS LAST")).order(updated_at: :desc) )}
+    
     scope :draft, -> {where( published_at: nil) }
     scope :published, -> { where( "published_at <= :now", now: Time.current) }
     scope :scheduled, -> { where( "published_at > :now", now: Time.current) }

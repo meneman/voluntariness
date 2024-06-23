@@ -4,7 +4,7 @@ class ActionsController < ApplicationController
     before_action :set_participant, except: [:index, :new, :create]
 
     def index
-         @actions = Action.all()
+         @actions = Action.all() 
     end
 
     def show
@@ -23,13 +23,15 @@ class ActionsController < ApplicationController
     end
 
     def create 
-        puts params.inspect
+        
         @action = Action.new(participant_id: params[:data][:participant_id],task_id: params[:data][:task_id], )
         
         if @action.save
-            respond_to do |format| 
-                format.html
-                format.turbo_stream
+            respond_to do |format|
+
+                format.html { redirect_to home_path, notice: "Quote was successfully created." }
+                format.turbo_stream { flash.now[:action] = @action }#  {participant: @action.participant, task: @action.task} }
+           
             end
         else
             render :new, status: :unprocessable_entity
@@ -48,7 +50,10 @@ class ActionsController < ApplicationController
 
     def destroy 
         @action.destroy()
-        redirect_to :root
+        respond_to do |format|
+            format.html 
+            format.turbo_stream
+          end
     end
 
     private

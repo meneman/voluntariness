@@ -6,9 +6,13 @@ Rails.application.routes.draw do
   resources :tasks
   resources :participants do
     member do 
-        patch :update_points
+      patch :update_points
+      
     end
   end
+  # patch :archive_participant
+  # patch :participants, :archive_participant
+  post "/participants/archive_participant/:id", to: "participants#archive_participant", as: :archive_participant 
 
   resources :actions
   

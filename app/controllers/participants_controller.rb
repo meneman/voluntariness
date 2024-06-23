@@ -29,6 +29,14 @@ class ParticipantsController < ApplicationController
         end
     end
 
+    def archive_participant
+        @participant.update(archived: !@participant.archived)
+        respond_to do |format|
+            format.turbo_stream
+        end
+    end
+
+
     def update 
         if @participant.update(participant_params)
             redirect_to @participant
@@ -62,6 +70,7 @@ class ParticipantsController < ApplicationController
 
     def set_participant
         @participant = Participant.find(params[:id]) 
+    
         
         
     rescue ActiveRecord::RecordNotFound
