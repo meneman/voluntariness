@@ -10,4 +10,7 @@ eagerLoadControllersFrom("controllers", application)
 // import { lazyLoadControllersFrom } from "@hotwired/stimulus-loading"
 // lazyLoadControllersFrom("controllers", application)
 import RemovalsController from "./removals_controller.js"
+import color_badge_controller from "./color_badge_controller.js"
+
 application.register("removals", RemovalsController)
+application.register("color-badge", color_badge_controller)

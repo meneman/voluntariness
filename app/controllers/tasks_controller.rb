@@ -16,10 +16,10 @@ class TasksController < ApplicationController
 
     def new 
         @task = Task.new
-        # respond_to do |format|
-        #     format.html
-        #     format.turbo_stream
-        # end
+        respond_to do |format|
+            format.turbo_stream
+            format.html
+        end
     end
 
     def edit 

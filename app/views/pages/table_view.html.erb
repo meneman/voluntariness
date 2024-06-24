@@ -5,7 +5,7 @@
             <th class="px-6 py-3 text-left text-sm font-semibold dark:text-white">Tasks / Participants</th>
                <% @participants.each do |participant| %>
             <th class="px-6 py-3 text-left text-sm font-semibold dark:text-white">   <div class=" p-2 text-center">participant: <%= participant.name %> <span ><%= participant.avatar %></span></div>
-          <div class="p-2 text-center"> <%= render partial: "points", locals: { id: participant.id, total_points: participant.total_points } %></div></th>
+          <div class="p-2 text-center"> <%= render partial: "points", locals: { animate: false, id: participant.id, total_points: participant.total_points } %></div></th>
           <% end %>
 
             </tr>

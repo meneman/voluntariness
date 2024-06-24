@@ -1,7 +1,12 @@
 class Participant < ApplicationRecord
-    has_many :actions
+    has_many :actions,  dependent: :destroy, after_remove: :log_action_removal
     has_many :tasks, through: :actions
     validates :name, presence: true
+    
+    def log_action_removal(action)
+        puts self
+          Rails.logger.info "Participant changed #{id}."
+    end
     
     def total_points
         actions.sum {|a| a.task[:worth] }

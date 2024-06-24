@@ -2,7 +2,7 @@
 
 .flash {
     position:fixed;
-    top: 5rem;
+    bottom: 10rem;
     left: 50%;
     transform: translateX(-50%);
   
@@ -20,6 +20,7 @@
      animation: appear-then-fade 4s both;
     
     }
+    
     @keyframes appear-then-fade {
         0%, 100% {
           opacity:0

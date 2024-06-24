@@ -13,3 +13,56 @@
  *= require_tree .
  *= require_self
  */
+
+
+  .has-participant-color-badge {
+    position: relative;
+    padding-left: 30px;
+    /* --badge-color: red; */
+    /* background-color: var(--badge-color);  */
+  }
+
+  .has-participant-color-badge::before {
+    content:"";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 22px;
+    background-color: var(--badge-color);
+
+  }
+ @keyframes popUp {
+    0% {
+    }
+    100% {
+    }
+}
+@keyframes fadeAway {
+    0% {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+
+    }
+    /* 20% {
+      transform: scale(2) translateX(-5px) translateY(0);
+      font-size: xx-large;
+      font-weight: 900;
+    } */
+
+    100% {
+    opacity: 0;      
+      transform: translateY(-20px);
+      font-size:x-large;
+      font-weight: 800;
+    }
+  }
+
+
+  .pop-up {
+    animation: popUp 2s ease-out;
+  }
+  .fade-away {
+    z-index: 99999;
+    animation: fadeAway 4s ease-in-out;
+  }
