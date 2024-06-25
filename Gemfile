@@ -82,3 +82,5 @@ gem 'simple_form'
 gem "chartkick"
 
 gem "byebug"
+
+gem "groupdate"
