@@ -28,11 +28,12 @@ class TasksController < ApplicationController
 
     def create 
         @task = Task.new(task_params)
+        @participants = Participant.all()
         if @task.save
-            redirect_to @task
+            
             respond_to do |format|
-                format.html
-                format.turbo_stream
+                format.turbo_stream {}
+                format.html {}
             end
         else
             render :new, status: :unprocessable_entity
@@ -50,11 +51,16 @@ class TasksController < ApplicationController
 
     def destroy 
         @task.destroy()
+        
+        respond_to do |format|
+            format.html { redirect_to tasks_path }
+            format.turbo_stream {  }
+        end
     end
 
     private
     
-    def task_params 
+    def task_params     
         params.require(:task).permit(:title, :worth, :interval, :description)
     end
 

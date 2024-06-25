@@ -64,5 +64,5 @@
   }
   .fade-away {
     z-index: 99999;
-    animation: fadeAway 4s ease-in-out;
+    animation: fadeAway 1s ease-in-out;
   }

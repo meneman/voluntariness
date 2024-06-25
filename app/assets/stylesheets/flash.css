@@ -17,7 +17,7 @@
   }
 
     .flash__message {
-     animation: appear-then-fade 4s both;
+     animation: appear-then-fade 3s both;
     
     }
     
@@ -25,7 +25,7 @@
         0%, 100% {
           opacity:0
         }
-        5%, 60% {
+        5%, 90% {
           opacity:1
         }
       }

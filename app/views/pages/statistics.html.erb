@@ -1,0 +1,21 @@
+<%= turbo_frame_tag "home" do %>
+<div class="shadow-l text-slate-400 bg-slate-800 rounded flex flex-wrap">
+<%= pie_chart  Action.joins(:participant).group("participants.name").count,  colors: Action.joins(:participant).group(:participant_id).pluck('participants.color'), donut: true %>
+<%= line_chart format_data_for_chart(@linedata), xtitle: "Date", ytitle: "Actions Count" %>
+
+<%=  format_data_for_chart(@linedata) %>
+<% @tasks.each do |task| %>
+
+
+  <div class=" shadow rounded text-slate-400">
+  <h3><%= task.title %></h3>
+
+  
+  <% set = Action.where(task_id: task.id).joins(:participant) %> 
+  <%= pie_chart  set.group("participants.name").count, donut: true,  colors: set.group(:participant_id).pluck('participants.color') %>
+  </div>
+<% end%>
+<%end%>
+</div>
+
+

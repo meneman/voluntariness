@@ -2,6 +2,6 @@
 <%= turbo_frame_tag "actions", class:"contents" do %> 
     <% @actions.desc.each do |action| %>
         <%= render partial: "action", locals: {action: action, show_delete: true}%>
-        <% end %>
     <% end %>
+<% end %>
 </div>

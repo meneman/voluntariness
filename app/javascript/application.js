@@ -5,3 +5,5 @@ import "trix"
 import "@rails/actiontext"
     // import Rails from "@rails/ujs"
     // Rails.start()
+import "chartkick"
+import "Chart.bundle"

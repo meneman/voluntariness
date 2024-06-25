@@ -9,4 +9,17 @@ class PagesController < ApplicationController
             format.html
         end
     end
+
+    def statistics 
+        @participants = Participant.all()
+        @tasks = Task.all()
+        @data = Action.joins(:task, :participant)
+        .group('tasks.title', 'participants.name')
+        .select('tasks.title AS task_title', 'participants.name AS participant_name', 'COUNT(actions.id) AS actions_count')
+        .order('tasks.title', 'participants.name')
+
+        @linedata = Action.joins(:participant)
+        .group("participants.name", "DATE(actions.created_at)")
+        .count
+    end
 end

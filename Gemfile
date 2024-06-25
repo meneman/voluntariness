@@ -78,3 +78,7 @@ gem "tailwindcss-rails", "~> 2.3"
 gem "pagy", "~> 7.0"
 
 gem 'simple_form'
+
+gem "chartkick"
+
+gem "byebug"
