@@ -1,14 +1,14 @@
-
-
-<%= link_to "add", new_participant_path , class:"text-slate-400" %>
-
-
-
-
-<% @participants.each do |e| %>
-    <div class="text-slate-400">
-        <div class="font-sans">Name: <%=  e.name  %></div>
-        
-        <%= button_to "delete", e, method: :delete, data: {turbo_confirm: "Are you sure?" } %>
-     </div>
-<% end %>
+  
+<div class="flex flex-wrap">
+  <%= turbo_frame_tag "participants", class:"contents" do %>
+    <% @participants.each do |p| %>
+      <%= render partial: "participant", locals: { p: p } %>
+    <% end %>
+  <%end%>
+  <div class="flex min-w-64 relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+    <%= turbo_frame_tag "new_participant", class:"contents" do %>
+      <div class=" m-auto text-blue-800 dark:text-white text-base font-medium tracking-tight" >
+        <%= link_to "add", new_participant_path  %></div>
+    <% end %>
+  </div>
+</div>

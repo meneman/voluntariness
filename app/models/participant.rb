@@ -3,6 +3,9 @@ class Participant < ApplicationRecord
     has_many :tasks, through: :actions
     validates :name, presence: true
     
+
+    scope :active, -> { where( "archived = false") }
+
     def log_action_removal(action)
         puts self
           Rails.logger.info "Participant changed #{id}."

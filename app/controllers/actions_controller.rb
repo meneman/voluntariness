@@ -4,7 +4,8 @@ class ActionsController < ApplicationController
     before_action :set_participant, except: [:index, :new, :create]
 
     def index
-         @actions = Action.all() 
+        @pagy, @actions = pagy(Action.all(), {})
+          
     end
 
     def show

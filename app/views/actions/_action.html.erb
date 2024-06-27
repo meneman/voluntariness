@@ -1,5 +1,5 @@
 <%= turbo_frame_tag action do %>
-            <div style=<%="opacity:#{action.participant.archived == true ? "0.3" : "1" };"%> class="space-x-4 m-2 text-slate-200 px-4 py-4 shadow-lg rounded border-cyan-400 flex hover:bg-slate-400 bg-slate-700  relative">
+            <div style=<%="opacity:#{action.participant.archived == true ? "0.3" : "1" };"%> class="space-x-4 m-2 text-slate-200 px-4 py-4 shadow-lg rounded border-cyan-400 flex hover:bg-slate-400 bg-green-400 relative">
                 <div class="rounded h-full w-16 absolute left-0 top-0 bottom-0" style=<%="background-color:#{action.participant.color|| "bg-cyan-400"};"%>></div>
                 <div class="w-16"></div>
                 <div class="font-sans"><%=  action.participant.name  %> </div>

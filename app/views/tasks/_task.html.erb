@@ -1,7 +1,7 @@
 <%= turbo_frame_tag task do  %>
-  <div class="relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-    <p class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
-    <div class="flex overflow-hidden text-slate-500 dark:text-slate-400 mt-2 text-sm" >
+  <div class="relative m-8 bg-green-400 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+    <p class="text-slate-900 mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
+    <div class="flex overflow-hidden text-slate-900  mt-2 text-sm" >
       <div class="m-2 whitespace-nowrap" >worth:  <%=  task.worth  %></div>
       <div class="m-2 whitespace-nowrap"> interval:  <%=  task.interval  %></div>
     </div >
@@ -12,7 +12,7 @@
         <%= button_to "#{participant.name} ✓",
            { controller: "actions", action:"create" , method:"post",
             data: {task_id: task, participant_id: participant } },
-             { "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"has-participant-color-badge bg-slate-600 hover:bg-green-800 text-slate-100 p-2 text-small  rounded shadow-lg "} %>
+             { "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"has-participant-color-badge bg-blue-600 hover:bg-green-800 text-slate-100 p-2 text-small  rounded shadow-lg "} %>
       <%end%>
     </div>
   </div>

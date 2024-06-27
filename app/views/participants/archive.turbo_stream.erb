@@ -1,0 +1,4 @@
+
+<%= turbo_stream.replace @participant do %>
+  <%= render partial: "participant", locals: { p: @participant} %>
+<% end %>

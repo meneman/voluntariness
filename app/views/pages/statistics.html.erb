@@ -1,7 +1,8 @@
+<% colors = Action.joins(:participant).group(:participant_id).pluck('participants.color') %>
 <%= turbo_frame_tag "home" do %>
 <div class="shadow-l text-slate-400 bg-slate-800 rounded flex flex-wrap">
 <%= pie_chart  Action.joins(:participant).group("participants.name").count,  colors: Action.joins(:participant).group(:participant_id).pluck('participants.color'), donut: true %>
-<%= line_chart   Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"), xtitle: "Date", ytitle: "Actions Count" %>
+<%= line_chart   Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"),colors: colors, xtitle: "Date", ytitle: "Actions Count" %>
 
 <%=  format_data_for_chart(@linedata) %>
 <% @tasks.each do |task| %>

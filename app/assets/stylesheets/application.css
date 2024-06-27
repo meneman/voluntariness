@@ -66,3 +66,11 @@
     z-index: 99999;
     animation: fadeAway 1s ease-in-out;
   }
+
+
+  .weird-points-centering * {
+    text-align: center;
+    line-height: 2;
+    height: 100%;
+    width: 100%;
+  }

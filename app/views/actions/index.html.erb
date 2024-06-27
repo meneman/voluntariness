@@ -1,3 +1,4 @@
+<%== pagy_nav(@pagy)%>
 <div class="flex  flex-col">
 <%= turbo_frame_tag "actions", class:"contents" do %> 
     <% @actions.desc.each do |action| %>

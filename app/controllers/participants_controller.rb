@@ -15,7 +15,13 @@ class ParticipantsController < ApplicationController
     end
 
     def edit 
-      
+    end
+
+    def cancel 
+        respond_to do |format|
+            format.html {}
+            format.turbo_stream {}
+        end
     end
 
     def create 
@@ -23,7 +29,10 @@ class ParticipantsController < ApplicationController
         @participant = Participant.new(participant_params)
         
         if @participant.save
-            redirect_to @participant
+            respond_to do |format|
+                format.html {}
+                format.turbo_stream {}
+            end
         else
             render :new, status: :unprocessable_entity
         end
@@ -32,7 +41,8 @@ class ParticipantsController < ApplicationController
     def archive_participant
         @participant.update(archived: !@participant.archived)
         respond_to do |format|
-            format.turbo_stream
+            format.html {}
+            format.turbo_stream {}
         end
     end
 
@@ -46,7 +56,7 @@ class ParticipantsController < ApplicationController
     end
 
     def update_points
-        @participants = Participant.all()
+        @participants = Participant.active
         @points = {}
         @participants.each do |p|
            points[p.id] = p.total_points

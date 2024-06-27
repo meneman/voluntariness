@@ -26,6 +26,13 @@ class TasksController < ApplicationController
       
     end
 
+    def cancel 
+        respond_to do |format|
+            format.turbo_stream {}
+           
+        end
+    end
+
     def create 
         @task = Task.new(task_params)
         @participants = Participant.all()
