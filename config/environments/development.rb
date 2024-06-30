@@ -70,3 +70,12 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 end
+
+
+ActiveSupport::Notifications.subscribe("start_processing.action_controller") do |name, start, finish, id, payload|
+  if payload[:headers]["Turbo-Frame"]
+    Rails.logger.debug do
+      "\e[0;35mTurbo-Frame:\e[0m #{payload[:headers]["Turbo-Frame"]}"
+    end
+  end
+end

@@ -1,4 +1,5 @@
-
 <%=  turbo_frame_tag "new_participant" do %>
+  <div class="flex min-w-64 relative m-8 bg-green-400 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
     <%= render partial: "form", locals: {participant: @participant} %>
+  </div>
 <%end%>

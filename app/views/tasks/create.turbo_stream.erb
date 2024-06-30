@@ -1,4 +1,3 @@
-<%= debug @task %>
 <%= turbo_stream.prepend "tasks_list_home" do %>
   <%= render partial: "task", locals: { task: @task, participants: @participants } %>
 <% end %>

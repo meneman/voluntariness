@@ -72,7 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_21_145637) do
     t.string "avatar"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "archived"
+    t.boolean "archived", default: false
   end
 
   create_table "tasks", force: :cascade do |t|

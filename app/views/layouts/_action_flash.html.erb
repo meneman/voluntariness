@@ -1,6 +1,6 @@
 <% flash.each do |key, action| %>
   <div
-    class="flash__message px-4 z-50 bg-slate-600 rounded"
+    class="flash__message px-4 z-50 border-cyan-800 bg-white rounded"
     data-controller="removals"
     data-action="animationend->removals#remove"
   >
@@ -8,7 +8,7 @@
     <div class="w-full flex">
       
     </div><div class="flex">
-     <%=  button_to "Rückgängig", action, method: :delete , class:"text-blue-400 relative m-2 font-bold font-xl", form_class: "m-auto"  %>
+     <%=  button_to "Rückgängig", action, method: :delete , class:"text-blue-800 relative m-2 font-bold font-xl", form_class: "m-auto"  %>
     <%=  render partial: "action", locals: {action: action, show_delete: false } %>
   </div>
 <% end %>

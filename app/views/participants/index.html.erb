@@ -1,14 +1,18 @@
-  
 <div class="flex flex-wrap">
-  <%= turbo_frame_tag "participants", class:"contents" do %>
+  <%= turbo_frame_tag "participants", class:"contents " do %>
     <% @participants.each do |p| %>
       <%= render partial: "participant", locals: { p: p } %>
     <% end %>
   <%end%>
-  <div class="flex min-w-64 relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-    <%= turbo_frame_tag "new_participant", class:"contents" do %>
-      <div class=" m-auto text-blue-800 dark:text-white text-base font-medium tracking-tight" >
-        <%= link_to "add", new_participant_path  %></div>
-    <% end %>
+      <%= turbo_frame_tag "new_participant", class:"contents" do %>
+  <%= link_to new_participant_path, {class:"contents", data: {turbo_frame: "new_participant"}} do  %>
+    
+    <div class="flex min-w-64 relative m-8 bg-green-400 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+        <div class=" m-auto text-blue-800 dark:text-white text-base font-medium tracking-tight" >
+          add
+        </div>
+    </div>
+      <% end %>
+<% end %>
+
   </div>
-</div>

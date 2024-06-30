@@ -1,17 +1,16 @@
 <%= turbo_frame_tag p do  %>
-  <div class=" min-w-64  relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-      
+  <div class=" min-w-64 m-4  relative bg-green-400 rounded-lg px-6 py-8">
     <div class="bg-blue-500 h-20" style=<%= "background-color:#{p.color}"%>></div>
     <div class="flex justify-center -mt-16">
       <%= p.avatar %>
     </div>
     <div class="text-center px-6 py-4">
-      <h2 class="text-2xl font-semibold text-gray-800"><%= p.name %></h2>
+      <h2 class="text-2xl font-semibold text-green-400"><%= p.name %></h2>
       <h2 class=" font-semibold text-gray-600"><%= p.total_points %></h2>
     </div>
-    <div class="text-center pb-4  text-slate-300 flex justify-between">
+    <div class="text-center pb-4  text-slate-800 flex justify-between">
       <%= link_to "edit", edit_participant_path(p) %>
-      <%= button_to "archive" ,archive_participant_path(p), {class: "" }%>
+      <%= button_to "archive" ,archive_participant_path(p), {turbo_stream: true, class: "" }%>
     </div>
     <% if p.archived%> 
     <div class="flex text-orange-700 font-sans font-bold">

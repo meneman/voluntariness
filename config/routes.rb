@@ -15,13 +15,13 @@ Rails.application.routes.draw do
   # patch :archive_participant
   # patch :participants, :archive_participant
   post "/participants/archive_participant/:id", to: "participants#archive_participant", as: :archive_participant, defaults: {format: :turbo_stream} 
+  get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: {format: :turbo_stream}
 
   resources :actions
   
   post :action, to: "action#create", defaults: {format: :turbo_stream}
   # post :participant, to: "participants#archive_participant", defaults: {format: :turbo_stream}
 
-  post "task/cancel" ,as: :cancel_task,  defaults: {format: :turbo_stream}
   
   get "participant/cancel" ,as: :participant_cancel,  defaults: {format: :turbo_stream}
   # get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post

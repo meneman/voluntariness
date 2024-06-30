@@ -22,6 +22,8 @@ class PagesController < ApplicationController
         .count
     end
 
+    
+
     def blog_post_params 
         params.permit(:title, :content, :published_at)
     end

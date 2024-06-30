@@ -1,6 +1,6 @@
-<div class="flex space-x-4 p-4">
+<div class="flex p-2 gap-2 flex-wrap">
   <% participants.each do |p| %>
-    <div class="relative bg-green-600 text-white flex space-x-4 rounded">
+    <div class="relative bg-green-600 text-white flex space-x-4 rounded h-12">
       <span 
         style=<%="background-color:#{ p.color || " inherit"};opacity:#{p.archived == true ? "0.3" : "1" };" %>  
         class="text-2xl m-auto rounded absolute h-full w-16 left-0 top-0 bottom-0">
@@ -9,12 +9,13 @@
         </div>
       </span>
       <div class="w-16"></div>
-      <span class="m-auto leading-none font-bold text-red-800"><%= p.name[0, 2].upcase %> </span>
+      <span class="m-auto leading-none font-bold text-red-800 "><%= p.name[0, 2].upcase %> </span>
       <%#= button_to "archive" ,archive_participant_path(p), {class: "h-12 bg-red-blue-500 hover:bg-blue-700 text-white font-bold " }%>
       <%= link_to "profile", participant_path(p), data: { turbo_frame: "_top" },class: "m-auto px-4"  %>
     </div>
   <%end%>
+
   <%= turbo_frame_tag "new_participant" do %>
-    <%= button_to "+ participant", participants_path, {class: "h-12 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full " }%>
+    <%= link_to "+", participants_path, {data: { turbo_frame: "_top" },class: "text-xl block m-auto h-12 m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded  " , turbo_frame: "_top"} %>
   <% end %>
 </div>
