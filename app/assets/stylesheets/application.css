@@ -15,7 +15,13 @@
  */
 
 
-  .has-participant-color-badge {
+
+  /*
+ *= require font-awesome
+ */
+
+
+ .has-participant-color-badge {
     position: relative;
     padding-left: 30px;
     /* --badge-color: red; */

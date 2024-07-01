@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
 
       
-    before_action :set_task, except: [:index, :new, :create]
+    before_action :set_task, except: [:index, :new, :create, :cancel]
 
     def index
          @tasks = Task.all()
@@ -27,10 +27,11 @@ class TasksController < ApplicationController
     end
 
     def cancel 
-        respond_to do |format|
-            format.html {}
-            format.turbo_stream {}
-        end
+        # headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        # respond_to do |format|
+        #     format.html {}
+        #     format.turbo_stream {}
+        # end
     end
 
     def create 
@@ -75,8 +76,8 @@ class TasksController < ApplicationController
         @task = Task.find(params[:id]) 
         
         
-    rescue ActiveRecord::RecordNotFound
-        redirect_to root_path
+    # rescue ActiveRecord::RecordNotFound
+    #     redirect_to root_path
     end 
     
 

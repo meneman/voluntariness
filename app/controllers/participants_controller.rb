@@ -1,7 +1,7 @@
 class ParticipantsController < ApplicationController
 
           
-    before_action :set_participant, except: [:index, :new, :create]
+    before_action :set_participant, except: [:index, :new, :create, :cancel]
 
     def index
          @participants = Participant.all()
@@ -25,6 +25,8 @@ class ParticipantsController < ApplicationController
         end
     end
 
+    def cancel
+    end
     def create 
         
         @participant = Participant.new(participant_params)

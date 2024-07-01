@@ -84,3 +84,5 @@ gem "chartkick"
 gem "byebug"
 
 gem "groupdate"
+
+gem "font-awesome-rails"

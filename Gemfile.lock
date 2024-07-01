@@ -99,6 +99,8 @@ GEM
       warden (~> 1.2.3)
     erubi (1.12.0)
     ffi (1.16.3)
+    font-awesome-rails (4.7.0.8)
+      railties (>= 3.2, < 8.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     groupdate (6.4.0)
@@ -252,6 +254,7 @@ DEPENDENCIES
   chartkick
   debug
   devise (~> 4.9)
+  font-awesome-rails
   groupdate
   image_processing (~> 1.2)
   importmap-rails
