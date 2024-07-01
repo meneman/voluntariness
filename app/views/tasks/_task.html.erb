@@ -1,18 +1,18 @@
 <%= turbo_frame_tag task do  %>
-  <div class="relative dark:bg-slate-500 bg-green-400 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+  <div class="relative dark:bg-slate-500 bg-green-300 dark:bg-slate-700 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
     <p class="text-slate-900 mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
-    <div class="flex overflow-hidden text-slate-900  mt-2 text-sm" >
-      <div class="m-2 whitespace-nowrap" >worth:  <%=  task.worth  %></div>
-      <div class="m-2 whitespace-nowrap"> interval:  <%=  task.interval  %></div>
+    <div class="flex overflow-hidden text-slate-900  mt-2 text-sm  bg-red-700 dark:bg-violet-600"  >
+      <div class="m-2 whitespace-nowrap" ><%= t("worth") %>  <%=  task.worth  %></div>
+      <div class="m-2 whitespace-nowrap"> <%= t("interval") %>  <%=  task.interval  %></div>
     </div >
-    <%= button_to "delete", task, method: :delete, class: "text-red-600 absolute top-0 right-0 m-2 font-bold font-medium" %>
+    <%= button_to t("delete"), task, method: :delete, class: "text-red-600 absolute top-0 right-0 m-2 font-bold font-medium" %>
     <div class="flex  space-x-4 p-4" style="--primary-color:#fff">
       <% @participants.each do |participant| %>
         <% next if participant.archived  %>
         <%= button_to "#{participant.name} ✓",
            { controller: "actions", action:"create" , method:"post",
             data: {task_id: task, participant_id: participant } },
-             { "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"has-participant-color-badge bg-blue-600 hover:bg-green-800 text-slate-900 p-2 text-small  rounded shadow-lg "} %>
+             { "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"has-participant-color-badge bg-blue-600 hover:bg-blue-300 text-slate-900 p-2 text-small rounded shadow"} %>
       <%end%>
     </div>
   </div>

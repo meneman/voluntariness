@@ -1,14 +1,12 @@
 <div class="flex flex-wrap gap-4  max-sm:justify-center py-2">
-      <%= turbo_frame_tag "new_participant", class:"contents" do %>
-      <%= link_to  new_participant_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" do %>
-      <p class="m-auto">add participant</p>
-    <% end %>    
-  
-<% end %>
   <%= turbo_frame_tag "participants", class:"contents " do %>
     <% @participants.each do |p| %>
       <%= render partial: "participant", locals: { p: p } %>
     <% end %>
   <%end%>
-
-  </div>
+  <%= turbo_frame_tag "new_participant", class:"contents" do %>
+    <%= link_to  new_participant_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" do %>
+      <p class="m-auto">add participant</p>
+    <% end %>
+  <% end %>
+</div>

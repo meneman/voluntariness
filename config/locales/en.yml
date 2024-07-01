@@ -30,4 +30,20 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  addTask: "add task"
+  interval: "Interval"
+  worth: "Wert"
+  confirmMessage: "Are you sure?"
+  delete: "delete"
+  archived: "archived"
+  edit: "edit"
+  archive: "archive"
+  home: "Home"
+  history: "History"
+  statisitics: "Statistics"
+  participants: "Participants"
+  cancel: "cancel"
+
+
+
+

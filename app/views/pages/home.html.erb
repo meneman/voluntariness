@@ -5,16 +5,16 @@
     <% end %>
 
 
-  <div class="flex flex-wrap gap-4  max-sm:justify-center" >
-    <%= link_to  new_task_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" do %>
-      <p class="m-auto">add task</p>
-    <% end %>    
-    <%= turbo_frame_tag "new_task"  %>
+  <div class=" flex flex-wrap gap-4  max-sm:justify-center" >
     <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>  
       <% @tasks.each do |task| %>
       <%= render partial: "tasks/task", locals: {participants: @participants, task: task}%>
       <%end%>
     <%end%>
+    <%= link_to  new_task_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" do %>
+      <p class="m-auto"><%= t("addTask") %></p>
+    <% end %>    
+    <%= turbo_frame_tag "new_task"  %>
   </div>
 </div>
 <%end%>

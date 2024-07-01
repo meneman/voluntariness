@@ -1,5 +1,5 @@
 <%= turbo_frame_tag p do  %>
-  <div class=" min-w-64 relative bg-green-400 rounded-lg px-6 py-8">
+  <div class=" min-w-64 relative bg-green-300 dark:bg-slate-700 bg-gre shadow-xl rounded-lg px-6 py-8">
     <div class="bg-blue-500 h-20" style=<%= "background-color:#{p.color}"%>></div>
     <div class="flex justify-center -mt-16">
       <%= p.avatar %>
@@ -9,14 +9,13 @@
       <h2 class=" font-semibold text-gray-600"><%= p.total_points %></h2>
     </div>
     <div class="text-center pb-4  text-slate-800 flex justify-between">
-      <%= link_to "edit", edit_participant_path(p) %>
-      <%= button_to "archive" ,archive_participant_path(p), {turbo_stream: true, class: "" }%>
+      <%= link_to t("edit"), edit_participant_path(p) %>
+      <%= button_to t("archive") ,archive_participant_path(p), {turbo_stream: true, class: "" }%>
     </div>
     <% if p.archived%> 
     <div class="flex text-orange-700 font-sans font-bold">
-      <h3 class="m-auto"> Archivieren</h3>
+      <h3 class="m-auto"> <%= t("archived") %></h3>
       </div>
     <%end%>
-    <%# <%= button_to "delete", p, method: :delete, class: "text-red-600 absolute top-0 right-0 m-2 font-bold font-medium" %> 
   </div>
 <%end%>

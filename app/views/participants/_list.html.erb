@@ -1,6 +1,6 @@
 <div class="flex p-2 gap-2 flex-wrap">
   <% participants.each do |p| %>
-    <div class="relative bg-green-600 text-white flex space-x-4 rounded h-12">
+    <div class="relative bg-green-300 dark:bg-slate-700 text-white flex space-x-4 rounded h-12">
       <div class="w-16">
       <span 
         style=<%="background-color:#{ p.color || " inherit"};opacity:#{p.archived == true ? "0.3" : "1" };" %>  
@@ -11,7 +11,6 @@
       </span>
       </div> 
       <span class="m-auto leading-none font-bold text-red-800 "><%= p.name[0, 2].upcase %> </span>
-      <%#= button_to "archive" ,archive_participant_path(p), {class: "h-12 bg-red-blue-500 hover:bg-blue-700 text-white font-bold " }%>
       <%= link_to  participant_path(p), data: { turbo_frame: "_top" },class: " m-auto px-2"  do %>
       <%= fa_icon "user" %>
       <%end %>

@@ -1,6 +1,3 @@
-<h1>edit record</h1>
 
 <%= render partial: "form", locals: {task: @tasks} %>
 
-
-<%= button_to "delete", @tasks, method: :delete, data: {turbo_confirm: "Are you sure?" } %>
