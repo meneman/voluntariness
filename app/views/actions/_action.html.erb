@@ -7,6 +7,6 @@
     <div class="font-sans"> <%=  action.task.title  %> <span class="text-green-800 font-semibold">+<%=  action.task.worth  %> </span> </div>
     <div class="font-extrabold">-</div>
     <div class="font-sans"> <%=  action.created_at  %></div>
-    <%=  button_to t("delete"), action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"top-0 bottom-0 text-red-600 absolute right-0 m-2 font-bold font-medium"  if show_delete == true %>
+    <%=  button_to t("delete"), action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"top-0 bottom-0 text-red-500 absolute right-0 m-2 font-bold font-medium"  if show_delete == true %>
   </div>
 <% end %>

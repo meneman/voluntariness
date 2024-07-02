@@ -1,14 +1,16 @@
 <%= turbo_frame_tag p do  %>
-  <div class=" min-w-64 relative bg-green-300 dark:bg-slate-700 bg-gre shadow-xl rounded-lg px-6 py-8">
+  <div class=" min-w-64 relative bg-green-300 dark:bg-slate-800 dark:text-slate-200 bg-gre shadow-lg rounded-lg px-6 py-8">
+    <%= link_to  participant_path(p), data: { turbo_frame: "_top" }  do %>
     <div class="bg-blue-500 h-20" style=<%= "background-color:#{p.color}"%>></div>
     <div class="flex justify-center -mt-16">
       <%= p.avatar %>
     </div>
     <div class="text-center px-6 py-4">
-      <h2 class="text-2xl font-semibold text-green-400"><%= p.name %></h2>
-      <h2 class=" font-semibold text-gray-600"><%= p.total_points %></h2>
+      <h2 class="text-2xl font-semibold text-green-400 dark:text-slate-200"><%= p.name %></h2>
+      <h2 class="text-xl dark:text-white  font-semibold text-gray-600"><%= p.total_points %></h2>
     </div>
-    <div class="text-center pb-4  text-slate-800 flex justify-between">
+    <%end%>
+    <div class="text-center pb-4  text-slate-800 dark:text-slate-200 flex justify-between">
       <%= link_to t("edit"), edit_participant_path(p) %>
       <%= button_to t("archive") ,archive_participant_path(p), {turbo_stream: true, class: "" }%>
     </div>
