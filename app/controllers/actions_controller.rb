@@ -26,7 +26,7 @@ class ActionsController < ApplicationController
     def create 
         
         @action = Action.new(participant_id: params[:data][:participant_id],task_id: params[:data][:task_id], )
-        
+        @task = Task.find( params[:data][:task_id])
         if @action.save
             respond_to do |format|
 

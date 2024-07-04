@@ -1,6 +1,21 @@
 class Task < ApplicationRecord
 
+    has_many :actions
     validates :title, presence: true
     validates :worth, presence: true
 
+    def overdue
+        if self.interval.nil?
+            return nil
+        end
+        if actions.last
+         overdue_on = actions.last.created_at.to_date + self.interval
+        else
+         overdue_on = self.created_at 
+        end
+        today = Time.now 
+        (overdue_on.to_date - today.to_date).to_i
+    end
+
 end
+

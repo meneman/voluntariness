@@ -12,3 +12,8 @@ de:
   statistics: "Statistiken"
   participants: "Teilnehmer"
   cancel: "abbrechen"
+  overdue_in: "fällig in %{days} Tagen"
+  overdue_since: "überfällig seit %{days} Tagen"
+  overdue_today: "Heute fällig"
+  on_demand: "bei Bedarf"
+

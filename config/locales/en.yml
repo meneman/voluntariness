@@ -43,6 +43,10 @@ en:
   statisitics: "Statistics"
   participants: "Participants"
   cancel: "cancel"
+  overdue_in: "overdue in %{days} days"
+  overdue_since: "overdue since %{days} days"
+  overdue_today: "due today"
+  on_demand: "on demand"
 
 
 
