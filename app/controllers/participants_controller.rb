@@ -41,7 +41,7 @@ class ParticipantsController < ApplicationController
         end
     end
 
-    def archive_participant
+    def archive
         @participant.update(archived: !@participant.archived)
         respond_to do |format|
             format.html {}

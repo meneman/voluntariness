@@ -14,14 +14,15 @@ Rails.application.routes.draw do
       
     end
   end
-  # patch :archive_participant
-  # patch :participants, :archive_participant
-  post "/participants/archive_participant/:id", to: "participants#archive_participant", as: :archive_participant, defaults: {format: :turbo_stream} 
+  # patch :archive
+  # patch :participants, :archive
+  post "/participants/archive/:id", to: "participants#archive", as: :archive_participant, defaults: {format: :turbo_stream} 
+  post "/tasks/archive/:id", to: "tasks#archive", as: :archive_task, defaults: {format: :turbo_stream} 
   
   resources :actions
   
   post :action, to: "action#create", defaults: {format: :turbo_stream}
-  # post :participant, to: "participants#archive_participant", defaults: {format: :turbo_stream}
+  # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}
 
   
   # get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post

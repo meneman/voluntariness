@@ -22,6 +22,16 @@ class TasksController < ApplicationController
         end
     end
 
+
+    def archive
+        @task.update(archived: !@task.archived)
+        respond_to do |format|
+            format.html {}
+            format.turbo_stream {}
+        end
+    end
+
+
     def edit 
       
     end

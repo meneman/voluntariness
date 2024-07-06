@@ -29,7 +29,6 @@ class ActionsController < ApplicationController
         @task = Task.find( params[:data][:task_id])
         if @action.save
             respond_to do |format|
-
                 format.html { redirect_to home_path, notice: "Quote was successfully created." }
                 format.turbo_stream { flash.now[:action] = @action }#  {participant: @action.participant, task: @action.task} }
            

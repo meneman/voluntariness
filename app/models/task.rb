@@ -4,6 +4,14 @@ class Task < ApplicationRecord
     validates :title, presence: true
     validates :worth, presence: true
 
+    scope :active, -> { where( "archived = false") }
+
+    
+    def done_today
+        if actions.last
+         actions.last.created_at.to_date == Date.today
+        end
+    end
     def overdue
         if self.interval.nil?
             return nil

@@ -16,4 +16,4 @@ de:
   overdue_since: "überfällig seit %{days} Tagen"
   overdue_today: "Heute fällig"
   on_demand: "bei Bedarf"
-
+  done_today: "heute erledigt"
