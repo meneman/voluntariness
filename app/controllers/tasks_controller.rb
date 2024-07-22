@@ -4,7 +4,7 @@ class TasksController < ApplicationController
     before_action :set_task, except: [:index, :new, :create, :cancel]
 
     def index
-         @tasks = Task.all()
+         @tasks = current_user.task.all()
          respond_to do |format|
             format.html
             format.turbo_stream
@@ -15,7 +15,7 @@ class TasksController < ApplicationController
     end
 
     def new 
-        @task = Task.new
+        @task = current_user.tasks.build
         respond_to do |format|
             format.turbo_stream
             format.html
@@ -45,8 +45,8 @@ class TasksController < ApplicationController
     end
 
     def create 
-        @task = Task.new(task_params)
-        @participants = Participant.all()
+        @task = current_user.tasks.build(task_params)
+        @participants = current_user.participans
         if @task.save
             
             respond_to do |format|
@@ -83,7 +83,7 @@ class TasksController < ApplicationController
     end
 
     def set_task
-        @task = Task.find(params[:id]) 
+        @task = current_user.tasks.find(params[:id])
         
         
     # rescue ActiveRecord::RecordNotFound

@@ -1,4 +1,5 @@
 class Participant < ApplicationRecord
+    belongs_to :user
     has_many :actions,  dependent: :destroy, after_remove: :log_action_removal
     has_many :tasks, through: :actions
     validates :name, presence: true

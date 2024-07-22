@@ -9,12 +9,12 @@ export default class extends Controller {
     this.menuTarget.classList.toggle("hidden")
   }
   toggleTheme(event) {
+    document.body.classList.toggle("dark")
     const isDarkmode = document.body.classList.contains("dark")
 
-    document.body.classList.toggle("dark")
     // localStorage.setItem('isDarkmode', !isDarkmode)
     this.switchTheme(!isDarkmode, this.switchToggleTarget)
-    
+
   }
   switchTheme(isDarkmode, switchToggle) {
     console.log(isDarkmode, switchToggle)

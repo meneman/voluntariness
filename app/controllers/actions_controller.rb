@@ -4,7 +4,7 @@ class ActionsController < ApplicationController
     before_action :set_participant, except: [:index, :new, :create]
 
     def index
-        @pagy, @actions = pagy(Action.all(), {})
+        @pagy, @actions = pagy(current_user.actions, {})
           
     end
 
@@ -30,7 +30,7 @@ class ActionsController < ApplicationController
         if @action.save
             respond_to do |format|
                 format.html { redirect_to home_path, notice: "Quote was successfully created." }
-                format.turbo_stream { flash.now[:action] = @action }#  {participant: @action.participant, task: @action.task} }
+                format.turbo_stream { flash.now[:action_flash] = @action }#  {participant: @action.participant, task: @action.task} }
            
             end
         else

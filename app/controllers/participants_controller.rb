@@ -4,7 +4,7 @@ class ParticipantsController < ApplicationController
     before_action :set_participant, except: [:index, :new, :create, :cancel]
 
     def index
-         @participants = Participant.all()
+         @participants = current_user.participants.all()
     end
 
     
@@ -12,7 +12,7 @@ class ParticipantsController < ApplicationController
     end
 
     def new 
-        @participant = Participant.new
+        @participant = current_user.participants.build
     end
 
     def edit 
@@ -29,7 +29,7 @@ class ParticipantsController < ApplicationController
     end
     def create 
         
-        @participant = Participant.new(participant_params)
+        @participant = current_user.participants.build(participant_params)
         
         if @participant.save
             respond_to do |format|
@@ -59,7 +59,7 @@ class ParticipantsController < ApplicationController
     end
 
     def update_points
-        @participants = Participant.active
+        @participants = current_user.participans.active
         @points = {}
         @participants.each do |p|
            points[p.id] = p.total_points
@@ -82,7 +82,7 @@ class ParticipantsController < ApplicationController
     end
 
     def set_participant
-        @participant = Participant.find(params[:id]) 
+        @participant = current_user.participants.find(params[:id]) 
     
         
         

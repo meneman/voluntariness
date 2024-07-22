@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-
+    belongs_to :user
     has_many :actions
     validates :title, presence: true
     validates :worth, presence: true

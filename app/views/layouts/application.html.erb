@@ -13,10 +13,10 @@
   </head>
 
   <body class="dark container mx-auto bg-green-200 dark:bg-slate-900 ">
-      <%= render "layouts/navbar" %> 
-
+      <%= render "layouts/navbar" if user_signed_in? %> 
+  
     <div id="flash" class="flash">
-      <%= render "layouts/flash" %>
+      <%# <%= render "layouts/flash" %>  
       <%= render "layouts/action_flash" %>
     </div>
  
