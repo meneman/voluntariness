@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users, skip: [:registrations]
   get 'articles/index'
   get 'pages/statistics', as: :statistics
   get "participants/cancel", to: "participants#cancel" ,as: :cancel_participant,  defaults: {format: :turbo_stream}

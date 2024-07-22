@@ -47,6 +47,7 @@ en:
   overdue_since: "overdue since %{days} days"
   overdue_today: "due today"
   on_demand: "on demand"
+  invite_needed: "Currently, you need an invitation to use this site."
 
 
 

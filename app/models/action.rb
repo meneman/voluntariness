@@ -10,7 +10,6 @@ class Action < ApplicationRecord
 
   private
   def broadcast_total_points(action_type)
-    puts action_type
     broadcast_replace_to "participants_points",
      target: "points_for_#{self.participant.id}",
       partial: "pages/points",
