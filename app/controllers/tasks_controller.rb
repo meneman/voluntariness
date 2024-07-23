@@ -46,7 +46,7 @@ class TasksController < ApplicationController
 
     def create 
         @task = current_user.tasks.build(task_params)
-        @participants = current_user.participans
+        @participants = current_user.participants
         if @task.save
             
             respond_to do |format|
