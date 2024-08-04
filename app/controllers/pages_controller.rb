@@ -1,16 +1,16 @@
 class PagesController < ApplicationController
 
 
-    before_action :set_participants, except: [:landing]
-    before_action :set_tasks, except: [:landing]
+    before_action :set_participants, except: [:landing, :home]
+    before_action :set_tasks, except: [:landing, :home]
 
 
     def landing 
                   
     end
     def home       
-        # @participants = current_user.participants.active
-        # @tasks = current_user.tasks.active
+        @participants = current_user.participants.active
+        @tasks = current_user.tasks.active
         respond_to do |format|
             format.turbo_stream { flash.now[:notice] = "Date was successfully destroyed." }
             format.html

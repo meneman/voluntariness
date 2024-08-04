@@ -15,5 +15,20 @@ module ApplicationHelper
             end
         end
     end
+
+
+    def contrasting_color(hex_color)
+        hex_color = hex_color.delete('#')
+        r = hex_color[0..1].hex
+        g = hex_color[2..3].hex
+        b = hex_color[4..5].hex
+      
+        # Calculate luminance (perceived brightness)
+        luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+      
+        # Return black for light backgrounds and white for dark backgrounds
+        luminance > 0.5 ? '#000000' : '#FFFFFF'
+        rescue nil
+    end
     
 end
