@@ -12,6 +12,7 @@ class TasksController < ApplicationController
     end
 
     def show
+        @participants = current_user.participants
     end
 
     def new 
@@ -59,6 +60,7 @@ class TasksController < ApplicationController
     end
 
     def update 
+        
         if @task.update(task_params)
             redirect_to @task
         else 
