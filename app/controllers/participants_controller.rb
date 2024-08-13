@@ -18,15 +18,16 @@ class ParticipantsController < ApplicationController
     def edit 
     end
 
-    def cancel 
+    def cancel
+         
         respond_to do |format|
             format.html {}
             format.turbo_stream {}
         end
     end
 
-    def cancel
-    end
+    # def cancel
+    # end
     def create 
         
         @participant = current_user.participants.build(participant_params)
