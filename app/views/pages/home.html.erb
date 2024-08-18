@@ -5,7 +5,7 @@
     <% end %>
 
 
-  <div class=" flex flex-wrap gap-4  max-sm:justify-center " >
+  <div class=" flex flex-wrap gap-4 max-sm:justify-center " >
     <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>  
       <% @tasks.each do |task| %>
       <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>

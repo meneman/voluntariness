@@ -25,14 +25,6 @@ Rails.application.routes.draw do
   post :action, to: "action#create", defaults: {format: :turbo_stream}
   # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}
 
-  
-  # get "/blog_posts/new", to: "blog_posts#new", as: :new_blog_post
-  # get "/blog_posts/:id", to: "blog_posts#show", as: :blog_post
-  # delete "/blog_posts/:id", to: "blog_posts#destroy"
-  # patch "/blog_posts/:id", to: "blog_posts#update"
-  # get "/blog_posts/:id/edit", to: "blog_posts#edit", as: :edit_blog_post
-  # post "/blog_posts", to: "blog_posts#create", as: :blog_posts
-  
 
   
   # Defines the root path route ("/") 

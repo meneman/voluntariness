@@ -28,11 +28,6 @@ class PagesController < ApplicationController
         .count
     end
 
-    
-
-    def blog_post_params 
-        params.permit(:title, :content, :published_at)
-    end
 
     def set_tasks 
         @tasks =  params[:active] ?  current_user.tasks.active : current_user.tasks
