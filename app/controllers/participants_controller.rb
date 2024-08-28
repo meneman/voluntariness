@@ -53,7 +53,7 @@ class ParticipantsController < ApplicationController
 
     def update 
         if @participant.update(participant_params)
-            redirect_to @participant
+            redirect_to action: "index"
         else 
             render :edit, status: :unprocessable_entity
         end
