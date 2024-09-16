@@ -13,7 +13,7 @@
       <div class="flex ">  
         <div class="font-sans min-w-8 "><%=  action.participant.name  %> </div>
       <div class="font-extrabold  px-1">-</div>
-    <div class="font-sans"> <%=  I18n.l(action.created_at, :format => "%d.%m.%y %H:%M:%S")  %></div>
+    <div class="font-sans" title="<%= I18n.l(action.created_at, :format => "%d.%m.%y %H:%M:%S") %>"> <%=  I18n.l(action.created_at, :format => "%d.%m.%y")  %></div>
 
       </div>
 
