@@ -3,12 +3,26 @@
     <div class="rounded h-full w-16 absolute left-0 top-0 bottom-0 flex" style=<%="background-color:#{action.participant.color|| "bg-cyan-400"};"%>>
       <div class="m-auto"><%= action.participant.avatar %></div>
     </div>
-    <div class="ml-16 font-sans min-w-8 "><%=  action.participant.name  %> </div>
-    <div class="font-extrabold  px-1">-</div>
+    <div class="flex flex-col flex-1 pl-16">
+      <div class="flex justify-center" >
     <div class="font-sans"> <%=  action.task.title  %> <span class="text-blue-600 dark:text-green-400 font-semibold">+<%=  action.task.worth  %> </span> </div>
-    <div class="font-extrabold px-1">-</div>
-    <div class="font-sans"> <%=  I18n.l(action.created_at, :format => "%d.%m.%y %H:%M:%S")  %></div>
+    
     <div class="flex-1"></div>
-    <%=  button_to t("delete"), action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"top-0 bottom-0 text-red-500 m-2 font-bold font-medium"  if show_delete == true %>
+
+      </div>  
+      <div class="flex ">  
+        <div class="font-sans min-w-8 "><%=  action.participant.name  %> </div>
+      <div class="font-extrabold  px-1">-</div>
+    <div class="font-sans"> <%=  I18n.l(action.created_at, :format => "%d.%m.%y %H:%M:%S")  %></div>
+
+      </div>
+
+    </div>
+  <% if show_delete == true %>
+    <%=  button_to  action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"text-red-500 m-2 font-bold font-medium"  do %>
+      <%= fa_icon "trash" %>
+    <% end%>
+  <% end %>
+  
   </div>
 <% end %>

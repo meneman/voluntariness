@@ -1,15 +1,16 @@
 <div class="p-12 flex flex-col gap-4">
   <div class="flex">
   <div class="min-w-24 text-slate-400 w-full bg-green-300 dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
-    <div class="bg-blue-500 h-20" style=<%= "background-color:#{@participant.color}"%>></div>
-    <div class="flex justify-center -mt-16">
-      <%= @participant.avatar %>
-    </div>
-    <div class="text-center px-6 py-4">
-      <h2 class="text-2xl font-semibold text-gray-800"><%= @participant.name %></h2>
-      <h2 class=" font-semibold text-gray-600"><%= @participant.total_points %></h2>
-    </div>
-    <div class="text-center pb-4   ">
+    <div class="bg-blue-500 h-40  flex" style="<%="background-color:#{@participant.color}"%>">
+      
+      
+        <span class="text-center m-auto text-2xl font-semibold text-gray-800"><%= @participant.avatar %></span>
+    
+    
+  </div>
+        <h2 class="text-center  font-semibold text-gray-300"><%= @participant.total_points %></h2>
+        <h2 class="text-center m-auto  text-2xl font-semibold text-gray-300"><%= @participant.name %></h2>
+    <div class="text-center pb-4  m-auto ">
       <%= link_to "edit", edit_participant_path(@participant) %>
     </div>
   </div>
