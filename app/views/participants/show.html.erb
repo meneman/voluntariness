@@ -1,6 +1,19 @@
+
+<% pieChart = {   
+    plugins: {
+            legend: {
+                labels: {
+                    color: 'whitesmoke'
+                }
+            }
+        },
+  } 
+
+%>
+
 <div class="p-12 flex flex-col gap-4">
   <div class="flex">
-  <div class="min-w-24 text-slate-400 w-full bg-green-300 dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
+  <div class="min-w-48 text-slate-400 bg-green-300 dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
     <div class="bg-blue-500 h-40  flex" style="<%="background-color:#{@participant.color}"%>">
       
       
@@ -9,12 +22,13 @@
     
   </div>
         <h2 class="text-center  font-semibold text-gray-300"><%= @participant.total_points %></h2>
-        <h2 class="text-center m-auto  text-2xl font-semibold text-gray-300"><%= @participant.name %></h2>
+        <h2 class="p-4 text-center m-auto  text-2xl font-semibold text-gray-300"><%= @participant.name %></h2>
     <div class="text-center pb-4  m-auto ">
       <%= link_to "edit", edit_participant_path(@participant) %>
     </div>
   </div>
-  <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true %>
+  <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true, library: pieChart %>
+  
 
   </div>
   <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">

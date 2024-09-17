@@ -19,7 +19,7 @@
 
     </div>
   <% if show_delete == true %>
-    <%=  button_to  action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"text-red-500 m-2 font-bold font-medium"  do %>
+    <%=  button_to  action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"text-red-500 m-2 font-bold font-medium text-xl self-center "  do %>
       <%= fa_icon "trash" %>
     <% end%>
   <% end %>
