@@ -30,5 +30,7 @@ module ApplicationHelper
         luminance > 0.5 ? '#000000' : '#FFFFFF'
         rescue nil
     end
+
+ 
     
 end

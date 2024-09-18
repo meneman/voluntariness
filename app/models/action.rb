@@ -4,9 +4,9 @@ class Action < ApplicationRecord
 
   scope :desc, ->  { order(id: :desc) }
   
-  after_create_commit { broadcast_total_points(:create)}
+  after_create_commit { broadcast_total_points(:create) }
 
-  after_destroy { broadcast_total_points(:destroy)}
+  after_destroy { broadcast_total_points(:destroy) }
 
   private
   def broadcast_total_points(action_type)

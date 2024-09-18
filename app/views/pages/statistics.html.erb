@@ -1,4 +1,3 @@
-
 <% pieChart = {   
     plugins: {
             legend: {
@@ -41,12 +40,15 @@
     <%= pie_chart Action.joins(:participant).group("participants.name").count, colors: colors, donut: true, library: pieChart %>
     <%= line_chart Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"), colors: colors, xtitle: "Date", ytitle: "Actions Count", library: lineChart %>
     <%   format_data_for_chart(@linedata) %>
-    <% @tasks.each do |task| %>
-      <div class=" rounded ">
-        <h2 class="text-lg"><%= task.title %></h3>
+    <div class="flex justify-center flex-wrap">
+    <% @tasks.active.each do |task| %>
+      <div class="p-4 m-4">
+        <h2 class="text-lg "><%= task.title %></h3>
         <% set = Action.where(task_id: task.id).joins(:participant) %>
         <%= pie_chart  set.group("participants.name").count, donut: true,  colors: set.group("participants.name").pluck('participants.color'), library: pieChart %>
       </div>
     <% end%>
   <%end%>
+
+</div>
 </div>

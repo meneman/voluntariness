@@ -9,9 +9,11 @@ class Task < ApplicationRecord
     
     def done_today
         if actions.last
-         actions.last.created_at.to_date == Date.today
+            actions.last.created_at.to_date == Date.today
         end
     end
+
+
     def overdue
         if self.interval.nil?
             return nil
