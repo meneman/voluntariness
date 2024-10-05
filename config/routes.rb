@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [:registrations], defaults: { format: :html }
-  get 'articles/index'
+  devise_for :users, skip: [:registrations]
   get 'pages/statistics', as: :statistics
   get "participants/cancel", to: "participants#cancel" ,as: :cancel_participant,  defaults: {format: :turbo_stream}
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: {format: :turbo_stream}
@@ -12,9 +11,9 @@ Rails.application.routes.draw do
   resources :participants do
     member do 
       patch :update_points
-      
     end
   end
+
   # patch :archive
   # patch :participants, :archive
   post "/participants/archive/:id", to: "participants#archive", as: :archive_participant, defaults: {format: :turbo_stream} 

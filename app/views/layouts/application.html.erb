@@ -20,7 +20,9 @@
       <%= render "layouts/action_flash" %>
     </div>
     <div class=" container p-4">
-    <%= yield %>
+    <%= turbo_frame_tag "content" do %>
+      <%= yield %>
+    <% end %>
     </div>
   </body>
 </html>
