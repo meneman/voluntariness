@@ -83,3 +83,21 @@
   @view-transition {
     navigation: auto;
   }  
+
+
+  @keyframes shimmer-bounce {
+    0% {
+      background-position: -200%;
+    }
+    50% {
+      background-position: 200%;
+    }
+    100% {
+      background-position: -200%;
+    }
+  }
+  
+  .shimmer-text {
+    background-size: 200%;
+    animation: shimmer-bounce 20s infinite ease-in-out;
+  }
