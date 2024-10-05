@@ -2,9 +2,6 @@ class PagesController < ApplicationController
     before_action :set_participants, except: [:landing, :home]
     before_action :set_tasks, except: [:landing, :home]
 
-    def landing 
-                  
-    end
     def home       
         @participants = current_user.participants.active
         @tasks = current_user.tasks.active
