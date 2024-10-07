@@ -1,20 +1,17 @@
 <%= turbo_frame_tag "home" do %>
-
-    <%= turbo_frame_tag "participants_list_home" do %>
-      <%= render partial: "participants/list", locals: {participants: @participants} %>
-    <% end %>
-
-
+  <%= turbo_frame_tag "participants_list_home" do %>
+    <%= render partial: "participants/list", locals: {participants: @participants} %>
+  <% end %>
   <div class=" flex flex-wrap gap-4 max-sm:justify-center " >
-    <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>  
+    <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>
       <% @tasks.each do |task| %>
-      <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
+        <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
       <%end%>
     <%end%>
     <%= turbo_frame_tag "new_task", class: "contents" %>
     <%= link_to new_task_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-600 text-blue-300 font-semibold hover:text-white py-2 px-4 text-xl border border-blue-300 hover:border-transparent rounded" do %>
       <p class="m-auto"><%= t("addTask") %></p>
-    <% end %>    
+    <% end %>
   </div>
 </div>
 <%end%>
