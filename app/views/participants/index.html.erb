@@ -5,8 +5,8 @@
     <% end %>
   <%end%>
   <%= turbo_frame_tag "new_participant", class:"contents" do %>
-    <%= link_to  new_participant_path, data: { turbo_frame: "new_task" }, class: "flex m-4 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" do %>
-      <p class="m-auto">add participant</p>
+    <%= link_to  new_participant_path, data: { turbo_frame: "new_participant" }, class: "flex m-4 bg-transparent hover:bg-blue-600 text-blue-300 font-semibold hover:text-white py-2 px-4 text-xl border border-blue-300 hover:border-transparent rounded" do %>
+      <p class="m-auto"><%= t("new_participant") %></p>
     <% end %>
   <% end %>
 </div>

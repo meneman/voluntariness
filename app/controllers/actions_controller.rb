@@ -30,8 +30,7 @@ class ActionsController < ApplicationController
         if @action.save
             respond_to do |format|
                 format.html { redirect_to root_path, notice: "Quote was successfully created." }
-                format.turbo_stream { flash.now[:action_flash] = @action }#  {participant: @action.participant, task: @action.task} }
-           
+                format.turbo_stream { flash.now[:action_flash] = @action }#  {participant: @action.participant, task: @action.task} }           
             end
         else
             render :new, status: :unprocessable_entity
