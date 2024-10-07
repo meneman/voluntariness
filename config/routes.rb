@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}
 
 
-  
+  post 'toggle_theme', to: 'application#toggle_theme'  
   # Defines the root path route ("/") 
   root "pages#home"
 end

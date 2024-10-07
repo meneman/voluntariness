@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["menu", "switchToggle"]
 
   connect() {
-    this.switchTheme(localStorage.getItem("isDarkMode"), this.switchToggleTarget)
+    // this.switchTheme(localStorage.getItem("isDarkMode"), this.switchToggleTarget)
     // document.body.classList.toggle("dark", !localStorage.getItem("isDarkMode"))
   }
 
@@ -13,15 +13,26 @@ export default class extends Controller {
     this.menuTarget.classList.toggle("hidden")
   }
   toggleTheme(event) {
-    document.body.classList.toggle("dark")
     const isDarkmode = document.body.classList.contains("dark")
+    document.body.classList.toggle("dark")
 
-    localStorage.setItem('isDarkMode', isDarkmode)
-    this.switchTheme(!isDarkmode, this.switchToggleTarget)
+    // localStorage.setItem('isDarkMode', isDarkmode)
+    this.switchThemeButton(!isDarkmode, this.switchToggleTarget)
+    this.toggleThemeSession()
 
   }
-  switchTheme(isDarkmode, switchToggle) {
-   
+
+  toggleThemeSession() {
+
+    fetch('/toggle_theme', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+    })
+  }
+
+  switchThemeButton(isDarkmode, switchToggle) {
     const darkIcon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
 </svg>`
