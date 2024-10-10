@@ -93,3 +93,25 @@
   background-size: 200%;
   animation: shimmer-bounce 20s infinite ease-in-out;
 }
+
+.home .edit-button,.home .archive-button {
+  visibility: hidden;
+}
+.home.edit-mode .edit-button,.home.edit-mode .archive-button {
+  visibility: visible;
+}
+.home.home.edit-mode .participant-button {
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: #3b3b3b;
+  opacity: 0.5;
+}
+
+
+.home.home.edit-mode .task-content, .home.home.edit-mode .task-title {
+  opacity: 0.5;
+}
+
+.home.edit-mode {
+  cursor: move;
+}
