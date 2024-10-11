@@ -10,7 +10,7 @@
   </label>
     <div class="flex flex-wrap gap-4 max-sm:justify-center">
     <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>
-      <div data-controller="sortable"  data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="flex flex-wrap gap-4 max-sm:justify-center">
+      <div data-controller="sortable" data-sortable-handle-value=".sortable-handle" data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="flex flex-wrap gap-4 max-sm:justify-center">
         <% @tasks.each do |task| %>
           <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
         <%end%>

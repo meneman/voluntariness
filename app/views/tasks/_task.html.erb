@@ -1,5 +1,6 @@
-<%= turbo_frame_tag task,  data: {sortable_update_url: task_path(task)} do  %>
-  <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg" draggable="true" data-sortable-update-url="<%=  %>">
+<%= turbo_frame_tag task,  data: {sortable_update_url: task_path(task), home_target: "task" } do  %>
+  <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg"  >
+    <div class="sortable-handle"></div>
     <p class="task-title text-slate-900 dark:text-slate-200 mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
     <div class="task-content flex overflow-hidden text-slate-900  mt-2 text-sm  dark:text-slate-200"  >
       <div class="m-2 whitespace-nowrap" ><%= t("worth") %>  <%=  task.worth  %></div>

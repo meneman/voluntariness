@@ -99,12 +99,14 @@
 }
 .home.edit-mode .edit-button,.home.edit-mode .archive-button {
   visibility: visible;
+  z-index: 3;
 }
 .home.home.edit-mode .participant-button {
   pointer-events: none;
   cursor: not-allowed;
   background-color: #3b3b3b;
   opacity: 0.5;
+  z-index: 3;
 }
 
 
@@ -132,4 +134,17 @@
   align-content: center;
   z-index: 1; /* Ensure it appears above the content */
   pointer-events: none; /* Allow interactions to pass through */
+}
+
+.home.edit-mode .sortable-handle {
+  width: 100%;
+  height: 100%;
+  position:  absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: 2;
+}
+ .sortable-handle {
+  display: none;
 }

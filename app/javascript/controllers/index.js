@@ -19,6 +19,7 @@ application.register("removals", RemovalsController)
 application.register("color-badge", color_badge_controller)
 application.register("navbar", navbar_controller)
 application.register("home-controller", home_controller)
+
 application.register('sortable', Sortable)
 
 
