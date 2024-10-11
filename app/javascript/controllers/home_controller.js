@@ -8,7 +8,6 @@ export default class extends Controller {
   }
 
   toggleEditMode (e) {
-    console.log("hi")
     this.editModeValue = !this.editModeValue
     this.element.classList.toggle("edit-mode", this.editModeValue)
     e.currentTarget.classList.toggle("bg-blue-600", this.editModeValue)
