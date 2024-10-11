@@ -3,8 +3,10 @@ class Task < ApplicationRecord
     has_many :actions
     validates :title, presence: true
     validates :worth, presence: true
+    acts_as_list 
 
     scope :active, -> { where( "archived = false") }
+    scope :ordered, -> { order(position: :asc) }
 
     
     def done_today

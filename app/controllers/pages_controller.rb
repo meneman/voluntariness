@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 
     def home       
         @participants = current_user.participants.active
-        @tasks = current_user.tasks.active
+        @tasks = current_user.tasks.active.ordered
         respond_to do |format|
             format.html {}
             format.turbo_stream {}

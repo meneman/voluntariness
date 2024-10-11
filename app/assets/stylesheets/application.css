@@ -112,6 +112,24 @@
   opacity: 0.5;
 }
 
-.home.edit-mode {
+.home.edit-mode .task {
   cursor: move;
+}
+.home.edit-mode .task::after {
+  content: "\f047";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the text */
+  color: rgba(255, 255, 255, 0.836);
+  font-size: 16px;
+  font-weight: bold;
+  font: normal normal normal 14px / 1 FontAwesome;
+  background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent background */
+  padding: 12px;
+
+  text-align: center;
+  align-content: center;
+  z-index: 1; /* Ensure it appears above the content */
+  pointer-events: none; /* Allow interactions to pass through */
 }

@@ -14,7 +14,7 @@ namespace :user do
     end
 
     # Generate a random password using SecureRandom
-    password = SecureRandom.hex(2) # Generates a random 16-character string
+    password = SecureRandom.hex(3) # Generates a random 16-character string
 
     # Create or find the user
     user = User.find_or_initialize_by(email: email)

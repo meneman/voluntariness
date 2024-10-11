@@ -38,3 +38,5 @@
 !/app/assets/builds/.keep
 
 config/users.yml
+
+node_modules

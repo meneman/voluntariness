@@ -81,8 +81,10 @@ gem 'simple_form'
 
 gem "chartkick"
 
-#gem "byebug"
+gem "byebug"
 
 gem "groupdate"
 
 gem "font-awesome-rails"
+
+gem 'acts_as_list'
