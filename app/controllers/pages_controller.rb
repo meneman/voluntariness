@@ -20,7 +20,10 @@ class PagesController < ApplicationController
         @linedata = current_user.actions.joins(:participant)
         .group("participants.name", "DATE(actions.created_at)")
         .count
-        
+        respond_to do |format|
+            format.html {}
+            format.turbo_stream {}
+        end
     end
 
     def set_tasks 

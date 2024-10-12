@@ -11,11 +11,11 @@
             @theme = 'LIGHT' # Default to LIGHT theme
             cookies[:theme] = @theme
           end
-        end
+        end   
 
         def toggle_theme
-          new_theme = cookies[:theme] == 'LIGHT' ? 'DARK' : 'LIGHT'
-          cookies[:theme] = new_theme
+          
+          cookies[:theme] = params[:theme]
         end
       
         def after_sign_in_path_for(resource)

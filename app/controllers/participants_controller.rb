@@ -5,6 +5,10 @@ class ParticipantsController < ApplicationController
 
     def index
          @participants = current_user.participants.all()
+         respond_to do |format|
+            format.html {}
+            format.turbo_stream {}
+        end
     end
 
     
