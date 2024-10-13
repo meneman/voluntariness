@@ -9,9 +9,10 @@
     <%= stylesheet_link_tag "actiontext", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <meta name="view-transition" content="same-origin" />
+     <%# <meta name="turbo-cache-control" content="no-cache"> %>
+    <%# <meta name="view-transition" content="same-origin" /> %>
   </head>
-  <body class=" container mx-auto bg-green-200 dark:bg-slate-600 <%= @theme.downcase %>"  >
+  <body class=" container mx-auto bg-green-200 dark:bg-slate-600 <%= @theme.downcase %>"  id="body" data-turbo-permanent >
     <%= render "layouts/navbar" if user_signed_in? %>
     <div id="flash" class="flash">
       <%# <%= render "layouts/flash" %>

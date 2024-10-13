@@ -22,6 +22,7 @@ export default class extends Controller {
   setTheme(target) {
     document.body.classList.remove("light", "dark");
     document.body.classList.add(target);
+    // changing theme makes all cached pages useless
   }
 
   setDarkTheme() {
