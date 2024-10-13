@@ -1,5 +1,5 @@
 <nav class="bg-blue-600 dark:bg-slate-700 w-full" data-controller="navbar" data-navbar-theme-value="<%= @theme %>">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
         <!-- Mobile menu button-->
@@ -35,7 +35,7 @@
             <%= link_to t("home"),
                 root_path,
                 data: { turbo_action:"advance", turbo_frame: "content" },  
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
+                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3   py-2 text-sm font-medium text-white" %>
             <%= link_to t("history"),
                 actions_path,
                 data: { turbo_action:"advance", turbo_frame: "content" },
@@ -96,7 +96,7 @@
 
 
       <div class=" mx-4">
-        <%= button_to "logout", destroy_user_session_path, method: :delete, class: "dark:text-slate-200"  %>
+        <%= button_to "logout", destroy_user_session_path, method: :delete, class: "text-white dark:text-slate-200"  %>
       </div>
     </div>
   </div>

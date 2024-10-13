@@ -10,7 +10,7 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
      <%# <meta name="turbo-cache-control" content="no-cache"> %>
-    <%# <meta name="view-transition" content="same-origin" /> %>
+    <meta name="view-transition" content="same-origin" />
   </head>
   <body class=" container mx-auto bg-green-200 dark:bg-slate-600 <%= @theme.downcase %>"  id="body" data-turbo-permanent >
     <%= render "layouts/navbar" if user_signed_in? %>
