@@ -24,7 +24,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_11_154459) do
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
     t.integer "participant_id", null: false
-    t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_actions_on_participant_id"

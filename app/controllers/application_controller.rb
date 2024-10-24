@@ -8,7 +8,7 @@
           if cookies[:theme].present?
             @theme = cookies[:theme]
           else
-            @theme = 'LIGHT' # Default to LIGHT theme
+            @theme = 'DARK' # Default to LIGHT theme
             cookies[:theme] = @theme
           end
         end   
