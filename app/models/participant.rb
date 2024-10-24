@@ -21,7 +21,7 @@ class Participant < ApplicationRecord
         streak_count = 0 
         days_with_action.each { |day| 
             if day == current_day 
-                streak_count++
+                streak_count += 1
                 current_day = current_day - 1.day
             else 
                 break 
