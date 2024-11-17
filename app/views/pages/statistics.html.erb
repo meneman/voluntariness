@@ -34,11 +34,14 @@
       }
   }
 
-%>
+
+ %>
+
 <% colors = Action.joins(:participant).group("participants.name").pluck('participants.color') %>
 <%= turbo_frame_tag "home" do %>
   <div class="shadow-l text-slate-800 dark:text-slate-200  rounded flex flex-wrap gap-4">
     <%= pie_chart Action.joins(:participant).group("participants.name").count, colors: colors, donut: true, library: pieChart %>
+
     <%= line_chart Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"), colors: colors, xtitle: "Date", ytitle: "Actions Count", library: lineChart %>
     <%   format_data_for_chart(@linedata) %>
     <div class="flex justify-center flex-wrap">

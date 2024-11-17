@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_11_154459) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_08_112202) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -24,8 +24,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_11_154459) do
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
     t.integer "participant_id", null: false
+    t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "on_streak", default: false, null: false
     t.index ["participant_id"], name: "index_actions_on_participant_id"
     t.index ["task_id"], name: "index_actions_on_task_id"
   end

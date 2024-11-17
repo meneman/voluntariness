@@ -11,7 +11,10 @@ class Participant < ApplicationRecord
     end
     
     def total_points
-        actions.sum {|a| a.task[:worth] }
+
+        # actions.sum {|a| a[:on_streak] ? a.task[:worth] + 1 : a.task[:worth]  }
+     actions.sum {|a|  a.task[:worth]  }
+
     end
 
     
@@ -29,4 +32,11 @@ class Participant < ApplicationRecord
         }
         streak_count
     end
+
+
+    def on_streak
+        # TODO user options to set streak count and disable streak featrue
+        streak > 4 # returns true if the streak count is more than 1 day
+    end
+
 end

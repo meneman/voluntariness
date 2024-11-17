@@ -49,7 +49,6 @@ class TasksController < ApplicationController
         @task = current_user.tasks.build(task_params)
         @participants = current_user.participants
         if @task.save
-            
             respond_to do |format|
                 format.turbo_stream {}
                 format.html {}

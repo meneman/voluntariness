@@ -24,9 +24,10 @@ class ActionsController < ApplicationController
     end
 
     def create 
-        
-        @action = Action.new(participant_id: params[:data][:participant_id],task_id: params[:data][:task_id], )
+        on_streak = Participant.find(params[:data][:participant_id]).on_streak
+        @action = Action.new(participant_id: params[:data][:participant_id],task_id: params[:data][:task_id], on_streak: on_streak )
         @task = Task.find( params[:data][:task_id])
+
         if @action.save
             respond_to do |format|
                 format.html { redirect_to root_path, notice: "Quote was successfully created." }
