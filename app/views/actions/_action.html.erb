@@ -1,0 +1,23 @@
+<%= turbo_frame_tag action do %>
+  <div style=<%="opacity:#{action.participant.archived == true ? "0.3" : "1" };"%> class="flex-nowrap m-2 text-slate-800 px-4 py-4 shadow-lg rounded border-cyan-400 flex hover:bg-slate-400 bg-green-300 dark:bg-slate-700 dark:text-slate-200 min-w relative">
+    <div class="rounded h-full w-16 absolute left-0 top-0 bottom-0 flex" style=<%="background-color:#{action.participant.color|| "bg-cyan-400"};"%>>
+      <div class="m-auto"><%= action.participant.avatar %></div>
+    </div>
+    <div class="flex flex-col flex-1 pl-16">
+      <div class="flex justify-center" >
+        <div class="font-sans"> <%=  action.task.title  %> <span class="text-blue-600 dark:text-green-400 font-semibold">+<%=  action.task.worth  %> </span> </div>
+        <div class="flex-1"></div>
+      </div>
+      <div class="flex ">
+        <div class="font-sans min-w-8 "><%=  action.participant.name  %> </div>
+        <div class="font-extrabold  px-1">-</div>
+        <div class="font-sans" title="<%= I18n.l(action.created_at, :format => "%d.%m.%y %H:%M:%S") %>"> <%=  I18n.l(action.created_at, :format => "%d.%m.%y")  %></div>
+      </div>
+    </div>
+    <% if show_delete == true %>
+      <%=  button_to  action, method: :delete, data: {turbo_confirm: t("confirmMessage") }, class:"text-red-500 m-2 font-bold font-medium text-xl self-center "  do %>
+        <%= fa_icon "trash" %>
+      <% end%>
+    <% end %>
+  </div>
+<% end %>

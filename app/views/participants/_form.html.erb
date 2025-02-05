@@ -1,0 +1,19 @@
+<%= simple_form_for @participant, html: { class: "dark:bg-gray-800 " } do |f| %>
+  <% if f.object.errors.any? %>
+    <div class="mb-4 p-4 bg-red-600 text-white rounded">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-inputs space-y-4">
+    <%= f.input :name, label: "Name", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block dark:text-gray-300" } %>
+    <%= f.input :color, label: "Favorite Color", input_html: { type: 'color', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block dark:text-gray-300" } %>
+    <%= f.input :avatar, label: "Avatar", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block dark:text-gray-300" } %>
+  </div>
+  <div class="form-actions mt-6">
+    <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 dark:text-white font-bold rounded" %>
+  </div>
+<% end %>

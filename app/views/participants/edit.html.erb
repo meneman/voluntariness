@@ -1,0 +1,6 @@
+<%= turbo_frame_tag @participant do  %>
+  <div class=" min-w-64 relative bg-green-300 dark:bg-slate-800 dark:text-slate-200 bg-gre shadow-lg rounded-lg px-6 py-8">
+    <%= render partial: "form", locals: {participant: @participant} %>
+    <%= link_to t("cancel"), participants_path, { class: "text-red-500 absolute top-0 right-0 m-2 font-bold font-medium"} %>
+  </div>
+<% end  %>

@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "points_for_#{id}" do %>
+  <div class="relative m-auto w-full  h-full">
+    <span class="absolute top-0 bottom-0 right-0 left-0">
+      <%= total_points || 0 %>
+    </span>
+    <% if animate == true %>
+      <span data-controller="removals" class="absolute top-0 bottom-0 right-0 left-0 font-bold text-green-600 fade-away" data-action="animationend->removals#remove">
+        <%= total_points || 0 %>
+        <span>
+        <% end  %>
+      </div>
+    <% end %> 

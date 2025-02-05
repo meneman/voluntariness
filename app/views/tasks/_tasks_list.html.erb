@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "tasks" do %>
+  <div class="flex flex-wrap">
+    <% tasks.each do |task| %>
+      <%= render partial: "tasks/task", locals: { task: task } %>
+    <% end %>
+    <div class="flex relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+      <%= turbo_frame_tag "new_task" do %>
+        <div class="m-auto text-blue-800 dark:text-white text-base font-medium tracking-tight" ><%= link_to "add", new_task_path  %></div>
+      <% end %>
+    </div>
+  </div>
+<%end%>

@@ -1,0 +1,6 @@
+<%=  turbo_frame_tag "new_participant" do %>
+  <div class="flex min-w-64 relative m-8 bg-green-300 dark:text-slate-200 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
+    <%= render partial: "form", locals: {participant: @participant} %>
+    <%= link_to "cancel", cancel_participant_path, {data: { turbo_stream: true}, class: "text-red-500 absolute top-0 right-0 m-2 font-bold font-medium"} %>
+  </div>
+<%end%>

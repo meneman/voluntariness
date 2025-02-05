@@ -1,0 +1,28 @@
+<%= turbo_frame_tag p do  %>
+  <div class="min-w-48 text-slate-400 bg-green-300 dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
+    <%= link_to  participant_path(p), data: { turbo_frame: "_top" }  do %>
+      <div class="bg-blue-500 h-24  flex" style="<%="background-color:#{p.color}"%>">
+        <span class="text-center m-auto text-2xl font-semibold text-gray-800"  style=" <%= "color:#{ contrasting_color(p.color) || " inherit"}" %>"><%= p.avatar %></span>
+      </div>
+      <h2 class="text-center shimmer-text text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-sky-900 to-purple-500"><%= p.total_points %></h2>
+      <h2 class="p-4 text-center m-auto  text-2xl font-semibold text-gray-300"><%= p.name %></h2>
+    <%end%>
+    <div class="text-center pb-4 px-8   text-slate-800 dark:text-slate-200 flex justify-between">
+      <%= link_to t("edit"), edit_participant_path(p), {class: "mx-2"} %>
+      <%= button_to t("archive") ,archive_participant_path(p), {turbo_stream: true, class: "mx-2" }%>
+    </div>
+    <%# render(partial: "points_and_streak", locals: {points: p.total_points, streak: p.streak  }) %>
+    
+  <div class="w-full bg-yellow-200 rounded-full dark:bg-gray-700 ">
+    <div class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap" style="width: <%= 100 * [(p.streak.to_f/5),1].min %>%"> <%= "#{p.streak} / 5" %></div>
+  </div>
+
+
+
+    <% if p.archived%>
+      <div class="flex text-orange-700 font-sans font-bold">
+        <h3 class="m-auto"> <%= t("archived") %></h3>
+      </div>
+    <%end%>
+  </div>
+<%end%>

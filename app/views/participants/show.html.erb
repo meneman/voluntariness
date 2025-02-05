@@ -1,0 +1,23 @@
+<% pieChart = {   
+    plugins: {
+            legend: {
+                labels: {
+                    color: 'whitesmoke'
+                }
+            }
+        },
+  } 
+
+%>
+<div class="p-12 flex flex-col gap-4">
+  <div class="flex flex-wrap">
+    <%= render partial: "participant", locals: {p: @participant} %>
+    <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true, library: pieChart %>
+  </div>
+  <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
+    <h2 class=" font-semibold text-xl "> History </h2>
+    <% @participant.actions.desc.each do |action| %>
+      <%= render partial: "actions/action", locals: {action: action, show_delete: true}%>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<%= turbo_stream.prepend "participants" do %>
+  <%= render partial: "participant", locals: { p: @participant} %>
+<% end %>
+<%= turbo_stream.update "new_participant", "" %>

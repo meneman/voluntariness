@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@rails/request.js": "^0.0.11",
+    "@stimulus-components/sortable": "^5.0.2",
+    "sortablejs": "^1.15.6"
+  },
+  "name": "voluntariness",
+  "version": "1.0.0",
+  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meneman/voluntariness.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meneman/voluntariness/issues"
+  },
+  "homepage": "https://github.com/meneman/voluntariness#readme"
+}

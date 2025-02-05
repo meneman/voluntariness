@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "task_overdue_#{task.id}" do  %>
+  <% if task.overdue != nil %>
+    <div class="m-2 whitespace-nowrap <%=  task.overdue < 0 ? "text-red-600 dark:text-red-400" : "text-blue-600 dark:text-green-400"  %> "><%= task.overdue == 0 ? t("overdue_today") : task.overdue > 0 ? t("overdue_in", days: task.overdue.abs) : t("overdue_since", days: task.overdue.abs)  %></div>
+  <%else %>
+    <div class="m-2 whitespace-nowrap text-slate-400  "><%= t("on_demand") %></div>
+  <%end%>
+  <% if task.done_today %>
+    <div class="m-2 whitespace-nowrap text-blue-600 dark:text-green-400 "><%= t("done_today")%> <%= fa_icon "check" %></div>
+  <%end%>
+<%end%>

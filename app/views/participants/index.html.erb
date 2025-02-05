@@ -1,0 +1,14 @@
+<turbo-frame id="content">
+  <div class="flex flex-wrap gap-4  max-sm:justify-center py-2">
+    <%= turbo_frame_tag "participants", class:"contents " do %>
+      <% @participants.each do |p| %>
+        <%= render partial: "participant", locals: { p: p } %>
+      <% end %>
+    <%end%>
+    <%= turbo_frame_tag "new_participant", class:"contents" do %>
+      <%= link_to  new_participant_path, data: { turbo_frame: "new_participant" }, class: "flex m-4 bg-transparent hover:bg-blue-600 text-blue-300 font-semibold hover:text-white py-2 px-4 text-xl border border-blue-300 hover:border-transparent rounded" do %>
+        <p class="m-auto"><%= t("new_participant") %></p>
+      <% end %>
+    <% end %>
+  </div>
+</turbo-frame>

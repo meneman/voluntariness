@@ -1,0 +1,30 @@
+<%= simple_form_for @task, html: { class: " p-2 mx-auto" } do |f| %>
+  <% if f.object.errors.any? %>
+    <div class="mb-4 p-4 bg-red-600 dark:text-white rounded">
+      <ul>
+        <% f.object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-inputs space-y-2">
+    <%= f.input :title, label: "Title", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+  </div>
+  <div class="form-inputs flex space-x-2" >
+    <%= f.input :worth, label: "Worth", input_html: { type: 'number', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :interval, label: "Interval", input_html: { type: 'number', class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+  </div>
+  <div class="form-actions mt-6">
+    <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 dark:text-white font-bold rounded" %>
+  </div>
+<% end %>
+<%= form_with model: task do |form| %>
+  <% if form.object.errors.any? %>
+    <div>
+      <% form.object.errors.full_messages.each do |m| %>
+        <div> <%= m %> </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

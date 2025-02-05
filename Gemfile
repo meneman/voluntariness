@@ -61,3 +61,20 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem "devise", "~> 4.9"
+
+gem "tailwindcss-rails", "~> 3.3.1"
+
+gem "pagy", "~> 7.0"
+
+gem 'simple_form'
+
+gem "chartkick"
+
+gem "byebug"
+
+gem "groupdate"
+
+gem "font-awesome-rails"
+
+gem 'acts_as_list'

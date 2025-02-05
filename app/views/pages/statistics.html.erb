@@ -1,0 +1,58 @@
+<turbo-frame id="content">
+<% pieChart = {   
+    plugins: {
+            legend: {
+                labels: {
+                    color: 'whitesmoke'
+                }
+            }
+        },
+  } 
+  lineChart = {
+  plugins: {
+            legend: {
+                labels: {
+                    color: 'whitesmoke'
+                }
+            }
+        },
+    
+    scales: {
+        x: {
+          color: "whitesmoke",
+          grid: {
+            color: "whitesmoke"
+          },
+          ticks: {color:"whitesmoke"}
+        },
+        y: {
+          color: "whitesmoke",
+          grid: {
+            color: "whitesmoke"
+          },
+          ticks: {color: "whitesmoke"}}
+      }
+  }
+
+
+ %>
+
+<% colors = Action.joins(:participant).group("participants.name").pluck('participants.color') %>
+<%= turbo_frame_tag "home" do %>
+  <div class="shadow-l text-slate-800 dark:text-slate-200  rounded flex flex-wrap gap-4">
+    <%= pie_chart Action.joins(:participant).group("participants.name").count, colors: colors, donut: true, library: pieChart %>
+
+    <%= line_chart Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"), colors: colors, xtitle: "Date", ytitle: "Actions Count", library: lineChart %>
+    <%   format_data_for_chart(@linedata) %>
+    <div class="flex justify-center flex-wrap">
+      <% @tasks.active.each do |task| %>
+        <div class="p-4 m-4">
+          <h2 class="text-lg "><%= task.title %></h3>
+          <% set = Action.where(task_id: task.id).joins(:participant) %>
+          <%= pie_chart  set.group("participants.name").count, donut: true,  colors: set.group("participants.name").pluck('participants.color'), library: pieChart %>
+        </div>
+      <% end%>
+    <%end%>
+  </div>
+</div>
+</turbo-frame>

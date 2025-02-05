@@ -1,0 +1,32 @@
+<table class="min-w-full dark:text-slate-400 dark:text-white  rounded-lg shadow-md overflow-hidden">
+  <thead class=" border-b-2 border-gray-300">
+    <tr>
+      <th class="px-6 py-3 text-left text-sm font-semibold dark:text-white">Tasks / Participants</th>
+      <% @participants.each do |participant| %>
+        <th class="px-6 py-3 text-left text-sm font-semibold dark:text-white">
+          <div class=" p-2 text-center">participant: <%= participant.name %> <span ><%= participant.avatar %></span></div>
+          <div class="p-2 text-center"> <%= render partial: "points", locals: { animate: false, id: participant.id, total_points: participant.total_points } %></div>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr class="border-b border-gray-200 ">
+        <td class="px-6 py-4 dark:text-white">
+          <div class=""><%= task.title %> - points: <%= task.worth %></div>
+        </td>
+        <% @participants.each do |participant| %>
+          <td class="px-6 py-4 dark:text-white">
+            <div class=" p-2 border-b border-gray-200 flex justify-center items-center">
+              <%= button_to "abhaken! (#{participant.name})",
+           { controller: "actions", action:"create" , method:"post",
+            data: {task_id: task, participant_id: participant }},
+             { style: "background-color: #{ participant.color || " inherit"};", class:"bg-blue-800 hover:bg-blue-800 text-slate-100 font-bold py-4 px-8 rounded shadow-lg transform hover:scale-105 transition-transform duration-200"} %>
+            </div>
+          </td>
+        <%end%>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
