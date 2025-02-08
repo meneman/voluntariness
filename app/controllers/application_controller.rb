@@ -10,13 +10,12 @@ class ApplicationController < ActionController::Base
     if cookies[:theme].present?
       @theme = cookies[:theme]
     else
-      @theme = 'dark' # Default to LIGHT theme
+      @theme = "dark" # Default to LIGHT theme
       cookies[:theme] = @theme
     end
-  end   
+  end
 
   def toggle_theme
-    
     cookies[:theme] = params[:theme]
   end
 

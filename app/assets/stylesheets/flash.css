@@ -1,0 +1,30 @@
+.flash {
+  position: fixed;
+  bottom: 6rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 9999;
+  max-width: 100%;
+  width: max-content;
+  padding: 0 12px;
+}
+
+.flash__message {
+  animation: appear-then-fade 3s both;
+}
+
+@keyframes appear-then-fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  90% {
+    opacity: 1;
+  }
+}

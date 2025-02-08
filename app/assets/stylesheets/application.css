@@ -8,3 +8,138 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.has-participant-color-badge {
+    position: relative;
+    padding-left: 32px !important;
+    /* --badge-color: red; *n/
+    /* background-color: var(--badge-color);  */
+  }
+  
+  .has-participant-color-badge::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 26px;
+    background-color: var(--badge-color);
+  }
+  @keyframes popUp {
+    0% {
+    }
+    100% {
+    }
+  }
+  @keyframes fadeAway {
+    0% {
+      transform: translateX(0) translateY(0);
+      opacity: 1;
+    }
+    /* 20% {
+        transform: scale(2) translateX(-5px) translateY(0);
+        font-size: xx-large;
+        font-weight: 900;
+      } */
+  
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+      font-size: x-large;
+      font-weight: 800;
+    }
+  }
+  
+  .pop-up {
+    animation: popUp 2s ease-out;
+  }
+  .fade-away {
+    z-index: 99999;
+    animation: fadeAway 1s ease-in-out;
+  }
+  
+  .weird-points-centering * {
+    text-align: center;
+    line-height: 2;
+    height: 100%;
+    width: 100%;
+  }
+  @view-transition {
+    navigation: auto;
+  }
+  
+  @keyframes shimmer-bounce {
+    0% {
+      background-position: -200%;
+    }
+    50% {
+      background-position: 200%;
+    }
+    100% {
+      background-position: -200%;
+    }
+  }
+  
+  .shimmer-text {
+    background-size: 200%;
+    animation: shimmer-bounce 20s infinite ease-in-out;
+  }
+  
+  .home .edit-button,
+  .home .archive-button {
+    visibility: hidden;
+    visibility: unset;
+  }
+  .home.edit-mode .edit-button,
+  .home.edit-mode .archive-button {
+    visibility: visible;
+    z-index: 3;
+  }
+  .home.home.edit-mode .participant-button {
+    pointer-events: none;
+    cursor: not-allowed;
+    background-color: #3b3b3b;
+    opacity: 0.5;
+    z-index: 3;
+  }
+  
+  .home.home.edit-mode .task-content,
+  .home.home.edit-mode .task-title {
+    opacity: 0.5;
+  }
+  
+  .home.edit-mode .task {
+    cursor: move;
+  }
+  .home.edit-mode .task::after {
+    content: "\f047";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the text */
+    color: rgba(255, 255, 255, 0.836);
+    font-size: 16px;
+    font-weight: bold;
+    font: normal normal normal 14px / 1 FontAwesome;
+    background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent background */
+    padding: 12px;
+  
+    text-align: center;
+    align-content: center;
+    z-index: 1; /* Ensure it appears above the content */
+    pointer-events: none; /* Allow interactions to pass through */
+  }
+  
+  .home.edit-mode .sortable-handle {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    z-index: 2;
+  }
+  .sortable-handle {
+    display: none;
+  }
+  

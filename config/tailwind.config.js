@@ -1,6 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  darkMode: 'selector',
   content: [
     './public/*.html',
     './app/helpers/**/*.rb',
@@ -15,8 +16,9 @@ module.exports = {
     },
   },
   plugins: [
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/typography'),
-    // require('@tailwindcss/container-queries'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'), 
+    require('@tailwindcss/container-queries'),
   ]
 }

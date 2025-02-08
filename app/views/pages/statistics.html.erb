@@ -37,6 +37,9 @@
 
  %>
 
+
+
+
 <% colors = Action.joins(:participant).group("participants.name").pluck('participants.color') %>
 <%= turbo_frame_tag "home" do %>
   <div class="shadow-l text-slate-800 dark:text-slate-200  rounded flex flex-wrap gap-4">
