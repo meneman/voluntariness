@@ -9,7 +9,7 @@ Rails.application.configure do
   # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
 
-  # Full error reports are disabled.
+  # Full error reports are disabled.#
   config.consider_all_requests_local = false
 
   # Turn on fragment caching in view templates.
@@ -86,6 +86,7 @@ Rails.application.configure do
     "localhost:3000",
     "voluntariness.local"
   ]
+  config.hosts.clear
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
