@@ -1,7 +1,7 @@
 <div class="flex flex-wrap gap-4  max-sm:justify-center py-2">
   <%= turbo_frame_tag "participants", class:"contents " do %>
     <% @participants.each do |p| %>
-      <%= render partial: "participant", locals: { p: p } %>
+        <%= render partial: "participant", locals: { p: p } %>
     <% end %>
   <%end%>
   <%= turbo_frame_tag "new_participant", class:"contents" do %>
