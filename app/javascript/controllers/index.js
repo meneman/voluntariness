@@ -6,7 +6,10 @@ import RemovalsController from "controllers/removals_controller";
 import color_badge_controller from "controllers/color_badge_controller";
 import navbar_controller from "controllers/navbar_controller";
 import home_controller from "controllers/home_controller";
+import chart from "controllers/chart_controller";
 import Sortable from "@stimulus-components/sortable";
+
+
 eagerLoadControllersFrom("controllers", application)
 
 
@@ -15,3 +18,4 @@ application.register("color-badge", color_badge_controller);
 application.register("navbar", navbar_controller);
 application.register("home-controller", home_controller);
 application.register("sortable", Sortable);
+application.register("chart", chart);

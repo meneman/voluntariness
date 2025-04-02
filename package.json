@@ -2,6 +2,8 @@
   "dependencies": {
     "@rails/request.js": "^0.0.11",
     "@stimulus-components/sortable": "^5.0.2",
+    "chart.js": "^4.4.8",
+    "chartkick": "^5.0.1",
     "sortablejs": "^1.15.6"
   },
   "name": "voluntariness",
@@ -12,7 +14,6 @@
     "lib": "lib",
     "test": "test"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

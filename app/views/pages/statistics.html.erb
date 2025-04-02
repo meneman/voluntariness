@@ -1,61 +1,111 @@
-<turbo-frame id="content">
-<% pieChart = {   
-    plugins: {
-            legend: {
-                labels: {
-                    color: 'whitesmoke'
-                }
-            }
-        },
-  } 
-  lineChart = {
-  plugins: {
-            legend: {
-                labels: {
-                    color: 'whitesmoke'
-                }
-            }
-        },
-    
-    scales: {
-        x: {
-          color: "whitesmoke",
-          grid: {
-            color: "whitesmoke"
-          },
-          ticks: {color:"whitesmoke"}
-        },
-        y: {
-          color: "whitesmoke",
-          grid: {
-            color: "whitesmoke"
-          },
-          ticks: {color: "whitesmoke"}}
-      }
+<%# app/views/your_pages/dashboard.html.erb %>
+
+<h1>Dashboard Charts</h1>
+
+<%# --- Example 1: Simple Line Chart --- %>
+<%
+  # Prepare data in the format Chart.js expects
+  line_chart_data = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    datasets: [{
+      label: 'Monthly Sales',
+      data: [65, 59, 80, 81, 56, 55],
+      fill: false,
+      borderColor: 'rgb(75, 192, 192)',
+      tension: 0.1
+    }]
   }
 
+  # Optional: Define specific Chart.js options
+  line_chart_options = {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    responsive: true,
+    maintainAspectRatio: false # Often useful within containers
+  }
+%>
 
- %>
-
-
-
-
-<% colors = Action.joins(:participant).group("participants.name").pluck('participants.color') %>
-<%= turbo_frame_tag "home" do %>
-  <div class="shadow-l text-slate-800 dark:text-slate-200  rounded flex flex-wrap gap-4">
-    <%= pie_chart Action.joins(:participant).group("participants.name").count, colors: colors, donut: true, library: pieChart %>
-
-    <%= line_chart Action.joins(:participant,:task).group("participants.name").group_by_day("actions.created_at").sum("tasks.worth"), colors: colors, xtitle: "Date", ytitle: "Actions Count", library: lineChart %>
-    <%   format_data_for_chart(@linedata) %>
-    <div class="flex justify-center flex-wrap">
-      <% @tasks.active.each do |task| %>
-        <div class="p-4 m-4">
-          <h2 class="text-lg "><%= task.title %></h3>
-          <% set = Action.where(task_id: task.id).joins(:participant) %>
-          <%= pie_chart  set.group("participants.name").count, donut: true,  colors: set.group("participants.name").pluck('participants.color'), library: pieChart %>
-        </div>
-      <% end%>
-    <%end%>
+<h2>Line Chart Example</h2>
+<div style="height: 300px; width: 500px; position: relative;"> <%# Container for sizing %>
+  <div
+    data-controller="chart"
+    data-chart-type-value="line"
+    data-chart-data-value="<%= line_chart_data.to_json %>"
+    data-chart-options-value="<%= line_chart_options.to_json %>"
+  >
+    <canvas data-chart-target="canvas"></canvas>
   </div>
 </div>
-</turbo-frame>
+
+
+<%# --- Example 2: Simple Bar Chart --- %>
+<%
+  bar_chart_data = {
+    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+      ],
+      borderWidth: 1
+    }]
+  }
+  # No specific options needed for this basic bar chart,
+  # Stimulus controller will use the default {}
+%>
+
+<h2>Bar Chart Example</h2>
+<div style="height: 250px; width: 400px; position: relative;">
+  <div
+    data-controller="chart"
+    data-chart-type-value="bar"
+    data-chart-data-value="<%= bar_chart_data.to_json %>"
+    <%# No options-value needed, will use default %>
+  >
+    <canvas data-chart-target="canvas"></canvas>
+  </div>
+</div>
+
+<%# --- Example 3: Pie Chart --- %>
+<%
+  pie_chart_data = {
+    labels: [ 'Direct', 'Referral', 'Social' ],
+    datasets: [{
+      label: 'Traffic Source',
+      data: [300, 50, 100],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+      ],
+      hoverOffset: 4
+    }]
+  }
+%>
+<h2>Pie Chart Example</h2>
+<div style="height: 300px; width: 300px; position: relative;">
+  <div
+    data-controller="chart"
+    data-chart-type-value="pie"
+    data-chart-data-value="<%= pie_chart_data.to_json %>"
+  >
+    <canvas data-chart-target="canvas"></canvas>
+  </div>
+</div>
