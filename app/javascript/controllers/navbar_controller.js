@@ -16,7 +16,9 @@ export default class extends Controller {
 
   connect() {
     // lets have many themes one day :)
-    this.setTheme(this.themeValue);
+    // this.setTheme(this.themeValue);
+    this.setTheme("dark");
+
   }
 
   setTheme(target) {
@@ -26,13 +28,13 @@ export default class extends Controller {
   }
 
   setDarkTheme() {
-    this.lightbuttonTarget.classList.remove("hidden");
+   //this.lightbuttonTarget.classList.remove("hidden");
     this.darkbuttonTarget.classList.add("hidden");
     this.setTheme("dark");
     this.toggleThemeSession("dark");
   }
   setLightTheme() {
-    this.lightbuttonTarget.classList.add("hidden");
+    //this.lightbuttonTarget.classList.add("hidden");
     this.darkbuttonTarget.classList.remove("hidden");
     this.setTheme("light");
     this.toggleThemeSession("light");
