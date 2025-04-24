@@ -66,7 +66,7 @@ gem "devise", "~> 4.9"
 
 gem "tailwindcss-rails", "~> 3.3.1"
 
-gem "pagy", "~> 7.0"
+gem "pagy", "~> 9.3"
 
 gem "simple_form"
 
