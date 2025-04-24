@@ -54,6 +54,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem "htmlbeautifier", "~> 1.4"
 end
 
 group :test do
@@ -67,7 +68,7 @@ gem "tailwindcss-rails", "~> 3.3.1"
 
 gem "pagy", "~> 7.0"
 
-gem 'simple_form'
+gem "simple_form"
 
 gem "chartkick"
 
@@ -77,6 +78,4 @@ gem "groupdate"
 
 gem "font-awesome-rails"
 
-gem 'acts_as_list'
-
-gem "htmlbeautifier", "~> 1.4"
+gem "acts_as_list"
