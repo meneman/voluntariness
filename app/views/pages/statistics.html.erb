@@ -1,13 +1,13 @@
 <turbo-frame id="content">
   <script>
-    console.log('Inspecting @task_completion_by_participant:', <%= raw @data.to_json %>);
+    console.log('Inspecting @task_completion_by_participant:', <%= raw @cumulative_points_by_participant_day.to_json %>);
       console.log('Inspecting @data:', <%= raw @task_completion_by_action.to_json %>);
   </script>
   <%
 pi_chart_options = {
   responsive: true,
   plugins: {
-    legend: { position: 'right' },
+    legend: { position: 'bottom' },
   },
   title: {
     display: true,
@@ -90,6 +90,8 @@ chart_data_tasks_points = {
   %>
   <div class="container">
     <h1 class="text-center mb-4">points over time</h1>
+    <div class="flex" >
+      <div class="flex-1" >
               <div data-controller="chart"
               data-chart-type-value="line"
             data-chart-data-value="<%= {
@@ -111,8 +113,7 @@ chart_data_tasks_points = {
               end
             }.to_json %>"
             data-chart-options-value="<%= {
-              responsive: true,
-              maintainAspectRatio: false, # Often good for time-series
+
               plugins: {
                 title: {
                   display: true,
@@ -138,13 +139,19 @@ chart_data_tasks_points = {
                     display: true,
                     text: 'Cumulative Points'
                   },
+                  ticks: {
+                    stepSize: 1,  # This ensures whole number increments
+                    precision: 0  # This ensures no decimal places
+                  },
                   beginAtZero: true # Start Y axis at 0
-                }
+                },
+
               }
             }.to_json %>">
           </div>
-
-    <div class=" flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
+    </div>
+      </div>
+    <div class="justify-center flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
       <div >
         <h3 class="text-center mb-4">tasks amount</h1>
         <div data-controller="chart"
@@ -163,7 +170,7 @@ chart_data_tasks_points = {
       </div>
     </div>
     <h1 class="text-center mb-4">Points by Task</h1>
-    <div class=" flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
+    <div class="justify-center flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
       <%  @task_completion_by_action.each do |key,value| %>
         <div >
           <h3 class="text-center mb-4"><%= key %></h1>

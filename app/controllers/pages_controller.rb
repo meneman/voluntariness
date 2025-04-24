@@ -108,6 +108,7 @@ class PagesController < ApplicationController
           ROWS UNBOUNDED PRECEDING
         ) AS cumulative_points
       SQL
+      
       # Note: ROWS UNBOUNDED PRECEDING is standard for running totals,
       # ensuring the sum includes all rows from the start of the partition
       # up to the current row for each participant.
