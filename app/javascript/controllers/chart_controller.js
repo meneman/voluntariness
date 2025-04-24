@@ -4,7 +4,7 @@ import Chart from "chart.js/auto"; // Use "/auto" to register all controllers, s
 
 export default class extends Controller {
   // Define a target for the canvas element where the chart will be drawn
-  static targets = ["canvas"];
+ 
 
   // Define values to receive data, type, and options from the HTML
   // Stimulus automatically parses JSON strings passed to -value attributes
@@ -17,6 +17,14 @@ export default class extends Controller {
   // Property to hold the Chart.js instance
   chart = null;
 
+  initialize() {
+    const newCanvas = document.createElement('canvas');
+    const randomId = `canvas-${crypto.randomUUID()}`;
+    newCanvas.id = randomId; 
+    this.element.appendChild(newCanvas);
+    this.canvasContext =  newCanvas.getContext('2d');
+  }
+
   connect() {
     console.log("Chart controller connected");
     console.log("Chart Type:", this.typeValue);
@@ -24,7 +32,7 @@ export default class extends Controller {
     console.log("Chart Options:", this.optionsValue);
 
     // Ensure we have the canvas target and data before proceeding
-    if (!this.hasCanvasTarget || !this.dataValue || !this.typeValue) {
+    if ( !this.dataValue || !this.typeValue) {
       console.error(
         "Chart controller missing canvas target, data-value, or type-value.",
       );
@@ -46,14 +54,14 @@ export default class extends Controller {
 
   renderChart() {
     // Get the canvas context
-    const ctx = this.canvasTarget.getContext("2d");
+
 
  
     Chart.defaults.color = '#E0E0E0'; // Light gray for text (good contrast)
     Chart.defaults.borderColor = '#64B5F6'; // Lighter, less saturated blue for borders/lines
     Chart.defaults.backgroundColor = 'rgba(100, 181, 246, 0.5)'; // Semi-transparent version of the border color for fills
 
-    this.chart = new Chart(ctx, {
+    this.chart = new Chart(this.canvasContext, {
       type: this.typeValue, // Use the type passed from the HTML
       data: this.dataValue, // Use the data object passed from the HTML
       options: this.optionsValue, // Use the options passed from the HTML

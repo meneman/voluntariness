@@ -1,78 +1,37 @@
 <turbo-frame id="content">
-
-  <% debug  @task_completion_by_participant %>
-  
-  <%= debug  @data %>
-
+  <script>
+    console.log('Inspecting @task_completion_by_participant:', <%= raw @data.to_json %>);
+      console.log('Inspecting @data:', <%= raw @task_completion_by_action.to_json %>);
+  </script>
   <%
-  pi_chart_options = {
-                 responsive: true,
-                 plugins: {
-                   legend: { position: 'right',
-} },
-                   title: {
-                     display: true,
-                     text: 'Completed Tasks Distribution'
-                   },
+pi_chart_options = {
+  responsive: true,
+  plugins: {
+    legend: { position: 'right' },
+  },
+  title: {
+    display: true,
+    text: 'Completed Tasks Distribution',
+  },
+  scales: {
+    x: {
+      color: "whitesmoke",
+      grid: {
+        color: "whitesmoke",
+      },
+      ticks: { color: "whitesmoke" },
+    },
+    y: {
+      color: "whitesmoke",
+      grid: {
+        color: "whitesmoke",
+      },
+      ticks: { color: "whitesmoke" },
+    },
+  },
+}.to_json
 
-    
-    scales: {
-        x: {
-          color: "whitesmoke",
-          grid: {
-            color: "whitesmoke"
-          },
-          ticks: {color:"whitesmoke"}
-        },
-        y: {
-          color: "whitesmoke",
-          grid: {
-            color: "whitesmoke"
-          },
-          ticks: {color: "whitesmoke"}}
-      }
-                 }
-               }.to_json
-
- chart_data_tasks_participants =  {
-                 labels: @task_completion_by_participant.keys,
-                 datasets: [{
-                   data: @task_completion_by_participant.values,
-                   backgroundColor: @task_completion_by_participant.keys.map { |name|
-                     participant = @participants.find { |p| p.name == name }
-                     participant&.color || "##{SecureRandom.hex(3)}"
-                   }
-                 }]
-               }.to_json
-
-  chart_data_tasks_points =  {
-                 labels: @points_by_participant.keys,
-                 datasets: [{
-                   label: 'Points Earned',
-                   data: @points_by_participant.values,
-                   backgroundColor: @points_by_participant.keys.map { |name|
-                     participant = @participants.find { |p| p.name == name }
-                     participant&.color || "##{SecureRandom.hex(3)}"
-                   }
-                 }]
-               }.to_json
-
-  %>
-<div class="container">
-  <h1 class="text-center mb-4">Statistics Dashboard</h1>
-  <div class="row mb-4">
-    <div class="col-md-6">
-       <div class="shadow-l text-slate-800 dark:text-slate-200  rounded flex flex-wrap gap-4">
-          <div data-controller="chart"
-               data-chart-type-value="doughnut"
-               data-chart-data-value="<%= chart_data_tasks_participants %>"
-               data-chart-options-value="<%= pi_chart_options %>">
-            <canvas data-chart-target="canvas" id="participantPieChart"></canvas>
-          </div>
-                    <div data-controller="chart"
-               data-chart-type-value="bar"
-               data-chart-data-value="<%=chart_data_tasks_points %>"
-               data-chart-options-value="<%= {
+bar_chart_options = {
                  indexAxis: 'y',
                  responsive: true,
                  plugins: {
@@ -82,20 +41,148 @@
                      text: 'Total Points by Participant'
                    }
                  }
-               }.to_json %>">
-            <canvas data-chart-target="canvas" id="pointsBarChart"></canvas>
-          </div>
-    </div>
+               }.to_json
 
-  </div>
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h3>Most Popular Tasks</h3>
+chart_data_tasks_participants =   {
+  labels: @task_completion_by_participant.keys,
+  datasets: [
+    {
+      label: 'number of tasks done',
+      data: @task_completion_by_participant.values,
+      backgroundColor: @task_completion_by_participant.keys.map { |name|
+        participant = @participants.find { |p| p.name == name }
+        participant&.color || "##{SecureRandom.hex(3)}"
+      },
+    },
+  ],
+}.to_json
+
+def data_to_chart(data, participants)
+  {
+    labels: data.keys,
+    datasets: [
+      {
+        label: 'number of tasks done',
+        data: data.values,
+        backgroundColor: data.keys.map { |name|
+          participant = participants.find { |p| p.name == name }
+          participant&.color || "##{SecureRandom.hex(3)}"
+        },
+      },
+    ],
+  }.to_json
+end
+
+chart_data_tasks_points = {
+  labels: @points_by_participant.keys,
+  datasets: [
+    {
+      label: 'Points Earned',
+      data: @points_by_participant.values,
+      backgroundColor: @points_by_participant.keys.map { |name|
+        participant = @participants.find { |p| p.name == name }
+        participant&.color || "##{SecureRandom.hex(3)}"
+      },
+    },
+  ],
+}.to_json
+
+  %>
+  <div class="container">
+    <h1 class="text-center mb-4">points over time</h1>
+              <div data-controller="chart"
+              data-chart-type-value="line"
+            data-chart-data-value="<%= {
+              labels: @chart_labels, # Use the pre-calculated labels
+              datasets: @participants.map do |participant|
+                participant_chart_data = @chart_cumulative_data[participant.name] || {}
+                {
+                  label: participant.name,
+                  # Map each label to the corresponding pre-calculated cumulative value
+                  data: @chart_labels.map { |label| participant_chart_data[label] || 0 },
+                  borderColor: participant.color || "##{SecureRandom.hex(3)}",
+                  # Use rgba for background fill with transparency
+                  backgroundColor: participant.color ? participant.color.gsub('rgb(', 'rgba(').gsub(')', ', 0.2)') : "rgba(#{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, 0.2)",
+                  tension: 0.1,
+                  # Optional: Make points less prominent if lines overlap
+                  pointRadius: 3,
+                  pointHoverRadius: 5
+                }
+              end
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              responsive: true,
+              maintainAspectRatio: false, # Often good for time-series
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Cumulative Points Over Time by Participant'
+                },
+                legend: {
+                  position: 'top', # Or 'bottom', etc.
+                },
+                tooltip: {
+                  mode: 'index', # Show tooltips for all datasets at that index
+                  intersect: false,
+                }
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Date'
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Cumulative Points'
+                  },
+                  beginAtZero: true # Start Y axis at 0
+                }
+              }
+            }.to_json %>">
+          </div>
+
+    <div class=" flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
+      <div >
+        <h3 class="text-center mb-4">tasks amount</h1>
+        <div data-controller="chart"
+               data-chart-type-value="doughnut"
+               data-chart-data-value="<%= chart_data_tasks_participants %>"
+               data-chart-options-value="<%= pi_chart_options %>">
         </div>
-        <div class="card-body">
+      </div>
+      <div >
+        <h3 class="text-center mb-4">points earned</h1>
+        <div data-controller="chart"
+               data-chart-type-value="doughnut"
+               data-chart-data-value="<%=chart_data_tasks_points %>"
+               data-chart-options-value="<%= pi_chart_options %>">
+        </div>
+      </div>
+    </div>
+    <h1 class="text-center mb-4">Points by Task</h1>
+    <div class=" flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
+      <%  @task_completion_by_action.each do |key,value| %>
+        <div >
+          <h3 class="text-center mb-4"><%= key %></h1>
           <div data-controller="chart"
+                  data-chart-type-value="doughnut"
+                  data-chart-data-value="<%= data_to_chart(value, @participants) %>"
+                  data-chart-options-value="<%= pi_chart_options %>">
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3>Most Popular Tasks</h3>
+          </div>
+          <div class="card-body">
+            <div data-controller="chart"
                data-chart-type-value="bar"
                data-chart-data-value="<%= {
                  labels: @task_popularity.keys.map { |title| title.truncate(20) },
@@ -105,28 +192,19 @@
                    backgroundColor: 'rgba(54, 162, 235, 0.7)'
                  }]
                }.to_json %>"
-               data-chart-options-value="<%= {
-                 responsive: true,
-                 plugins: {
-                   legend: { display: false },
-                   title: {
-                     display: true,
-                     text: 'Most Completed Tasks'
-                   }
-                 }
-               }.to_json %>">
-            <canvas data-chart-target="canvas" id="taskPopularityChart"></canvas>
+               data-chart-options-value="<%= bar_chart_options %>">
+              <canvas data-chart-target="canvas" id="taskPopularityChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h3>Daily Activity</h3>
-        </div>
-        <div class="card-body">
-          <div data-controller="chart"
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h3>Daily Activity</h3>
+          </div>
+          <div class="card-body">
+            <div data-controller="chart"
                data-chart-type-value="line"
                data-chart-data-value="<%= {
                  labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
@@ -147,58 +225,22 @@
                    }
                  }
                }.to_json %>">
-            <canvas data-chart-target="canvas" id="activityLineChart"></canvas>
+              <canvas data-chart-target="canvas" id="activityLineChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>Participant Activity Over Time</h3>
-        </div>
-        <div class="card-body">
-          <div data-controller="chart"
-               data-chart-type-value="line"
-               data-chart-data-value="<%= {
-                 labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
-                 datasets: @participants.map { |participant|
-                   {
-                     label: participant.name,
-                     data: @activity_over_time.keys.map { |date|
-                       @participant_activity[[participant.name, date]] || 0
-                     },
-                     borderColor: participant.color || "##{SecureRandom.hex(3)}",
-                     backgroundColor: (participant.color || "##{SecureRandom.hex(3)}").sub('rgb', 'rgba').sub(')', ', 0.2)'),
-                     tension: 0.1
-                   }
-                 }
-               }.to_json %>"
-               data-chart-options-value="<%= {
-                 responsive: true,
-                 plugins: {
-                   title: {
-                     display: true,
-                     text: 'Participant Activity Over Time'
-                   }
-                 }
-               }.to_json %>">
-            <canvas data-chart-target="canvas" id="participantActivityChart"></canvas>
+
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3>Points Earned by Day</h3>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <h3>Points Earned by Day</h3>
-        </div>
-        <div class="card-body">
-          <div data-controller="chart"
+          <div class="card-body">
+            <div data-controller="chart"
                data-chart-type-value="bar"
                data-chart-data-value="<%= {
                  labels: @points_by_day.keys.map { |date| date.strftime("%d %b") },
@@ -217,11 +259,10 @@
                    }
                  }
                }.to_json %>">
-            <canvas data-chart-target="canvas" id="pointsByDayChart"></canvas>
+              <canvas data-chart-target="canvas" id="pointsByDayChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<turbo-frame>
+    <turbo-frame>

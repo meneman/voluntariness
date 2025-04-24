@@ -11,12 +11,9 @@
   <div class="form-inputs space-y-4">
     <%= f.input :name, label: "Name", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block dark:text-gray-300" } %>
     <%= f.input :color, label: "Favorite Color", input_html: { type: 'color', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block dark:text-gray-300" } %>
-
-
     <div class="form-group">
       <%= f.label :avatar, "Avatar (Choose an emoji)", class: "block mb-2 dark:text-gray-300" %>
       <div class="flex flex-wrap">
- 
         <% emojis =        [
     "25FE",
     "2600",
@@ -688,7 +685,7 @@
 ] %>
         <%# emojis = ["\u00A9".force_encoding("utf-8")]%>
         <% emojis.each do |emoji| %>
-        <% unicode_emoji = emoji.to_i(16).chr(Encoding::UTF_8)%>
+          <% unicode_emoji = emoji.to_i(16).chr(Encoding::UTF_8)%>
           <div class="emoji-option">
             <%= f.radio_button :avatar, unicode_emoji, id: "participant_avatar_#{emoji}", class: "hidden" %>
             <%= f.label "avatar_#{emoji}", unicode_emoji, class: "cursor-pointer text-2xl p-2 border rounded block text-center dark:border-gray-600 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700" %>
@@ -696,7 +693,6 @@
         <% end %>
       </div>
     </div>
-    
     <style>
       .grid-cols-5 {
         grid-template-columns: repeat(4, 1fr);
@@ -706,7 +702,6 @@
         border-color: #3b82f6;
       }
     </style>
-    
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const emojiLabels = document.querySelectorAll('.emoji-option label');
