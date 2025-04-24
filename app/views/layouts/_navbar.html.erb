@@ -66,7 +66,6 @@
           -->
         </div>
       </div>
-
       <button type="button" 
       class="hidden   inline-flex items-center  <%= @theme == "dark" ? "hidden" : "" %>  gap-x-2 py-2 px-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20" 
        data-action="navbar#setDarkTheme"
@@ -93,9 +92,8 @@
         </svg>
         Light
       </button>
-
-
       <div class=" mx-4">
+        <%= link_to "Change Password", edit_user_registration_path, class: "text-white dark:text-slate-200 mr-4" %>
         <%= button_to "logout", destroy_user_session_path, method: :delete, class: "text-white dark:text-slate-200"  %>
       </div>
     </div>
@@ -115,6 +113,9 @@
                 class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
       <%= link_to t("participants"),
                 participants_path,
+                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
+      <%= link_to "Change Password",
+                edit_user_registration_path,
                 class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
     </div>
   </div>

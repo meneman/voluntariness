@@ -128,6 +128,7 @@ GEM
       activesupport (>= 6.1)
     groupdate (6.5.1)
       activesupport (>= 7)
+    htmlbeautifier (1.4.3)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -396,6 +397,7 @@ DEPENDENCIES
   devise (~> 4.9)
   font-awesome-rails
   groupdate
+  htmlbeautifier (~> 1.4)
   importmap-rails
   jbuilder
   kamal

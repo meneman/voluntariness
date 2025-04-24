@@ -29,3 +29,5 @@
 
 en:
   hello: "Hello world"
+  delete: "Delete"
+  confirm_delete_participant: "Are you sure you want to delete this participant? This will also delete all related activities and cannot be undone."

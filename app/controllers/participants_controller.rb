@@ -76,7 +76,10 @@ class ParticipantsController < ApplicationController
 
     def destroy
         @participant.destroy()
-        redirect_to :root
+        respond_to do |format|
+            format.html { redirect_to root_path, notice: "Participant was successfully deleted." }
+            format.turbo_stream { flash.now[:notice] = "Participant was successfully deleted." }
+        end
     end
 
     private

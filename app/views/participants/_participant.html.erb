@@ -10,15 +10,13 @@
     <div class="text-center pb-4 px-8   text-slate-800 dark:text-slate-200 flex justify-between">
       <%= link_to t("edit"), edit_participant_path(p), {class: "mx-2"} %>
       <%= button_to t("archive") ,archive_participant_path(p), {turbo_stream: true, class: "mx-2" }%>
+      <%= button_to t("delete"), participant_path(p), {method: :delete, 
+                                                    class: "mx-2 text-red-500", 
+                                                    data: {turbo_confirm: t("confirm_delete_participant")}} %>
     </div>
-    <%# render(partial: "points_and_streak", locals: {points: p.total_points, streak: p.streak  }) %>
-    
-  <div class="w-full bg-yellow-200 rounded-full dark:bg-gray-700 ">
-    <div class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap" style="width: <%= 100 * [(p.streak.to_f/5),1].min %>%"> <%= "#{p.streak} / 5" %></div>
-  </div>
-
-
-
+    <div class="w-full bg-yellow-200 rounded-full dark:bg-gray-700 ">
+      <div class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap" style="width: <%= 100 * [(p.streak.to_f/5),1].min %>%"> <%= "#{p.streak} / 5" %></div>
+    </div>
     <% if p.archived%>
       <div class="flex text-orange-700 font-sans font-bold">
         <h3 class="m-auto"> <%= t("archived") %></h3>

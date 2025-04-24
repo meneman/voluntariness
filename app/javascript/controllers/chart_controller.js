@@ -48,7 +48,11 @@ export default class extends Controller {
     // Get the canvas context
     const ctx = this.canvasTarget.getContext("2d");
 
-    // Create the new Chart.js instance
+ 
+    Chart.defaults.color = '#E0E0E0'; // Light gray for text (good contrast)
+    Chart.defaults.borderColor = '#64B5F6'; // Lighter, less saturated blue for borders/lines
+    Chart.defaults.backgroundColor = 'rgba(100, 181, 246, 0.5)'; // Semi-transparent version of the border color for fills
+
     this.chart = new Chart(ctx, {
       type: this.typeValue, // Use the type passed from the HTML
       data: this.dataValue, // Use the data object passed from the HTML

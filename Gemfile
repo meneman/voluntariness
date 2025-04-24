@@ -78,3 +78,5 @@ gem "groupdate"
 gem "font-awesome-rails"
 
 gem 'acts_as_list'
+
+gem "htmlbeautifier", "~> 1.4"
