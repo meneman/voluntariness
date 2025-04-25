@@ -11,6 +11,7 @@ export default class extends Controller {
   static values = {
     type: String, // e.g., 'line', 'bar', 'pie'
     data: Object, // The data structure for Chart.js { labels: [], datasets: [] }
+    height: Number,
     options: { type: Object, default: {} }, // Optional Chart.js options
   };
 
