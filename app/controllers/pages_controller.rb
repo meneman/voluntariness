@@ -108,7 +108,7 @@ class PagesController < ApplicationController
           ROWS UNBOUNDED PRECEDING
         ) AS cumulative_points
       SQL
-      
+
       # Note: ROWS UNBOUNDED PRECEDING is standard for running totals,
       # ensuring the sum includes all rows from the start of the partition
       # up to the current row for each participant.
@@ -181,8 +181,8 @@ class PagesController < ApplicationController
     # GET /user_settings
     # Displays the settings page for the current user.
     # Loads existing settings or builds a new settings object if none exist.
-    def user_settings
-      @settings = current_user.settings || current_user.build_settings
+    def settings
+      # @settings = current_user.settings ||
 
       respond_to do |format|
         format.html { }         # Renders views/pages/user_settings.html.erb

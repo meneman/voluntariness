@@ -1,129 +1,131 @@
 <turbo-frame id="content">
   <script>
     console.log('Inspecting @task_completion_by_participant:', <%= raw @cumulative_points_by_participant_day.to_json %>);
-      console.log('Inspecting @data:', <%= raw @task_completion_by_action.to_json %>);
+    console.log('Inspecting @data:', <%= raw @task_completion_by_action.to_json %>);
   </script>
-  <%
-pi_chart_options = {
-  responsive: true,
-  plugins: {
-    legend: { position: 'bottom' },
-  },
-  title: {
-    display: true,
-    text: 'Completed Tasks Distribution',
-  },
-  scales: {
-    x: {
-      color: "whitesmoke",
-      grid: {
-        color: "whitesmoke",
+  <% 
+    # Behalte die bestehenden Chart-Optionen und Daten-Definitionen bei
+    pi_chart_options = {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
       },
-      ticks: { color: "whitesmoke" },
-    },
-    y: {
-      color: "whitesmoke",
-      grid: {
-        color: "whitesmoke",
+      title: {
+        display: true,
+        text: 'Completed Tasks Distribution',
       },
-      ticks: { color: "whitesmoke" },
-    },
-  },
-}.to_json
-
-bar_chart_options = {
-                 indexAxis: 'y',
-                 responsive: true,
-                 plugins: {
-                   legend: { display: false },
-                   title: {
-                     display: true,
-                     text: 'Total Points by Participant'
-                   }
-                 }
-               }.to_json
-
-chart_data_tasks_participants =   {
-  labels: @task_completion_by_participant.keys,
-  datasets: [
-    {
-      label: 'number of tasks done',
-      data: @task_completion_by_participant.values,
-      backgroundColor: @task_completion_by_participant.keys.map { |name|
-        participant = @participants.find { |p| p.name == name }
-        participant&.color || "##{SecureRandom.hex(3)}"
-      },
-    },
-  ],
-}.to_json
-
-def data_to_chart(data, participants)
-  {
-    labels: data.keys,
-    datasets: [
-      {
-        label: 'number of tasks done',
-        data: data.values,
-        backgroundColor: data.keys.map { |name|
-          participant = participants.find { |p| p.name == name }
-          participant&.color || "##{SecureRandom.hex(3)}"
+      scales: {
+        x: {
+          color: "whitesmoke",
+          grid: {
+            color: "whitesmoke",
+          },
+          ticks: { color: "whitesmoke" },
+        },
+        y: {
+          color: "whitesmoke",
+          grid: {
+            color: "whitesmoke",
+          },
+          ticks: { color: "whitesmoke" },
         },
       },
-    ],
-  }.to_json
-end
+    }.to_json
 
-chart_data_tasks_points = {
-  labels: @points_by_participant.keys,
-  datasets: [
-    {
-      label: 'Points Earned',
-      data: @points_by_participant.values,
-      backgroundColor: @points_by_participant.keys.map { |name|
-        participant = @participants.find { |p| p.name == name }
-        participant&.color || "##{SecureRandom.hex(3)}"
-      },
-    },
-  ],
-}.to_json
+    bar_chart_options = {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Total Points by Participant'
+        }
+      }
+    }.to_json
 
+    chart_data_tasks_participants = {
+      labels: @task_completion_by_participant.keys,
+      datasets: [
+        {
+          label: 'number of tasks done',
+          data: @task_completion_by_participant.values,
+          backgroundColor: @task_completion_by_participant.keys.map { |name|
+            participant = @participants.find { |p| p.name == name }
+            participant&.color || "##{SecureRandom.hex(3)}"
+          },
+        },
+      ],
+    }.to_json
+
+    def data_to_chart(data, participants)
+      {
+        labels: data.keys,
+        datasets: [
+          {
+            label: 'number of tasks done',
+            data: data.values,
+            backgroundColor: data.keys.map { |name|
+              participant = participants.find { |p| p.name == name }
+              participant&.color || "##{SecureRandom.hex(3)}"
+            },
+          },
+        ],
+      }.to_json
+    end
+
+    chart_data_tasks_points = {
+      labels: @points_by_participant.keys,
+      datasets: [
+        {
+          label: 'Points Earned',
+          data: @points_by_participant.values,
+          backgroundColor: @points_by_participant.keys.map { |name|
+            participant = @participants.find { |p| p.name == name }
+            participant&.color || "##{SecureRandom.hex(3)}"
+          },
+        },
+      ],
+    }.to_json
   %>
-  <div class="container">
-    <div class="flex" >
-      <div class="flex-1" >
-        <div data-controller="chart"
-            data-chart-type-value="line"
-            data-chart-height-value="400"
+
+  <!-- Neu gestaltetes Layout mit besserer Tailwind-Struktur -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Hauptüberschrift -->
+    <h1 class="text-3xl font-bold text-center mb-10 text-slate-800 dark:text-white">Team Performance Dashboard</h1>
+    
+    <!-- Performance über Zeit (Hauptchart) -->
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Performance Over Time</h2>
+      <div data-controller="chart"
+          data-chart-type-value="line"
+          data-chart-height-value="400"
           data-chart-data-value="<%= {
-            labels: @chart_labels, # Use the pre-calculated labels
+            labels: @chart_labels,
             datasets: @participants.map do |participant|
               participant_chart_data = @chart_cumulative_data[participant.name] || {}
               {
                 label: participant.name,
-                # Map each label to the corresponding pre-calculated cumulative value
                 data: @chart_labels.map { |label| participant_chart_data[label] || 0 },
                 borderColor: participant.color || "##{SecureRandom.hex(3)}",
-                # Use rgba for background fill with transparency
                 backgroundColor: participant.color ? participant.color.gsub('rgb(', 'rgba(').gsub(')', ', 0.2)') : "rgba(#{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, 0.2)",
                 tension: 0.1,
-                # Optional: Make points less prominent if lines overlap
                 pointRadius: 3,
                 pointHoverRadius: 5
               }
             end
           }.to_json %>"
           data-chart-options-value="<%= {
-
             plugins: {
               title: {
                 display: true,
                 text: 'Performance over time'
               },
               legend: {
-                position: 'top', # Or 'bottom', etc.
+                position: 'top',
               },
               tooltip: {
-                mode: 'index', # Show tooltips for all datasets at that index
+                mode: 'index',
                 intersect: false,
               }
             },
@@ -140,100 +142,124 @@ chart_data_tasks_points = {
                   text: 'Cumulative Points'
                 },
                 ticks: {
-                  stepSize: 1,  # This ensures whole number increments
-                  precision: 0  # This ensures no decimal places
+                  stepSize: 1,
+                  precision: 0
                 },
-                beginAtZero: true # Start Y axis at 0
+                beginAtZero: true
               },
-
             }
           }.to_json %>">
+      </div>
+    </div>
+
+    <!-- Teilnehmer-Übersicht (Donut-Charts) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Points Distribution</h2>
+        <div data-controller="chart"
+            data-chart-type-value="doughnut"
+            data-chart-data-value="<%= chart_data_tasks_points %>"
+            data-chart-options-value="<%= pi_chart_options %>">
+        </div>
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Tasks Completed</h2>
+        <div data-controller="chart"
+            data-chart-type-value="doughnut"
+            data-chart-data-value="<%= chart_data_tasks_participants %>"
+            data-chart-options-value="<%= pi_chart_options %>">
         </div>
       </div>
     </div>
-    <div class="justify-center flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
-      <div >
-        <h3 class="text-center mb-4">task points</h1>
-        <div data-controller="chart"
-              data-chart-type-value="doughnut"
-              data-chart-data-value="<%=chart_data_tasks_points %>"
-              data-chart-options-value="<%= pi_chart_options %>">
-        </div>
-      </div>
-      <div >
-        <h3 class="text-center mb-4">tasks count</h1>
-        <div data-controller="chart"
-              data-chart-type-value="doughnut"
-              data-chart-data-value="<%= chart_data_tasks_participants %>"
-              data-chart-options-value="<%= pi_chart_options %>">
-        </div>
-      </div>
-    </div>
-    <div class="justify-center flex flex-wrap gap-4 shadow-l text-slate-800 dark:text-slate-200">
-      <%  @task_completion_by_action.each do |key,value| %>
-        <div >
-          <h3 class="text-center mb-4"><%= key %></h1>
-          <div data-controller="chart"
+
+    <!-- Aktionsbasierte Charts -->
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-6 text-slate-700 dark:text-slate-200">Task Completion by Action Type</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% @task_completion_by_action.each do |key, value| %>
+          <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="text-lg font-medium mb-3 text-center text-slate-700 dark:text-slate-200"><%= key %></h3>
+            <div data-controller="chart"
                 data-chart-type-value="doughnut"
                 data-chart-data-value="<%= data_to_chart(value, @participants) %>"
                 data-chart-options-value="<%= pi_chart_options %>">
+            </div>
           </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Aktivitäts- und Aufgabenanalyse -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <!-- Beliebteste Aufgaben -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Most Popular Tasks</h2>
+        <div data-controller="chart"
+            data-chart-type-value="bar"
+            data-chart-data-value="<%= {
+              labels: @task_popularity.keys.map { |title| title.truncate(20) },
+              datasets: [{
+                label: 'Times Completed',
+                data: @task_popularity.values,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)'
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= bar_chart_options %>">
         </div>
-      <% end %>
-    </div>
-    <div data-controller="chart"
-              data-chart-type-value="bar"
-              data-chart-data-value="<%= {
-                labels: @task_popularity.keys.map { |title| title.truncate(20) },
-                datasets: [{
-                  label: 'Times Completed',
-                  data: @task_popularity.values,
-                  backgroundColor: 'rgba(54, 162, 235, 0.7)'
-                }]
-              }.to_json %>"
-              data-chart-options-value="<%= bar_chart_options %>">
-    </div>
-    <div data-controller="chart"
-              data-chart-type-value="line"
-              data-chart-data-value="<%= {
-                labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
-                datasets: [{
-                  label: 'Tasks Completed',
-                  data: @activity_over_time.values,
-                  borderColor: 'rgba(75, 192, 192, 1)',
-                  tension: 0.1,
-                  fill: false
-                }]
-              }.to_json %>"
-              data-chart-options-value="<%= {
-                responsive: true,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: 'Daily Activity (Last 30 days)'
-                  }
+      </div>
+
+      <!-- Aktivität über Zeit -->
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Activity Trends</h2>
+        <div data-controller="chart"
+            data-chart-type-value="line"
+            data-chart-data-value="<%= {
+              labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
+              datasets: [{
+                label: 'Tasks Completed',
+                data: @activity_over_time.values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1,
+                fill: false
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Daily Activity (Last 30 days)'
                 }
-              }.to_json %>">
+              }
+            }.to_json %>">
+        </div>
+      </div>
     </div>
-    <div data-controller="chart"
-              data-chart-type-value="bar"
-              data-chart-data-value="<%= {
-                labels: @points_by_day.keys.map { |date| date.strftime("%d %b") },
-                datasets: [{
-                  label: 'Points Earned',
-                  data: @points_by_day.values,
-                  backgroundColor: 'rgba(153, 102, 255, 0.7)'
-                }]
-              }.to_json %>"
-              data-chart-options-value="<%= {
-                responsive: true,
-                plugins: {
-                  title: {
-                    display: true,
-                    text: 'Points Earned by Day'
-                  }
-                }
-              }.to_json %>">
+
+    <!-- Punkte pro Tag -->
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+      <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Daily Points Earned</h2>
+      <div data-controller="chart"
+          data-chart-type-value="bar"
+          data-chart-data-value="<%= {
+            labels: @points_by_day.keys.map { |date| date.strftime("%d %b") },
+            datasets: [{
+              label: 'Points Earned',
+              data: @points_by_day.values,
+              backgroundColor: 'rgba(153, 102, 255, 0.7)'
+            }]
+          }.to_json %>"
+          data-chart-options-value="<%= {
+            responsive: true,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Points Earned by Day'
+              }
+            }
+          }.to_json %>">
+      </div>
     </div>
   </div>
 </turbo-frame>

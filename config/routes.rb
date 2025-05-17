@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users, skip: [ :registrations ]
+  devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  get "password/edit", to: "passwords#edit", as: "edit_password"
+  patch "password/update", to: "passwords#update", as: "update_password"
   # Enable just the routes needed for password change
-  as :user do
-    get "users/edit", to: "devise/registrations#edit", as: "edit_user_registration"
-    put "users", to: "devise/registrations#update", as: "user_registration"
-  end
+  # as :user do
+  #   get "users/edit", to: "devise/registrations#edit", as: "edit_user_registration"
+  #   put "users", to: "devise/registrations#update", as: "user_registration"
+  # end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
   post :action, to: "action#create", defaults: { format: :turbo_stream }
   # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}
 
-  get "user_settings", to: "pages#user_settings", as: :user_settings
+  get "settings", to: "pages#settings", as: :settings
 
   post "toggle_theme", to: "application#toggle_theme"
   # Defines the root path route ("/")

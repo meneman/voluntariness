@@ -8,7 +8,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
   devise :database_authenticatable,
-  :recoverable, :rememberable, :validatable
+  :recoverable, :rememberable, :validatable, :registerable
   def remember_me
     true
   end
