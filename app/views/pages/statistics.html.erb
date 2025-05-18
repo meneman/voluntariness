@@ -116,6 +116,8 @@
             end
           }.to_json %>"
           data-chart-options-value="<%= {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               title: {
                 display: true,
@@ -143,7 +145,8 @@
                 },
                 ticks: {
                   stepSize: 1,
-                  precision: 0
+                  precision: 1,
+
                 },
                 beginAtZero: true
               },
@@ -197,6 +200,7 @@
         <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Most Popular Tasks</h2>
         <div data-controller="chart"
             data-chart-type-value="bar"
+            data-chart-height-value="400"
             data-chart-data-value="<%= {
               labels: @task_popularity.keys.map { |title| title.truncate(20) },
               datasets: [{

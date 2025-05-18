@@ -15,22 +15,21 @@ export default class extends Controller {
     options: { type: Object, default: {} }, // Optional Chart.js options
   };
 
-  // Property to hold the Chart.js instance
-  chart = null;
 
   initialize() {
+    this.chart = null
     const newCanvas = document.createElement('canvas');
     const randomId = `canvas-${crypto.randomUUID()}`;
     newCanvas.id = randomId; 
+    newCanvas.style.height = `${this.heightValue}px`; // Set CSS height 
+    newCanvas.height = this.heightValue; // Set canvas height property (needs to be a number)
+
     this.element.appendChild(newCanvas);
     this.canvasContext =  newCanvas.getContext('2d');
   }
 
   connect() {
-    console.log("Chart controller connected");
-    console.log("Chart Type:", this.typeValue);
-    console.log("Chart Data:", this.dataValue);
-    console.log("Chart Options:", this.optionsValue);
+
 
     // Ensure we have the canvas target and data before proceeding
     if ( !this.dataValue || !this.typeValue) {
@@ -54,10 +53,7 @@ export default class extends Controller {
   }
 
   renderChart() {
-    // Get the canvas context
 
-
- 
     Chart.defaults.color = '#E0E0E0'; // Light gray for text (good contrast)
     Chart.defaults.borderColor = '#64B5F6'; // Lighter, less saturated blue for borders/lines
     Chart.defaults.backgroundColor = 'rgba(100, 181, 246, 0.5)'; // Semi-transparent version of the border color for fills
@@ -67,24 +63,26 @@ export default class extends Controller {
       data: this.dataValue, // Use the data object passed from the HTML
       options: this.optionsValue, // Use the options passed from the HTML
     });
+    console.log(this.chart)
   }
 
-  // Optional: If data/options values change, re-render the chart
-  dataValueChanged() {
-    this.updateChart();
-  }
+  // // Optional: If data/options values change, re-render the chart
+  // dataValueChanged() {
+  //   this.updateChart();
+  // }
 
-  optionsValueChanged() {
-    this.updateChart();
-  }
+  // optionsValueChanged() {
+  //   this.updateChart();
+  // }
 
-  typeValueChanged() {
-    // Changing type usually requires destroying and re-creating
-    this.disconnect(); // Destroy existing chart
-    this.renderChart(); // Render new one
-  }
+  // typeValueChanged() {
+  //   // Changing type usually requires destroying and re-creating
+  //   this.disconnect(); // Destroy existing chart
+  //   this.renderChart(); // Render new one
+  // }
 
   updateChart() {
+
     if (!this.chart) {
       this.renderChart(); // Render if it doesn't exist yet
       return;
