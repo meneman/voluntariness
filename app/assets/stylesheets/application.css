@@ -88,7 +88,7 @@
   .home .edit-button,
   .home .archive-button {
     visibility: hidden;
-    visibility: unset;
+
   }
   .home.edit-mode .edit-button,
   .home.edit-mode .archive-button {

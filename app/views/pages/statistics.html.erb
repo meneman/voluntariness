@@ -89,13 +89,11 @@
     }.to_json
   %>
 
-  <!-- Neu gestaltetes Layout mit besserer Tailwind-Struktur -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Hauptüberschrift -->
+
+
     <h1 class="text-3xl font-bold text-center mb-10 text-slate-800 dark:text-white">Team Performance Dashboard</h1>
-    
-    <!-- Performance über Zeit (Hauptchart) -->
-    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 mb-8">
+
+
       <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Performance Over Time</h2>
       <div data-controller="chart"
           data-chart-type-value="line"
@@ -153,7 +151,6 @@
             }
           }.to_json %>">
       </div>
-    </div>
 
     <!-- Teilnehmer-Übersicht (Donut-Charts) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
@@ -265,5 +262,5 @@
           }.to_json %>">
       </div>
     </div>
-  </div>
+
 </turbo-frame>
