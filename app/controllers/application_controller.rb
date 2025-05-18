@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
 
   def toggle_theme
     cookies[:theme] = params[:theme]
+    @theme = cookies[:theme]
   end
 
   def after_sign_in_path_for(resource)
