@@ -5,8 +5,8 @@ export default class extends Controller {
     count: { type: Number, default: 10 },
     colors: { type: Array, default: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"] },
     duration: { type: Number, default: 3000 },
-    gravity: { type: Number, default: 4 },
-    initialSpeed: { type: Number, default: 3 }
+    gravity: { type: Number, default: 8 },
+    initialSpeed: { type: Number, default: 2 }
   }
   
   connect() {
@@ -80,8 +80,8 @@ export default class extends Controller {
     const particle = document.createElement('div')
     
     // Random properties for stripe-like confetti
-    const width = Math.floor(Math.random() * 5) + 3 // 3-8px
-    const height = Math.floor(Math.random() * 15) + 10 // 10-25px
+    const width = Math.floor(Math.random() * 7) + 6 // 3-8px
+    const height = width 
     const colorIndex = Math.floor(Math.random() * this.colorsValue.length)
     const rotationSpeed = (Math.random() - 0.5) * 1
     
@@ -91,9 +91,9 @@ export default class extends Controller {
     // Set particle styles for stripe appearance
     particle.style.position = 'fixed'
     particle.style.width = `${width}px`
-    particle.style.height = `${height}px`
+    particle.style.height = `${width}px`
     particle.style.backgroundColor = this.colorsValue[colorIndex]
-    particle.style.borderRadius = '2px' // Slightly rounded edges for stripes
+    particle.style.borderRadius = '50%' // Slightly rounded edges for stripes
     particle.style.left = `${x}px`
     particle.style.top = `${y}px`
     particle.style.pointerEvents = 'none'
@@ -128,7 +128,7 @@ export default class extends Controller {
       const gravityEffect = this.gravityValue * Math.pow(timeElapsed / 1000, 1.5)
       
       // Add slight air resistance/drag
-      currentVx *= 0.99
+      currentVx *= 0.89
       
       posX += currentVx
       posY += currentVy + gravityEffect
