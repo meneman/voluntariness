@@ -28,6 +28,27 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
-  delete: "Delete"
-  confirm_delete_participant: "Are you sure you want to delete this participant? This will also delete all related activities and cannot be undone."
+  addTask: "add task"
+  interval: "Interval"
+  worth: "Wert"
+  confirmMessage: "Are you sure?"
+  delete: "delete"
+  archived: "archived"
+  edit: "edit"
+  archive: "archive"
+  home: "Home"
+  history: "History"
+  statisitics: "Statistics"
+  participants: "Participants"
+  cancel: "cancel"
+  overdue_in: "overdue in %{days} days"
+  overdue_since: "overdue since %{days} days"
+  overdue_today: "due today"
+  on_demand: "on demand"
+  invite_needed: "Currently, you need an invitation to use this site."
+  add_participant: "add participant"
+  edit_mode: "edit mode"
+
+
+
+
