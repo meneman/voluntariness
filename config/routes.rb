@@ -46,6 +46,10 @@ Rails.application.routes.draw do
 
   get "settings", to: "pages#settings", as: :settings
 
+  post "/settings/toggle_streak_boni_path", to: "settings#toggle_streak_boni", as: :toggle_streak_boni
+  post "/settings/toggle_overdue_bonus", to: "settings#toggle_overdue_bonus", as: :toggle_overdue_bonus
+
+  post "/settings/update_streak_bonus_days_trashhold", to: "settings#update_streak_bonus_days_trashhold", as: :update_streak_bonus_days_trashhold
   post "toggle_theme", to: "application#toggle_theme"
   # Defines the root path route ("/")
   root "pages#home"

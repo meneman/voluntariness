@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "toggle_overdue_bonus" do %>
+  <%= render 'settings/overdue_bonus', streak_enabled: current_user.overdue_bonus_enabled? %>
+<% end %>

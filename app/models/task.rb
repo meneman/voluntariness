@@ -3,12 +3,12 @@ class Task < ApplicationRecord
     has_many :actions
     validates :title, presence: true
     validates :worth, presence: true
-    acts_as_list 
+    acts_as_list
 
-    scope :active, -> { where( "archived = false") }
+    scope :active, -> { where("archived = false") }
     scope :ordered, -> { order(position: :asc) }
 
-    
+
     def done_today
         if actions.last
             actions.last.created_at.to_date == Date.today
@@ -23,11 +23,9 @@ class Task < ApplicationRecord
         if actions.last
          overdue_on = actions.last.created_at.to_date + self.interval
         else
-         overdue_on = self.created_at 
+         overdue_on = self.created_at
         end
-        today = Time.now 
+        today = Time.now
         (overdue_on.to_date - today.to_date).to_i
     end
-
 end
-

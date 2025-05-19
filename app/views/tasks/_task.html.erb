@@ -1,5 +1,5 @@
 <%= turbo_frame_tag task,  data: {sortable_update_url: task_path(task), home_target: "task" } do  %>
-  <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg"  >
+  <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg"  data-controller="particle" >
     <div class="sortable-handle"></div>
     <p class="task-title text-slate-900 dark:text-slate-200 mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
     <div class="task-content flex overflow-hidden text-slate-900  mt-2 text-sm  dark:text-slate-200"  >
@@ -13,8 +13,8 @@
         <% next if participant.archived  %>
         <%= button_to "#{participant.name} ✓",
            { controller: "actions", action:"create" , method:"post",
-            data: {task_id: task, participant_id: participant } },
-             { "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"participant-button has-participant-color-badge bg-blue-500 dark:bg-blue-800 hover:bg-blue-300 text-slate-900  dark:text-slate-200 p-2 text-small rounded shadow"} %>
+            data: {task_id: task, participant_id: participant,   } },
+             { "data-action":"click->particle#spawn", "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"participant-button has-participant-color-badge bg-blue-500 dark:bg-blue-800 hover:bg-blue-300 text-slate-900  dark:text-slate-200 p-2 text-small rounded shadow"} %>
       <%end%>
     </div>
   </div>
