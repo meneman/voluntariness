@@ -11,12 +11,16 @@ class Participant < ApplicationRecord
     end
 
     def total_points
-     # actions.sum {|a| a[:on_streak] ? a.task[:worth] + 1 : a.task[:worth]  }
-     actions.sum { |a|  a.task[:worth]  }
+        if self.user.streak_boni_enabled?
+             actions.sum { |a| a[:on_streak] ? a.task[:worth] + 1 : a.task[:worth]  }
+        else
+            actions.sum { |a|  a.task[:worth]  }
+        end
     end
 
 
     def streak
+        return -1 unless self.user.streak_boni_enabled?
         days_with_action = actions.last_five_days.reverse.map { |action| action.created_at.to_date }.uniq
         current_day = Time.now.to_date
         streak_count = 0
@@ -33,7 +37,6 @@ class Participant < ApplicationRecord
 
 
     def on_streak
-        # TODO user options to set streak count and disable streak featrue
-        streak > 4 # returns true if the streak count is more than 1 day
+        streak > self.user.streak_boni_days_trashhold # returns true if the streak count is more than the set trashhold
     end
 end

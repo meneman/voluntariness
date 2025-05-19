@@ -23,7 +23,7 @@ class SettingsController < ApplicationController
     days_trashhold = params[:days_trashhold].to_i
 
     # Ensure the threshold is at least 1 day
-    days_trashhold = [ 1, days_trashhold ].max
+    days_trashhold = [ 2, days_trashhold ].max
 
     # Update the threshold in your settings model/table
     # This will depend on how you're storing settings, but could be something like:

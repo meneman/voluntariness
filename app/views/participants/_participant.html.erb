@@ -15,7 +15,13 @@
                                                     data: {turbo_confirm: t("confirm_delete_participant")}} %>
     </div>
     <div class="w-full bg-yellow-200 rounded-full dark:bg-gray-700 ">
-      <div class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap" style="width: <%= 100 * [(p.streak.to_f/5),1].min %>%"> <%= "#{p.streak} / 5" %></div>
+      <% if current_user.streak_boni_enabled? %>
+        <div 
+        class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap"
+        style="width: <%= 100 * [(p.streak.to_f/current_user.streak_boni_days_trashhold),1].min %>%">
+          <%= "#{p.streak} / #{current_user.streak_boni_days_trashhold}" %>
+        </div>
+      <% end %>
     </div>
     <% if p.archived%>
       <div class="flex text-orange-700 font-sans font-bold">
