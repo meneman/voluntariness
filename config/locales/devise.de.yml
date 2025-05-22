@@ -1,0 +1,147 @@
+de:
+  activerecord:
+    attributes:
+      user:
+        confirmation_sent_at: Bestätigung gesendet am
+        confirmation_token: Bestätigungs-Token
+        confirmed_at: Bestätigt am
+        created_at: Erstellt am
+        current_password: Bisheriges Passwort
+        current_sign_in_at: Aktuelle Anmeldung am
+        current_sign_in_ip: IP der aktuellen Anmeldung
+        email: E-Mail
+        encrypted_password: Verschlüsseltes Passwort
+        failed_attempts: Fehlversuche
+        last_sign_in_at: Letzte Anmeldung am
+        last_sign_in_ip: IP der letzten Anmeldung
+        locked_at: Gesperrt am
+        password: Passwort
+        password_confirmation: Passwortbestätigung
+        remember_created_at: '"Angemeldet bleiben" erstellt am'
+        remember_me: Angemeldet bleiben
+        reset_password_sent_at: E-Mail zum Zurücksetzen des Passworts gesendet am
+        reset_password_token: Token zum Zurücksetzen des Passworts
+        sign_in_count: Anzahl der Anmeldungen
+        unconfirmed_email: Unbestätigte E-Mail-Adresse
+        unlock_token: Entsperrungs-Token
+        updated_at: Aktualisiert am
+    models:
+      user:
+        one: Benutzer
+        other: Benutzer
+  devise:
+    confirmations:
+      confirmed: Deine E-Mail-Adresse wurde erfolgreich bestätigt.
+      new:
+        resend_confirmation_instructions: Bestätigungsanleitung erneut senden
+      send_instructions: In wenigen Minuten erhältst du eine E-Mail zur Bestätigung deiner Registrierung.
+      send_paranoid_instructions: "Falls deine E-Mail-Adresse in unserer Datenbank existiert, erhältst du in wenigen Minuten eine E-Mail zur Bestätigung deiner Registrierung."
+    failure:
+      already_authenticated: Du bist bereits angemeldet.
+      inactive: Dein Konto ist noch nicht aktiv.
+      invalid: "%{authentication_keys} oder Passwort ist ungültig."
+      last_attempt: "Du hast noch einen Versuch, bevor dein Konto gesperrt wird."
+      locked: Dein Konto ist gesperrt.
+      not_found_in_database: "%{authentication_keys} oder Passwort ist ungültig."
+      timeout: Deine Sitzung ist abgelaufen. Bitte melde dich erneut an.
+      unauthenticated: "Du musst dich anmelden oder registrieren, um fortzufahren."
+      unconfirmed: "Du musst dein Konto bestätigen, bevor du fortfahren kannst."
+    mailer:
+      confirmation_instructions:
+        action: Mein Konto bestätigen
+        greeting: "Willkommen %{recipient}!"
+        instruction: "Klicke auf den folgenden Link, um dein Konto zu bestätigen:"
+        subject: Anleitung zur Konto-Bestätigung
+      email_changed:
+        greeting: "Hallo %{recipient}!"
+        message: "Wir möchten dich informieren, dass deine E-Mail-Adresse zu %{email} geändert wurde."
+        message_unconfirmed: "Wir möchten dich informieren, dass deine E-Mail-Adresse zu %{email} geändert wird."
+        subject: E-Mail-Adresse geändert
+      password_change:
+        greeting: "Hallo %{recipient}!"
+        message: "Wir möchten dich darüber informieren, dass dein Passwort geändert wurde."
+        subject: Passwortänderung
+      reset_password_instructions:
+        action: Passwort ändern
+        greeting: "Hallo %{recipient}!"
+        instruction: "Jemand hat einen Link zum Ändern deines Passworts angefordert. Klicke auf den folgenden Link, um dein Passwort zu ändern."
+        instruction_2: "Ignoriere diese E-Mail, wenn du kein neues Passwort angefordert hast."
+        instruction_3: "Dein Passwort wird erst geändert, wenn du den obigen Link nutzt und ein neues Passwort festlegst."
+        subject: Anweisungen zum Zurücksetzen deines Passworts
+      unlock_instructions:
+        action: Mein Konto entsperren
+        greeting: "Hallo %{recipient}!"
+        instruction: "Klicke auf den folgenden Link, um dein Konto zu entsperren:"
+        message: Aufgrund zahlreicher fehlgeschlagener Anmeldeversuche wurde dein Konto gesperrt.
+        subject: Anweisungen zur Entsperrung deines Kontos
+    omniauth_callbacks:
+      failure: 'Die Anmeldung mit deinem %{kind}-Konto war aufgrund des folgenden Grundes nicht möglich: "%{reason}".'
+      success: "Du hast dich erfolgreich über dein %{kind}-Konto angemeldet."
+    passwords:
+      edit:
+        change_my_password: Mein Passwort ändern
+        change_your_password: Dein Passwort ändern
+        confirm_new_password: Neues Passwort bestätigen
+        new_password: Neues Passwort
+      new:
+        forgot_your_password: "Hast du dein Passwort vergessen?"
+        send_me_reset_password_instructions: Anweisungen zum Zurücksetzen meines Passworts senden
+      no_token: "Du kannst diese Seite nicht nutzen, es sei denn, du kommst von einer Passwort-Zurücksetzen-E-Mail. Wenn dies der Fall ist, stelle sicher, dass du die vollständige URL verwendet hast."
+      send_instructions: Du erhältst in Kürze eine E-Mail mit Anweisungen zum Zurücksetzen deines Passworts.
+      send_paranoid_instructions: "Wenn deine E-Mail-Adresse in unserer Datenbank existiert, erhältst du in Kürze eine E-Mail mit Anweisungen zum Zurücksetzen deines Passworts."
+      updated: Dein Passwort wurde geändert. Du bist jetzt angemeldet.
+      updated_not_active: Dein Passwort wurde erfolgreich geändert.
+    registrations:
+      destroyed: "Dein Konto wurde gelöscht. Wir hoffen, dich bald wiederzusehen."
+      edit:
+        are_you_sure: "Bist du sicher, dass du das tun möchtest?"
+        cancel_my_account: Konto löschen
+        currently_waiting_confirmation_for_email: "Bestätigung für %{email} ausstehend."
+        leave_blank_if_you_don_t_want_to_change_it: "Leer lassen, wenn du es unverändert lassen möchtest."
+        title: "%{resource} bearbeiten"
+        unhappy: "Nicht zufrieden?"
+        update: Änderungen speichern
+        we_need_your_current_password_to_confirm_your_changes: Zur Bestätigung gib bitte dein aktuelles Passwort ein.
+      new:
+        sign_up: Registrieren
+      signed_up: Du hast dich erfolgreich registriert.
+      signed_up_but_inactive: "Deine Registrierung war erfolgreich, dein Konto ist jedoch noch nicht aktiviert."
+      signed_up_but_locked: "Deine Registierung war erfolgreich, dein Konto ist jedoch gesperrt."
+      signed_up_but_unconfirmed: "Du erhältst in Kürze eine Bestätigungs-E-Mail. Bitte klicke auf den darin enthaltenen Link, um dein Konto zu aktivieren."
+      update_needs_confirmation: "Du hast deine Daten aktualisiert. Eine Bestätigungs-E-Mail wird dir zugesandt. Bitte klicke auf den Link in der E-Mail, um deine Änderungen zu bestätigen."
+      updated: Deine Einstellungen wurden aktualisiert.
+      updated_but_not_signed_in: "Du hast deine Daten aktualisiert, aber du musst dich wegen einer Passwortänderung erneut anmelden."
+    sessions:
+      already_signed_out: Du bist bereits abgemeldet.
+      new:
+        sign_in: Anmelden
+      signed_in: Du bist nun angemeldet.
+      signed_out: Du hast dich erfolgreich abgemeldet.
+    shared:
+      links:
+        back: Zurück
+        didn_t_receive_confirmation_instructions: "Keine Bestätigungs-E-Mail erhalten?"
+        didn_t_receive_unlock_instructions: "Keine Anweisungen zum Entsperren erhalten?"
+        forgot_your_password: "Passwort vergessen?"
+        sign_in: Anmelden
+        sign_in_with_provider: "Mit %{provider} anmelden"
+        sign_up: Registrieren
+      minimum_password_length:
+        one: "(mindestens %{count} Zeichen)"
+        other: "(mindestens %{count} Zeichen)"
+    unlocks:
+      new:
+        resend_unlock_instructions: Anweisungen zum Entsperren erneut senden
+      send_instructions: "Du erhältst in Kürze eine E-Mail mit Anweisungen, wie du dein Konto entsperren kannst."
+      send_paranoid_instructions: "Wenn deine E-Mail-Adresse in unserer Datenbank verzeichnet ist, erhältst du Anweisungen zur Entsperrung deines Kontos."
+      unlocked: Dein Konto wurde entsperrt. Bitte melde dich jetzt an.
+  errors:
+    messages:
+      already_confirmed: "Bereits bestätigt. Versuche, dich anzumelden."
+      confirmation_period_expired: "Die Bestätigungsfrist von %{period} ist abgelaufen. Bitte erneut anfordern."
+      expired: Der Link ist abgelaufen. Bitte erneut anfordern.
+      not_found: Nicht gefunden.
+      not_locked: Nicht gesperrt.
+      not_saved:
+        one: "%{resource} konnte wegen eines Fehlers nicht gespeichert werden:"
+        other: "%{count} Fehler verhinderten das Speichern von %{resource}:"
