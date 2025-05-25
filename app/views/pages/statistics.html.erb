@@ -162,15 +162,23 @@
             data-chart-options-value="<%= pi_chart_options %>">
         </div>
       </div>
-      
-      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Tasks Completed</h2>
+              <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Most Popular Tasks</h2>
         <div data-controller="chart"
             data-chart-type-value="doughnut"
-            data-chart-data-value="<%= chart_data_tasks_participants %>"
+            data-chart-height-value="400"
+            data-chart-data-value="<%= {
+              labels: @task_popularity.keys.map { |title| title.truncate(20) },
+              datasets: [{
+                label: 'Times Completed',
+                data: @task_popularity.values,
+              
+              }]
+            }.to_json %>"
             data-chart-options-value="<%= pi_chart_options %>">
         </div>
       </div>
+
     </div>
 
     <!-- Aktionsbasierte Charts -->
@@ -194,7 +202,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
       <!-- Beliebteste Aufgaben -->
       <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Most Popular Tasks</h2>
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Tasks</h2>
         <div data-controller="chart"
             data-chart-type-value="bar"
             data-chart-height-value="400"
@@ -207,35 +215,25 @@
               }]
             }.to_json %>"
             data-chart-options-value="<%= bar_chart_options %>">
+        </div>      
+        <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Most Popular Tasks</h2>
+        <div data-controller="chart"
+            data-chart-type-value="doughnut"
+            data-chart-height-value="400"
+            data-chart-data-value="<%= {
+              labels: @task_popularity.keys.map { |title| title.truncate(20) },
+              datasets: [{
+                label: 'Times Completed',
+                data: @task_popularity.values,
+              
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= pi_chart_options %>">
         </div>
       </div>
 
-      <!-- Aktivität über Zeit -->
-      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
-        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Activity Trends</h2>
-        <div data-controller="chart"
-            data-chart-type-value="line"
-            data-chart-data-value="<%= {
-              labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
-              datasets: [{
-                label: 'Tasks Completed',
-                data: @activity_over_time.values,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                tension: 0.1,
-                fill: false
-              }]
-            }.to_json %>"
-            data-chart-options-value="<%= {
-              responsive: true,
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'Daily Activity (Last 30 days)'
-                }
-              }
-            }.to_json %>">
-        </div>
-      </div>
+
     </div>
 
     <!-- Punkte pro Tag -->
@@ -260,6 +258,32 @@
               }
             }
           }.to_json %>">
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Activity Trends</h2>
+        <div data-controller="chart"
+            data-chart-type-value="line"
+            data-chart-data-value="<%= {
+              labels: @activity_over_time.keys.map { |date| date.strftime("%d %b") },
+              datasets: [{
+                label: 'Tasks Completed',
+                data: @activity_over_time.values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1,
+                fill: false
+              }]
+            }.to_json %>"
+            data-chart-options-value="<%= {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Daily Activity (Last 30 days)'
+                }
+              }
+            }.to_json %>">
+        </div>
       </div>
     </div>
 

@@ -142,6 +142,7 @@ de:
       expired: Der Link ist abgelaufen. Bitte erneut anfordern.
       not_found: Nicht gefunden.
       not_locked: Nicht gesperrt.
+      invalid: invalide.
       not_saved:
         one: "%{resource} konnte wegen eines Fehlers nicht gespeichert werden:"
         other: "%{count} Fehler verhinderten das Speichern von %{resource}:"

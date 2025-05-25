@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = {
     count: { type: Number, default: 10 },
-    colors: { type: Array, default: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"] },
+    colors: { type: Array, default: ["#f0e68c", "#8fbc8b", "#008080", "#4682b4", "#7b68ee"] },
     duration: { type: Number, default: 3000 },
     gravity: { type: Number, default: 8 },
     initialSpeed: { type: Number, default: 2 }
@@ -80,7 +80,7 @@ export default class extends Controller {
     const particle = document.createElement('div')
     
     // Random properties for stripe-like confetti
-    const width = Math.floor(Math.random() * 7) + 6 // 3-8px
+    const width = Math.floor(Math.random() * 7) + 8 // 3-8px
     const height = width 
     const colorIndex = Math.floor(Math.random() * this.colorsValue.length)
     const rotationSpeed = (Math.random() - 0.5) * 1
@@ -158,7 +158,7 @@ export default class extends Controller {
       particle.style.transform = `rotate(${rotation}deg)`
       
       // Fade out as time passes
-      const opacity = 1 - (timeElapsed / this.durationValue)
+      const opacity = 1.5 - (timeElapsed / this.durationValue) *3
       particle.style.opacity = opacity
       
       // Continue animation until duration is reached

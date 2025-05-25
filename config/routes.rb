@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "password/edit", to: "passwords#edit", as: "edit_password"
   patch "password/update", to: "passwords#update", as: "update_password"
+
+
   # Enable just the routes needed for password change
   # as :user do
   #   get "users/edit", to: "devise/registrations#edit", as: "edit_user_registration"

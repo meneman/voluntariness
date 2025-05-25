@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable,
   :recoverable, :rememberable, :validatable, :registerable
+
+
   def remember_me
     true
   end
