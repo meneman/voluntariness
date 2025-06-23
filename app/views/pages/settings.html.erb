@@ -16,8 +16,9 @@
           <turbo-frame id="streak_boni_toggle">
             <%= render 'settings/streak_boni', streak_enabled: current_user.streak_boni_enabled? %>
           </turbo-frame>
+          
           <turbo-frame id="overdue_bonus_toggle">
-            <% # render 'settings/overdue_bonus', streak_enabled: current_user.overdue_bonus_enabled? %>
+            <%= render 'settings/overdue_bonus', overdue_bonus_enabled: current_user.overdue_bonus_enabled? %>
           </turbo-frame>
           <!-- Theme Selection -->
           <div>

@@ -1,19 +1,19 @@
 <div class="flex items-center justify-between">
   <div>
-    <h3 class="text-base font-medium text-slate-200">Enable Streak Boni</h3>
-    <p class="text-sm text-slate-400">After a 5 day streak participants get 1 bonus point for completing tasks</p>
-    <% if streak_enabled %>
-      <div id="streak_active_indicator" class="mt-2 flex items-center text-green-400 text-sm">
+    <h3 class="text-base font-medium text-slate-200">Enable Overdue Bonus</h3>
+    <p class="text-sm text-slate-400">Participants get bonus points for completing overdue tasks</p>
+    <% if overdue_bonus_enabled %>
+      <div id="overdue_bonus_active_indicator" class="mt-2 flex items-center text-green-400 text-sm">
         <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
         </svg>
-        Streak bonus activated
+        Overdue bonus activated
       </div>
     <% end %>
   </div>
-  <%= form_with url: toggle_streak_boni_path, method: :post, data: { turbo_frame: "streak_boni_toggle" } do |f| %>
+  <%= form_with url: toggle_overdue_bonus_path, method: :post, data: { turbo_frame: "overdue_bonus_toggle" } do |f| %>
     <label class="relative inline-flex items-center cursor-pointer">
-      <%= f.check_box :enabled, checked: streak_enabled, class: "sr-only peer", onchange: "this.form.requestSubmit()" %>
+      <%= f.check_box :enabled, checked: overdue_bonus_enabled, class: "sr-only peer", onchange: "this.form.requestSubmit()" %>
       <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
     </label>
   <% end %>
