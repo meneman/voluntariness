@@ -1,10 +1,42 @@
-<%= turbo_frame_tag "task_overdue_#{task.id}" do  %>
-  <% if task.overdue != nil %>
-    <div class="m-2 whitespace-nowrap <%=  task.overdue < 0 ? "text-red-600 dark:text-red-400" : "text-blue-600 dark:text-green-400"  %> "><%= task.overdue == 0 ? t("overdue_today") : task.overdue > 0 ? t("overdue_in", days: task.overdue.abs) : t("overdue_since", days: task.overdue.abs)  %></div>
-  <%else %>
-    <div class="m-2 whitespace-nowrap text-slate-400  "><%= t("on_demand") %></div>
-  <%end%>
-  <% if task.done_today %>
-    <div class="m-2 whitespace-nowrap text-blue-600 dark:text-green-400 "><%= t("done_today")%> <%= fa_icon "check" %></div>
-  <%end%>
-<%end%>
+<%= turbo_frame_tag "task_overdue_#{task.id}" do %>
+  <div class="flex items-center justify-between m-2">
+    <!-- Bonus Points (Left Side) -->
+    <div class="flex-shrink-0">
+      <% if current_user.overdue_bonus_enabled? && task.calculate_bonus_points > 0 %>
+        <div class="flex items-center space-x-1">
+          <div class="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full whitespace-nowrap" title="<%= t("bonus_points_hint") %>">
+            +<%= task.calculate_bonus_points %> <%= t("bonus_points") %>
+            <%= fa_icon "question-circle" %>
+
+            </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Status Information (Right Side) -->
+    <div class="flex items-center space-x-2 ml-4">
+      <!-- Overdue Status -->
+      <% if task.overdue != nil %>
+        <div class="whitespace-nowrap text-sm <%= task.overdue < 0 ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-green-400' %>">
+          <%= case task.overdue
+              when 0 then t("overdue_today")
+              when 1.. then t("overdue_in", days: task.overdue)
+              else t("overdue_since", days: task.overdue.abs)
+              end %>
+        </div>
+      <% else %>
+        <div class="whitespace-nowrap text-sm text-slate-400">
+          <%= t("on_demand") %>
+        </div>
+      <% end %>
+
+      <!-- Done Today Status -->
+      <% if task.done_today %>
+        <div class="flex items-center space-x-1 whitespace-nowrap text-sm text-blue-600 dark:text-green-400">
+          <span><%= t("done_today") %></span>
+          <%= fa_icon "check", class: "text-xs" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

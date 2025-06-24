@@ -11,12 +11,13 @@ class Participant < ApplicationRecord
     end
 
     def total_points
-        if self.user.streak_boni_enabled?
-             actions.sum { |a| a[:on_streak] ? a.task[:worth] + 1 : a.task[:worth]  }
-        else
-            actions.sum { |a|  a.task[:worth]  }
+        actions.sum do |action|
+          points = action.task.worth
+          points = apply_bonuses(points, action)
+          points
         end
     end
+
 
 
     def streak
@@ -38,5 +39,14 @@ class Participant < ApplicationRecord
 
     def on_streak
         streak > self.user.streak_boni_days_trashhold # returns true if the streak count is more than the set trashhold
+    end
+
+    private
+
+    def apply_bonuses(base_points, action)
+      [
+        ->(pts) { user.streak_boni_enabled? && action.on_streak? ? pts + 1 : pts },
+        ->(pts) { user.overdue_bonus_enabled? ? pts + action.bonus_points : pts }
+      ].reduce(base_points) { |points, bonus_fn| bonus_fn.call(points) }
     end
 end

@@ -1,4 +1,4 @@
 <%= render_turbo_stream_action_flash_messages %>
 <%= turbo_stream.replace "task_overdue_#{@task.id}" do  %>
-  <%= render partial: "tasks/task_overdue_tag", locals: {  task: @task } %>
+  <%= render partial: "tasks/task_overdue_tag", locals: { task: @task } %>
 <% end %>

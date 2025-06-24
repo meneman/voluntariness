@@ -6,8 +6,14 @@ class Action < ApplicationRecord
   scope :desc, ->  { order(id: :desc) }
 
   after_create_commit { broadcast_total_points(:create) }
-
   after_destroy { broadcast_total_points(:destroy) }
+  before_create :set_bonus_points
+
+
+  def set_bonus_points
+    self.bonus_points = task.calculate_bonus_points
+  end
+
   private
   def broadcast_total_points(action_type)
     broadcast_replace_to "participants_points",

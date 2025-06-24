@@ -1,4 +1,3 @@
 <%= turbo_stream.update "streak_boni_toggle" do %>
-
   <%= render 'settings/streak_boni', streak_enabled: current_user.streak_boni_enabled? %>
 <% end %>
