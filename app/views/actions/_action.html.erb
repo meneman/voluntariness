@@ -5,7 +5,14 @@
     </div>
     <div class="flex flex-col flex-1 pl-16">
       <div class="flex justify-center" >
-        <div class="font-sans"> <%=  action.task.title  %> <span class="text-blue-600 dark:text-green-400 font-semibold">+<%=  action.task.worth  %> </span> </div>
+        <div class="font-sans"> <%=  action.task.title  %> 
+          <span class="text-blue-600 dark:text-green-400 font-semibold ">+<%=  action.task.worth  %>  
+                  </span>
+            <span class="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full whitespace-nowrap" ">
+                +<%= action.bonus_points %> <%= t("bonus_points") %>
+            </span> 
+    
+          </div>
         <div class="flex-1"></div>
       </div>
       <div class="flex ">

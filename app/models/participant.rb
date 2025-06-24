@@ -11,11 +11,13 @@ class Participant < ApplicationRecord
     end
 
     def total_points
-        actions.sum do |action|
+        sum = actions.sum do |action|
           points = action.task.worth
           points = apply_bonuses(points, action)
           points
         end
+        # rounds only if decimals are not 0s
+        "%g" % ("%.1f" % sum)
     end
 
 

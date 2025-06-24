@@ -1,10 +1,10 @@
 <div class="flex py-4 gap-4 flex-wrap">
   <% participants.each do |p| %>
     <div class="relative shadow-lg bg-green-300 dark:bg-slate-700  text-fuchsia-800  dark:text-white flex space-x-2 rounded h-12">
-      <div class="w-16">
+      <div class="w-20">
         <span 
         style="<%="background-color:#{ p.color || " inherit"};color:#{ contrasting_color(p.color) || " inherit"}; opacity:#{p.archived == true ? "0.3" : "1" };" %>"  
-        class="text-2xl m-auto rounded absolute h-full w-16 left-0 top-0 bottom-0">
+        class="text-2xl m-auto rounded absolute h-full w-20 left-0 top-0 bottom-0">
           <div class="relative w-full h-full flex weird-points-centering ">
             <%= render partial: "points", locals: {animate: false, id: p.id, total_points: p.total_points }%>
           </div>
