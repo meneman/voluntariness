@@ -29,6 +29,7 @@ class Task < ApplicationRecord
 
     def calculate_bonus_points
         return 0 unless user.overdue_bonus_enabled?
+        return 0 if overdue == nil
         return 0 if overdue >= 0
 
         # Bonus-Formel: 1 Punkt pro überfälligen Tag, maximal 50% der Basis-Punkte
