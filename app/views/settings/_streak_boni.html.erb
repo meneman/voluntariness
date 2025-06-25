@@ -18,10 +18,10 @@
     <div id="streak_active_indicator" class=" flex items-center text-green-400 text-sm">
       Streak bonus activated
     </div>
-    <%= form_with url: update_streak_bonus_days_trashhold_path, method: :post, class: "space-y-3" do |f| %>
+    <%= form_with url: update_streak_bonus_days_threshold_path, method: :post, class: "space-y-3" do |f| %>
       <div>
-        <%= f.label :days_trashhold, "Streak bonus days threshold", class: "block text-sm text-slate-400 mb-1" %>
-        <%= f.number_field :days_trashhold, value: current_user.streak_boni_days_trashhold || 5, min: 1, class: "w-full bg-slate-800 text-slate-200 border border-slate-600 rounded py-1 px-2" %>
+        <%= f.label :days_threshold, "Streak bonus days threshold", class: "block text-sm text-slate-400 mb-1" %>
+        <%= f.number_field :days_threshold, value: current_user.streak_boni_days_threshold || VoluntarinessConstants::DEFAULT_STREAK_THRESHOLD, min: 1, class: "w-full bg-slate-800 text-slate-200 border border-slate-600 rounded py-1 px-2" %>
       </div>
       <div>
         <%= f.submit "Update", class: "px-3 py-1 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-sm" %>

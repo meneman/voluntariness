@@ -77,7 +77,5 @@ class ParticipantsController < ApplicationController
 
     def set_participant
         @participant = current_user.participants.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-        redirect_to root_path
     end
 end

@@ -19,20 +19,14 @@ class SettingsController < ApplicationController
     end
   end
 
-  def update_streak_bonus_days_trashhold
-    days_trashhold = params[:days_trashhold].to_i
+  def update_streak_bonus_days_threshold
+    days_threshold = params[:days_threshold].to_i
 
-    # Ensure the threshold is at least 1 day
-    days_trashhold = [ 2, days_trashhold ].max
-
-    # Update the threshold in your settings model/table
-    # This will depend on how you're storing settings, but could be something like:
-    current_user.update(streak_boni_days_trashhold: days_trashhold)
-
-    # Redirect back to settings page
+    days_threshold = [ VoluntarinessConstants::MIN_STREAK_THRESHOLD, days_threshold ].max
+    current_user.update(streak_boni_days_threshold: days_threshold)
     respond_to do |format|
       format.turbo_stream {
-        flash[:notice] = "Streak bonus threshold updated to #{days_trashhold} days."
+        flash[:notice] = "Streak bonus threshold updated to #{days_threshold} days."
         render turbo_stream: turbo_stream.prepend("flash", partial: "layouts/action_flash")
       }
     end

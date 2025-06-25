@@ -41,14 +41,14 @@ class Participant < ApplicationRecord
 
 
     def on_streak
-        streak > self.user.streak_boni_days_trashhold # returns true if the streak count is more than the set trashhold
+        streak > self.user.streak_boni_days_threshold # returns true if the streak count is more than the set threshold
     end
 
     private
 
     def apply_bonuses(base_points, action)
       [
-        ->(pts) { user.streak_boni_enabled? && action.on_streak? ? pts + 1 : pts },
+        ->(pts) { user.streak_boni_enabled? && action.on_streak? ? pts + VoluntarinessConstants::STREAK_BONUS_POINTS : pts },
         ->(pts) { user.overdue_bonus_enabled? ? pts + action.bonus_points : pts }
       ].reduce(base_points) { |points, bonus_fn| bonus_fn.call(points) }
     end

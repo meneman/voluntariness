@@ -18,8 +18,8 @@
       <% if current_user.streak_boni_enabled? %>
         <div 
         class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap"
-        style="width: <%= 100 * [(p.streak.to_f/current_user.streak_boni_days_trashhold),1].min %>%">
-          <%= "#{p.streak} / #{current_user.streak_boni_days_trashhold}" %>
+        style="width: <%= 100 * [(p.streak.to_f/current_user.streak_boni_days_threshold),1].min %>%">
+          <%= "#{p.streak} / #{current_user.streak_boni_days_threshold}" %>
         </div>
       <% end %>
     </div>

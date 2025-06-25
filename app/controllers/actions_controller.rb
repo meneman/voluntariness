@@ -20,9 +20,13 @@ class ActionsController < ApplicationController
     end
 
     def create
-        on_streak = Participant.find(params[:data][:participant_id]).on_streak
-        @action = Action.new(participant_id: params[:data][:participant_id], task_id: params[:data][:task_id], on_streak: on_streak)
-        @task = Task.find(params[:data][:task_id])
+        return redirect_to root_path, alert: 'Missing required data' unless params[:data]
+        
+        participant = current_user.participants.find(params[:data][:participant_id])
+        @task = current_user.tasks.find(params[:data][:task_id])
+        
+        on_streak = participant.on_streak
+        @action = Action.new(participant_id: participant.id, task_id: @task.id, on_streak: on_streak)
 
         if @action.save
             respond_to do |format|
@@ -35,13 +39,12 @@ class ActionsController < ApplicationController
     end
 
     def update
-        if @action.update(participant_params)
+        if @action.update(action_params)
             redirect_to @action
         else
             render :edit, status: :unprocessable_entity
         end
     end
-
 
     def destroy
         @action.destroy()
@@ -53,7 +56,7 @@ class ActionsController < ApplicationController
 
     private
 
-    def participant_params
+    def action_params
         params.require(:action).permit(:task, :participant, :data)
     end
 

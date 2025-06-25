@@ -21,7 +21,7 @@ class Task < ApplicationRecord
         if actions.last
          overdue_on = actions.last.created_at.to_date + self.interval
         else
-         overdue_on = self.created_at
+         overdue_on = self.created_at&.to_date || Time.current.to_date
         end
         today = Time.now
         (overdue_on.to_date - today.to_date).to_i
@@ -29,10 +29,10 @@ class Task < ApplicationRecord
 
     def calculate_bonus_points
         return 0 unless user.overdue_bonus_enabled?
-        return 0 if overdue == nil
+        return 0 if overdue.nil?
         return 0 if overdue >= 0
 
         # Bonus-Formel: 1 Punkt pro überfälligen Tag, maximal 50% der Basis-Punkte
-        (overdue.abs * 0.2).round(1)
+        (overdue.abs * VoluntarinessConstants::OVERDUE_BONUS_MULTIPLIER).round(1)
     end
 end
