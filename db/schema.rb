@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_24_192713) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_203251) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -29,6 +29,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_192713) do
     t.datetime "updated_at", null: false
     t.boolean "on_streak", default: false, null: false
     t.float "bonus_points"
+    t.index ["created_at", "participant_id"], name: "index_actions_on_created_at_and_participant_id"
+    t.index ["created_at", "task_id"], name: "index_actions_on_created_at_and_task_id"
+    t.index ["participant_id", "created_at"], name: "index_actions_on_participant_id_and_created_at"
     t.index ["participant_id"], name: "index_actions_on_participant_id"
     t.index ["task_id"], name: "index_actions_on_task_id"
   end
@@ -76,6 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_192713) do
     t.datetime "updated_at", null: false
     t.boolean "archived", default: false
     t.integer "user_id", null: false
+    t.index ["archived"], name: "index_participants_on_archived"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
@@ -89,6 +93,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_192713) do
     t.boolean "archived", default: false
     t.integer "user_id", null: false
     t.integer "position"
+    t.index ["archived"], name: "index_tasks_on_archived"
+    t.index ["position"], name: "index_tasks_on_position"
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 

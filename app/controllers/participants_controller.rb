@@ -27,8 +27,6 @@ class ParticipantsController < ApplicationController
         end
     end
 
-    # def cancel
-    # end
     def create
         @participant = current_user.participants.build(participant_params)
 
@@ -63,17 +61,6 @@ class ParticipantsController < ApplicationController
         end
     end
 
-    def update_points
-        @participants = current_user.participans.active
-        @participants.each do |p|
-           points[p.id] = p.total_points
-        end
-
-        respond_to do |format|
-            format.turbo_stream
-        end
-    end
-
     def destroy
         @participant.destroy()
         respond_to do |format|
@@ -90,9 +77,6 @@ class ParticipantsController < ApplicationController
 
     def set_participant
         @participant = current_user.participants.find(params[:id])
-
-
-
     rescue ActiveRecord::RecordNotFound
         redirect_to root_path
     end

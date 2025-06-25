@@ -11,13 +11,14 @@ class Participant < ApplicationRecord
     end
 
     def total_points
-        sum = actions.sum do |action|
-          points = action.task.worth
-          points = apply_bonuses(points, action)
-          points
-        end
+        # Use database aggregation instead of Ruby iteration to avoid N+1 queries
+        base_points = actions.joins(:task).sum("tasks.worth")
+        bonus_points = actions.sum("COALESCE(bonus_points, 0)")
+        streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
+
+        total = base_points + bonus_points + streak_bonus
         # rounds only if decimals are not 0s
-        "%g" % ("%.1f" % sum)
+        "%g" % ("%.1f" % total)
     end
 
 

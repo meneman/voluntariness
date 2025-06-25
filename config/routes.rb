@@ -30,11 +30,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :tasks
-  resources :participants do
-    member do
-      patch :update_points
-    end
-  end
+  resources :participants
 
   # patch :archive
   # patch :participants, :archive

@@ -14,8 +14,9 @@ class PagesController < ApplicationController
     # Displays the main dashboard/home page.
     # Loads active participants and ordered active tasks specific to the home view.
     def home
-      @participants = current_user.participants.active
-      @tasks = current_user.tasks.active.ordered
+      # Eager load associations to prevent N+1 queries
+      @participants = current_user.participants.active.includes(actions: :task)
+      @tasks = current_user.tasks.active.ordered.includes(:actions)
 
       respond_to do |format|
         format.html { }         # Renders views/pages/home.html.erb
@@ -209,12 +210,13 @@ class PagesController < ApplicationController
     # Loads only active participants if params[:active] is present and truthy,
     # otherwise loads all participants for the current user.
     def set_participants
+      # Eager load associations to prevent N+1 queries
       @participants = if params[:active]
-        current_user.participants.active
+        current_user.participants.active.includes(actions: :task)
       else
-        current_user.participants
+        current_user.participants.includes(actions: :task)
       end
       # Ensure @participants is loaded if needed for cumulative chart when :active is not set
-      @participants ||= current_user.participants.order(:name) if defined?(@chart_cumulative_data)
+      @participants ||= current_user.participants.includes(actions: :task).order(:name) if defined?(@chart_cumulative_data)
     end
 end
