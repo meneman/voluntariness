@@ -219,7 +219,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   test "should unarchive task" do
     @task.update!(archived: true)
 
-    patch archive_task_path(@task)
+    patch unarchive_task_path(@task)
     assert_response :success
 
     @task.reload

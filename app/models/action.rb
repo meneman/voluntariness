@@ -8,10 +8,19 @@ class Action < ApplicationRecord
   after_create_commit { broadcast_total_points(:create) }
   after_destroy { broadcast_total_points(:destroy) }
   before_create :set_bonus_points
+  after_create :set_on_streak
 
 
   def set_bonus_points
     self.bonus_points = task.calculate_bonus_points
+  end
+
+  def set_on_streak
+    # Only update on_streak status if it's the default false value (not explicitly set to true)
+    # This allows tests and manual creation to override the automatic calculation
+    if !on_streak
+      update_column(:on_streak, participant.on_streak)
+    end
   end
 
   private

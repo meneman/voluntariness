@@ -24,7 +24,18 @@ class Participant < ApplicationRecord
         return -1 unless self.user.streak_boni_enabled?
 
         days_with_action = actions.last_five_days.map { |action| action.created_at.to_date }.uniq.sort.reverse
-        current_day = Time.now.to_date
+        return 0 if days_with_action.empty?
+
+        # A streak should count consecutive days leading up to today (or yesterday at most)
+        # If the most recent action is more than 1 day old, there's no current streak
+        most_recent_action_date = days_with_action.first
+        today = Time.current.to_date
+
+        # If the most recent action is more than 1 day old, no current streak
+        return 0 if most_recent_action_date < today - 1.day
+
+        # Start counting from today or the most recent action date
+        current_day = [ today, most_recent_action_date ].min
         streak_count = 0
 
         days_with_action.each do |day|

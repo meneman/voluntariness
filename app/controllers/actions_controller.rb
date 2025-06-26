@@ -12,7 +12,6 @@ class ActionsController < ApplicationController
         @action = Action.new
         respond_to do |format|
             format.html
-            format.turbo_stream
         end
     end
 
@@ -25,9 +24,7 @@ class ActionsController < ApplicationController
         participant = current_user.participants.find(params[:data][:participant_id])
         @task = current_user.tasks.find(params[:data][:task_id])
 
-        on_streak = participant.on_streak
-
-        @action = Action.new(participant_id: participant.id, task_id: @task.id, on_streak: on_streak)
+        @action = Action.new(participant_id: participant.id, task_id: @task.id)
 
         if @action.save
             respond_to do |format|

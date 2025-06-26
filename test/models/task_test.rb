@@ -110,10 +110,7 @@ class TaskTest < ActiveSupport::TestCase
     assert task.overdue < 0, "Task should be overdue"
   end
 
-  test "overdue should handle nil created_at gracefully" do
-    # Skip this test since created_at is required by database
-    skip "created_at is required by database constraint"
-  end
+
 
   test "calculate_bonus_points should return 0 if user has overdue bonus disabled" do
     user = users(:no_bonuses)  # Has overdue_bonus_enabled: false
@@ -202,8 +199,8 @@ class TaskTest < ActiveSupport::TestCase
       user: users(:one)
     )
     assert task.valid?
-    # Worth is stored as integer in database, so decimals get truncated
-    assert_equal 15, task.worth
+    # Worth is stored as decimal in database, so decimals are preserved
+    assert_equal 15.75, task.worth
   end
 
   test "should accept nil interval" do

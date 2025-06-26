@@ -57,19 +57,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     assert_equal VoluntarinessConstants::DEFAULT_THEME, assigns(:theme)
   end
 
-  test "toggle_theme should update theme cookie" do
-    sign_in @user
-
-    # Assuming there's a route that calls toggle_theme
-    # Since toggle_theme is a public method, we can test it indirectly
-    # For now, we'll test the theme setting behavior through regular requests
-
-    cookies[:theme] = "light"
-    get root_path, params: { theme: "dark" }
-
-    # This test might need adjustment based on actual implementation
-    # The toggle_theme method exists but might not be used in a route
-  end
 
   # --- Error Handling Tests ---
 

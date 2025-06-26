@@ -24,6 +24,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     }
     assert_response :redirect
 
+    @user.reload
     new_task = @user.tasks.last
     assert_equal "Integration Test Task", new_task.title
     assert_equal 15.5, new_task.worth
@@ -104,7 +105,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "Updated Lifecycle Task"
 
     # Unarchive task
-    patch archive_task_path(task)
+    patch unarchive_task_path(task)
     assert_response :success
 
     task.reload

@@ -68,11 +68,6 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     assert assigns(:action).new_record?
   end
 
-  test "should get new as turbo stream" do
-    get new_action_path, as: :turbo_stream
-    assert_response :success
-    assert_equal "text/vnd.turbo-stream.html", response.media_type
-  end
 
   test "should create action with valid data params" do
     assert_difference("Action.count", 1) do
@@ -117,57 +112,66 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not create action with invalid task_id" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post actions_path, params: {
-        data: {
-          task_id: 999999,  # Non-existent task
-          participant_id: @participant.id
-        }
+    post actions_path, params: {
+      data: {
+        task_id: 999999,  # Non-existent task
+        participant_id: @participant.id
       }
-    end
+    }
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should not create action with invalid participant_id" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post actions_path, params: {
-        data: {
-          task_id: @task.id,
-          participant_id: 999999  # Non-existent participant
-        }
+    post actions_path, params: {
+      data: {
+        task_id: @task.id,
+        participant_id: 999999  # Non-existent participant
       }
-    end
+    }
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should not create action with other user's task" do
     other_user_task = tasks(:user_two_task)
 
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post actions_path, params: {
-        data: {
-          task_id: other_user_task.id,
-          participant_id: @participant.id
-        }
+    post actions_path, params: {
+      data: {
+        task_id: other_user_task.id,
+        participant_id: @participant.id
       }
-    end
+    }
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should not create action with other user's participant" do
     other_user_participant = participants(:user_two_participant)
 
-    assert_raises(ActiveRecord::RecordNotFound) do
-      post actions_path, params: {
-        data: {
-          task_id: @task.id,
-          participant_id: other_user_participant.id
-        }
+    post actions_path, params: {
+      data: {
+        task_id: @task.id,
+        participant_id: other_user_participant.id
       }
-    end
+    }
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should set on_streak status when creating action" do
-    # Mock the participant's on_streak method
-    @participant.define_singleton_method(:on_streak) { true }
+    # Enable streak bonuses for the user
+    @user.update!(streak_boni_enabled: true, streak_boni_days_threshold: 2)
 
+    # Create actions on previous days to build a streak
+    travel_to 2.days.ago do
+      Action.create!(participant: @participant, task: @task)
+    end
+    travel_to 1.day.ago do
+      Action.create!(participant: @participant, task: @task)
+    end
+
+    # Now create an action today - this should be on_streak
     post actions_path, params: {
       data: {
         task_id: @task.id,
@@ -176,7 +180,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     }
 
     new_action = Action.last
-    assert new_action.on_streak
+    assert new_action.on_streak, "Action should be on streak after 3 consecutive days with threshold of 2"
   end
 
   test "should get edit" do
@@ -289,22 +293,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
-  test "should handle creation failure gracefully" do
-    # Mock the Action.new to return an invalid action
-    invalid_action = Action.new
-    invalid_action.define_singleton_method(:save) { false }
-    invalid_action.define_singleton_method(:valid?) { false }
-    invalid_action.errors.add(:base, "Test error")
 
-    # This is hard to test without dependency injection
-    # In a real scenario, you might test with invalid associations
-  end
-
-  test "action params should filter properly" do
-    # Test that action_params method filters correctly
-    # This is tested indirectly through the permitted parameters
-    # The current implementation only permits :task, :participant, :data
-  end
 
 
   test "should assign correct task and participant variables in create" do

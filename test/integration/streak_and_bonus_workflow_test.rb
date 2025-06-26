@@ -62,7 +62,6 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     action = Action.last
     @participant.reload
 
-
     # Check if participant is on streak
     if @participant.streak > @user.streak_boni_days_threshold
       assert action.on_streak, "Action should be marked as on streak"

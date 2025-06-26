@@ -272,8 +272,8 @@ class StatisticsServiceTest < ActiveSupport::TestCase
 
   test "should handle user with no actions" do
     user_with_no_actions = users(:two)
-    # Clear any existing actions
-    user_with_no_actions.actions.destroy_all
+    # Clear any existing actions by going through participants
+    user_with_no_actions.participants.each { |p| p.actions.destroy_all }
 
     service = StatisticsService.new(user_with_no_actions)
 

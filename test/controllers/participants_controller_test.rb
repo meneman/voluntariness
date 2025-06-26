@@ -206,7 +206,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   test "should unarchive participant" do
     @participant.update!(archived: true)
 
-    patch archive_participant_path(@participant)
+    patch unarchive_participant_path(@participant)
     assert_response :success
 
     @participant.reload
@@ -221,7 +221,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not archive other user's participant" do
     before = @other_user_participant.archived
-    post archive_participant_path(@other_user_participant)
+    patch archive_participant_path(@other_user_participant)
 
     assert_redirected_to root_path
     assert_equal "Resource not found", flash[:alert]
