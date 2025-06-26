@@ -26,7 +26,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     @participant.actions.destroy_all
 
     # Day 1: Complete task
-    travel_to 3.days.ago do
+    travel_to 2.days.ago do
       post actions_path, params: {
         data: {
           task_id: @task.id,
@@ -39,7 +39,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     end
 
     # Day 2: Complete task (still building streak)
-    travel_to 2.days.ago do
+    travel_to 1.days.ago do
       post actions_path, params: {
         data: {
           task_id: @task.id,
@@ -53,22 +53,21 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
 
     # Day 3: Complete task (should be on streak)
 
-    travel_to 1.day.ago do
-      post actions_path, params: {
-        data: {
-          task_id: @task.id,
-          participant_id: @participant.id
-        }
+    post actions_path, params: {
+      data: {
+        task_id: @task.id,
+        participant_id: @participant.id
       }
-      action = Action.last
-      @participant.reload
+    }
+    action = Action.last
+    @participant.reload
 
 
-      # Check if participant is on streak
-      if @participant.streak > @user.streak_boni_days_threshold
-        assert action.on_streak, "Action should be marked as on streak"
-      end
+    # Check if participant is on streak
+    if @participant.streak > @user.streak_boni_days_threshold
+      assert action.on_streak, "Action should be marked as on streak"
     end
+
 
     # Verify total points include streak bonuses
     @participant.reload
@@ -217,7 +216,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     initial_total = @participant.reload.total_points.to_f
 
     # Enable streak bonuses via settings
-    post toggle_streak_boni_path, params: { enabled: "1" },  as: :turbo_stream
+    patch toggle_streak_boni_path, params: { enabled: "1" },  as: :turbo_stream
     # In your test, add this before the failing line:
     assert_response :success
 
@@ -240,7 +239,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
            "Total should increase with new task completion"
 
     # Enable overdue bonuses
-    post toggle_overdue_bonus_path, params: { enabled: "1" }, as: :turbo_stream
+    patch toggle_overdue_bonus_path, params: { enabled: "1" }, as: :turbo_stream
     assert_response :success
 
     @user.reload

@@ -23,23 +23,30 @@ class Participant < ApplicationRecord
     def streak
         return -1 unless self.user.streak_boni_enabled?
 
-        days_with_action = actions.last_five_days.reverse.map { |action| action.created_at.to_date }.uniq
-        current_day = Time.now.to_date - 1.day
+        days_with_action = actions.last_five_days.map { |action| action.created_at.to_date }.uniq.sort.reverse
+        current_day = Time.now.to_date
         streak_count = 0
-        days_with_action.each { |day|
+
+        days_with_action.each do |day|
             if day == current_day
                 streak_count += 1
                 current_day = current_day - 1.day
             else
                 break
             end
-        }
+        end
+
         streak_count
     end
 
 
     def on_streak
         streak > self.user.streak_boni_days_threshold # returns true if the streak count is more than the set threshold
+    end
+
+    def log_action_removal(action)
+        # Log the removal of an action for audit purposes
+        Rails.logger.info "Action #{action.id} removed from participant #{self.name} (#{self.id})"
     end
 
     private

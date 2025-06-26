@@ -31,7 +31,7 @@ class ParticipantsController < ApplicationController
 
         if @participant.save
             respond_to do |format|
-                format.html { }
+                format.html { redirect_to participants_path, notice: "Participant was successfully created." }
                 format.turbo_stream { }
             end
         else
@@ -40,9 +40,17 @@ class ParticipantsController < ApplicationController
     end
 
     def archive
-        @participant.update(archived: !@participant.archived)
+        @participant.update(archived: true)
         respond_to do |format|
-            format.html { }
+            format.html { redirect_to participants_path }
+            format.turbo_stream { }
+        end
+    end
+
+    def unarchive
+        @participant.update(archived: false)
+        respond_to do |format|
+            format.html { redirect_to participants_path }
             format.turbo_stream { }
         end
     end
@@ -51,7 +59,7 @@ class ParticipantsController < ApplicationController
     def update
         respond_to do |format|
           if @participant.update(participant_params)
-            format.html { redirect_to action: "index", format: :html }
+            format.html { redirect_to participants_path }
 
           else
             format.html { render :edit, status: :unprocessable_entity }

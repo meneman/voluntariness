@@ -163,6 +163,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
 
   test "participant workflow: create, edit, complete tasks, archive" do
     # Create new participant
+    sign_in @user
     post participants_path, params: {
       participant: {
         name: "Integration Participant",

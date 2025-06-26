@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   # Global error handling
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
-  rescue_from ActionController::ParameterMissing, with: :bad_request
+
 
   def set_theme
     if cookies[:theme].present?

@@ -12,13 +12,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should require authentication for all actions" do
     sign_out @user
-    
+
     get root_path
     assert_redirected_to new_user_session_path
-    
+
     get statistics_path
     assert_redirected_to new_user_session_path
-    
+
     get settings_path
     assert_redirected_to new_user_session_path
   end
@@ -42,22 +42,22 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # Create archived participants and tasks
     archived_participant = participants(:archived_participant)
     archived_task = tasks(:archived_task)
-    
+
     get root_path
     assert_response :success
-    
+
     participants = assigns(:participants)
     tasks = assigns(:tasks)
-    
+
     # Should only include active items
     participants.each do |participant|
       assert_not participant.archived, "Should only load active participants"
     end
-    
+
     tasks.each do |task|
       assert_not task.archived, "Should only load active tasks"
     end
-    
+
     # Should not include archived items
     assert_not_includes participants, archived_participant
     assert_not_includes tasks, archived_task
@@ -66,9 +66,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "home should load participants with eager loaded associations" do
     get root_path
     assert_response :success
-    
+
     participants = assigns(:participants)
-    
+
     # Test that associations are loaded to prevent N+1 queries
     # This is hard to test directly, but we can check that the data is accessible
     participants.each do |participant|
@@ -81,9 +81,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "home should load tasks with eager loaded associations" do
     get root_path
     assert_response :success
-    
+
     tasks = assigns(:tasks)
-    
+
     # Test that associations are loaded
     tasks.each do |task|
       assert_nothing_raised do
@@ -95,10 +95,10 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "home should order tasks correctly" do
     get root_path
     assert_response :success
-    
+
     tasks = assigns(:tasks)
     positions = tasks.pluck(:position).compact
-    
+
     # Should be ordered by position
     assert_equal positions.sort, positions
   end
@@ -106,13 +106,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "home should only show current user's data" do
     other_user_participant = participants(:user_two_participant)
     other_user_task = tasks(:user_two_task)
-    
+
     get root_path
     assert_response :success
-    
+
     participants = assigns(:participants)
     tasks = assigns(:tasks)
-    
+
     assert_not_includes participants, other_user_participant
     assert_not_includes tasks, other_user_task
   end
@@ -146,7 +146,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # The service integration is tested indirectly through the view rendering
     get statistics_path
     assert_response :success
-    
+
     # Verify that all expected instance variables are set
     assert_assigns(:data)
   end
@@ -154,7 +154,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "statistics should pass participants to StatisticsService" do
     get statistics_path
     assert_response :success
-    
+
     # Verify that @participants is set and passed to the service
     assert_assigns(:participants)
   end
@@ -162,7 +162,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "statistics should handle active parameter" do
     get statistics_path, params: { active: true }
     assert_response :success
-    
+
     participants = assigns(:participants)
     participants.each do |participant|
       assert_not participant.archived
@@ -172,20 +172,20 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "statistics data should be properly formatted" do
     get statistics_path
     assert_response :success
-    
+
     # Test data structure
     task_completion = assigns(:task_completion_by_participant)
     assert_kind_of Hash, task_completion
-    
+
     points_by_participant = assigns(:points_by_participant)
     assert_kind_of Hash, points_by_participant
-    
+
     task_popularity = assigns(:task_popularity)
     assert_kind_of Hash, task_popularity
-    
+
     chart_labels = assigns(:chart_labels)
     assert_kind_of Array, chart_labels
-    
+
     chart_data = assigns(:chart_cumulative_data)
     assert_kind_of Hash, chart_data
   end
@@ -196,10 +196,10 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     @user.participants.each { |p| p.actions.destroy_all }
     @user.participants.destroy_all
     @user.tasks.destroy_all
-    
+
     get statistics_path
     assert_response :success
-    
+
     # Should not raise errors even with no data
     assert_assigns(:data)
     assert_assigns(:task_completion_by_participant)
@@ -224,7 +224,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # Test through statistics action which uses set_tasks
     get statistics_path, params: { active: true }
     assert_response :success
-    
+
     tasks = assigns(:tasks)
     tasks.each do |task|
       assert_not task.archived, "Should only load active tasks when active=true"
@@ -234,7 +234,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "set_tasks should load all tasks when active parameter is false" do
     get statistics_path, params: { active: false }
     assert_response :success
-    
+
     tasks = assigns(:tasks)
     # Should include both active and archived tasks
     assert tasks.count >= @user.tasks.active.count
@@ -243,7 +243,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "set_participants should respect active parameter" do
     get statistics_path, params: { active: true }
     assert_response :success
-    
+
     participants = assigns(:participants)
     participants.each do |participant|
       assert_not participant.archived, "Should only load active participants when active=true"
@@ -253,7 +253,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "set_participants should load all participants when active parameter is false" do
     get statistics_path, params: { active: false }
     assert_response :success
-    
+
     participants = assigns(:participants)
     # Should include both active and archived participants
     assert participants.count >= @user.participants.active.count
@@ -262,9 +262,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "set_participants should eager load associations" do
     get statistics_path
     assert_response :success
-    
+
     participants = assigns(:participants)
-    
+
     # Verify associations are loaded (no additional queries should be needed)
     participants.each do |participant|
       assert_nothing_raised do
@@ -277,20 +277,20 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle missing participants gracefully" do
     @user.participants.destroy_all
-    
+
     get root_path
     assert_response :success
-    
+
     participants = assigns(:participants)
     assert_empty participants
   end
 
   test "should handle missing tasks gracefully" do
     @user.tasks.destroy_all
-    
+
     get root_path
     assert_response :success
-    
+
     tasks = assigns(:tasks)
     assert_empty tasks
   end
@@ -299,13 +299,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # Archive all user's participants and tasks
     @user.participants.update_all(archived: true)
     @user.tasks.update_all(archived: true)
-    
+
     get root_path
     assert_response :success
-    
+
     participants = assigns(:participants)
     tasks = assigns(:tasks)
-    
+
     assert_empty participants
     assert_empty tasks
   end
@@ -314,7 +314,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # Create some complex data relationships
     task = Task.create!(title: "Complex Task", worth: 10, user: @user)
     participant = Participant.create!(name: "Complex Participant", user: @user)
-    
+
     # Create multiple actions
     3.times do |i|
       Action.create!(
@@ -324,10 +324,10 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
         bonus_points: i * 2.5
       )
     end
-    
+
     get statistics_path
     assert_response :success
-    
+
     # Should handle the complex relationships without errors
     assert_assigns(:data)
     assert_assigns(:cumulative_points_by_participant_day)
@@ -335,18 +335,18 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should scope all data to current user only" do
     other_user = users(:two)
-    
+
     get statistics_path
     assert_response :success
-    
+
     # Verify no data from other users is included
     participants = assigns(:participants)
     tasks = assigns(:tasks)
-    
+
     participants.each do |participant|
       assert_equal @user, participant.user
     end
-    
+
     tasks.each do |task|
       assert_equal @user, task.user
     end

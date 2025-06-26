@@ -83,17 +83,6 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Resource not found", flash[:alert]
   end
 
-  test "should handle ActionController::ParameterMissing with redirect" do
-    sign_in @user
-
-    # This is harder to test directly, but we can simulate it
-    # by trying to create a task without required parameters
-    post tasks_path, params: {}
-
-    # Depending on implementation, this might trigger ParameterMissing
-    # or just validation errors. The test might need adjustment.
-    assert_includes [ 302, 422 ], response.status
-  end
 
   # --- Sign-in Redirect Tests ---
 

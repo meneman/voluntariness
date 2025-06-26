@@ -59,9 +59,9 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not show other user's participant" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get participant_path(@other_user_participant)
-    end
+    get participant_path(@other_user_participant)
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should get new" do
@@ -81,7 +81,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_response :success
+    assert_redirected_to participants_path
 
     new_participant = @user.participants.last
     assert_equal "New Participant", new_participant.name
@@ -135,9 +135,9 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not edit other user's participant" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get edit_participant_path(@other_user_participant)
-    end
+    get edit_participant_path(@other_user_participant)
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should update participant with valid params" do
@@ -220,9 +220,14 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not archive other user's participant" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      patch archive_participant_path(@other_user_participant)
-    end
+    before = @other_user_participant.archived
+    post archive_participant_path(@other_user_participant)
+
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
+
+    @other_user_participant.reload
+    assert_equal before, @other_user_participant.archived
   end
 
   # test "should get cancel" do
@@ -231,7 +236,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   # end
 
   test "should get cancel as turbo stream" do
-    get cancel_participants_path, as: :turbo_stream
+    get cancel_participant_path, as: :turbo_stream
     assert_response :success
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
@@ -256,9 +261,13 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not destroy other user's participant" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      delete participant_path(@other_user_participant)
-    end
+    other_user_participant_count = User.find(@other_user_participant.user_id).participants.count
+
+    delete participant_path(@other_user_participant)
+
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
+    assert_equal other_user_participant_count, User.find(@other_user_participant.user_id).participants.count
   end
 
   test "should destroy participant and its actions" do
@@ -280,7 +289,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_response :success
+    assert_redirected_to participants_path
     new_participant = @user.participants.last
     assert_equal "Avatar Participant", new_participant.name
   end
@@ -297,7 +306,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_response :success
+    assert_redirected_to participants_path
     new_participant = @user.participants.last
     assert_equal @user, new_participant.user  # Should belong to current user
     assert_not new_participant.archived       # Should not be archived
@@ -311,7 +320,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_response :success
+    assert_redirected_to participants_path
     new_participant = @user.participants.last
     assert_equal "#ABCDEF", new_participant.color
   end
@@ -323,7 +332,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_response :success
+    assert_redirected_to participants_path
     new_participant = @user.participants.last
     assert_equal "No Color Participant", new_participant.name
     # Color should be nil or default value

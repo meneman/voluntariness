@@ -12,16 +12,16 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should require authentication for all actions" do
     sign_out @user
-    
+
     get tasks_path
     assert_redirected_to new_user_session_path
-    
+
     get task_path(@task)
     assert_redirected_to new_user_session_path
-    
+
     get new_task_path
     assert_redirected_to new_user_session_path
-    
+
     post tasks_path, params: { task: { title: "Test", worth: 10 } }
     assert_redirected_to new_user_session_path
   end
@@ -41,12 +41,12 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   test "index should only show current user's tasks" do
     get tasks_path
     assert_response :success
-    
+
     # Should include user's tasks
     @user.tasks.each do |task|
       assert_includes response.body, task.title
     end
-    
+
     # Should not include other user's tasks
     assert_not_includes response.body, @other_user_task.title
   end
@@ -61,7 +61,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   test "should not show other user's task" do
     get task_path(@other_user_task)
     assert_redirected_to root_path
-    assert_equal 'Resource not found', flash[:alert]
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should get new" do
@@ -78,7 +78,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create task with valid params" do
-    assert_difference('@user.tasks.count', 1) do
+    assert_difference("@user.tasks.count", 1) do
       post tasks_path, params: {
         task: {
           title: "New Task",
@@ -88,9 +88,9 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    
+
     assert_redirected_to @user.tasks.last
-    
+
     new_task = @user.tasks.last
     assert_equal "New Task", new_task.title
     assert_equal 15.5, new_task.worth
@@ -99,7 +99,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create task as turbo stream" do
-    assert_difference('@user.tasks.count', 1) do
+    assert_difference("@user.tasks.count", 1) do
       post tasks_path, params: {
         task: {
           title: "Turbo Task",
@@ -107,13 +107,13 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         }
       }, as: :turbo_stream
     end
-    
+
     assert_response :success
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
 
   test "should not create task with invalid params" do
-    assert_no_difference('@user.tasks.count') do
+    assert_no_difference("@user.tasks.count") do
       post tasks_path, params: {
         task: {
           title: "",  # Invalid: blank title
@@ -121,31 +121,31 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         }
       }
     end
-    
+
     assert_response :unprocessable_entity
   end
 
   test "should not create task without title" do
-    assert_no_difference('@user.tasks.count') do
+    assert_no_difference("@user.tasks.count") do
       post tasks_path, params: {
         task: {
           worth: 10
         }
       }
     end
-    
+
     assert_response :unprocessable_entity
   end
 
   test "should not create task without worth" do
-    assert_no_difference('@user.tasks.count') do
+    assert_no_difference("@user.tasks.count") do
       post tasks_path, params: {
         task: {
           title: "Test Task"
         }
       }
     end
-    
+
     assert_response :unprocessable_entity
   end
 
@@ -157,9 +157,9 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not edit other user's task" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      get edit_task_path(@other_user_task)
-    end
+    get edit_task_path(@other_user_task)
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should update task with valid params" do
@@ -170,7 +170,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         description: "Updated description"
       }
     }
-    
+
     assert_redirected_to @task
     @task.reload
     assert_equal "Updated Task", @task.title
@@ -180,43 +180,48 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should not update task with invalid params" do
     original_title = @task.title
-    
+
     patch task_path(@task), params: {
       task: {
         title: "",  # Invalid
         worth: 20.0
       }
     }
-    
+
     assert_response :unprocessable_entity
     @task.reload
     assert_equal original_title, @task.title
   end
 
   test "should not update other user's task" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      patch task_path(@other_user_task), params: {
-        task: { title: "Hacked" }
-      }
-    end
+    original_title = @other_user_task.title
+    patch task_path(@other_user_task), params: {
+      task: { title: "Hacked" }
+    }
+
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
+
+    @other_user_task.reload
+    assert_equal original_title, @other_user_task.title
   end
 
   test "should archive task" do
     assert_not @task.archived
-    
+
     patch archive_task_path(@task)
     assert_response :success
-    
+
     @task.reload
     assert @task.archived
   end
 
   test "should unarchive task" do
     @task.update!(archived: true)
-    
+
     patch archive_task_path(@task)
     assert_response :success
-    
+
     @task.reload
     assert_not @task.archived
   end
@@ -228,9 +233,10 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not archive other user's task" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      patch archive_task_path(@other_user_task)
-    end
+    before = @other_user_task.archived
+    patch archive_task_path(@other_user_task)
+    @other_user_task.reload
+    assert_equal before, @other_user_task.archived
   end
 
   test "should get cancel" do
@@ -239,34 +245,38 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy task" do
-    assert_difference('@user.tasks.count', -1) do
+    assert_difference("@user.tasks.count", -1) do
       delete task_path(@task)
     end
-    
+
     assert_redirected_to tasks_path
   end
 
   test "should destroy task as turbo stream" do
-    assert_difference('@user.tasks.count', -1) do
+    assert_difference("@user.tasks.count", -1) do
       delete task_path(@task), as: :turbo_stream
     end
-    
+
     assert_response :success
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
 
   test "should not destroy other user's task" do
-    assert_raises(ActiveRecord::RecordNotFound) do
-      delete task_path(@other_user_task)
-    end
+    other_user_task_count = User.find(@other_user_task.user_id).tasks.count
+
+    delete task_path(@other_user_task)
+
+    assert_redirected_to root_path
+    assert_equal "Resource not found", flash[:alert]
+    assert_equal other_user_task_count, User.find(@other_user_task.user_id).tasks.count
   end
 
   test "should destroy task and its actions" do
     action = Action.create!(task: @task, participant: participants(:alice))
     action_id = action.id
-    
+
     delete task_path(@task)
-    
+
     assert_nil Action.find_by(id: action_id)
   end
 
@@ -279,7 +289,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         position: 1
       }
     }
-    
+
     assert_redirected_to @user.tasks.last
     new_task = @user.tasks.last
     assert_equal 1, new_task.position
@@ -293,7 +303,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         interval: 7
       }
     }
-    
+
     assert_redirected_to @user.tasks.last
     new_task = @user.tasks.last
     assert_equal 7, new_task.interval
@@ -307,7 +317,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         interval: ""
       }
     }
-    
+
     assert_redirected_to @user.tasks.last
     new_task = @user.tasks.last
     assert_nil new_task.interval
@@ -324,7 +334,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         id: 999                   # Should be ignored
       }
     }
-    
+
     assert_redirected_to @user.tasks.last
     new_task = @user.tasks.last
     assert_equal @user, new_task.user  # Should belong to current user
@@ -334,7 +344,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   test "should assign participants for show action" do
     get task_path(@task)
     assert_response :success
-    
+
     participants = assigns(:participants)
     assert_not_nil participants
     assert_equal @user.participants, participants
@@ -347,7 +357,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
         worth: 10
       }
     }
-    
+
     assert_redirected_to @user.tasks.last
     assert_assigns(:task)
     assert_assigns(:participants)
@@ -358,7 +368,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     # This tests the ApplicationController error handling
     get task_path(999999)  # Non-existent task
     assert_redirected_to root_path
-    assert_equal 'Resource not found', flash[:alert]
+    assert_equal "Resource not found", flash[:alert]
   end
 
   private

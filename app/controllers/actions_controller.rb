@@ -1,5 +1,5 @@
 class ActionsController < ApplicationController
-    before_action :set_participant, except: [ :index, :new, :create ]
+    before_action :set_action, except: [ :index, :new, :create ]
 
     def index
         @pagy, @actions = pagy(current_user.actions, {})
@@ -58,14 +58,14 @@ class ActionsController < ApplicationController
     private
 
     def action_params
-        params.require(:action).permit(:task, :participant, :data)
+        if params[:action].present? && params[:action].respond_to?(:permit)
+            params.require(:action).permit(:task_id, :participant_id, :on_streak)
+        else
+            {}
+        end
     end
 
-    def set_participant
-        @action = Action.find(params[:id])
-
-
-    rescue ActiveRecord::RecordNotFound
-        redirect_to root_path
+    def set_action
+        @action = current_user.actions.find(params[:id])
     end
 end

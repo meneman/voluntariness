@@ -24,9 +24,17 @@ class TasksController < ApplicationController
 
 
     def archive
-        @task.update(archived: !@task.archived)
+        @task.update(archived: true)
         respond_to do |format|
-            format.html { redirect_to @task }
+            format.html { redirect_to tasks_path }
+            format.turbo_stream { }
+        end
+    end
+
+    def unarchive
+        @task.update(archived: false)
+        respond_to do |format|
+            format.html { redirect_to tasks_path }
             format.turbo_stream { }
         end
     end

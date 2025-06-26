@@ -120,13 +120,15 @@ class StatisticsService
     chart_cumulative_data = Hash.new { |h, k| h[k] = {} }
     last_known_points = Hash.new(0)
 
-    participants.each do |participant|
-      participant_name = participant.name
+    # Fix: Get participants from the input data keys
+    participant_names = cumulative_points_by_participant_day.keys
+
+    participant_names.each do |participant_name|
       last_known_points[participant_name] = 0
       participant_data = cumulative_points_by_participant_day[participant_name] || {}
 
       all_dates.each do |date|
-        date_key = date.is_a?(Date) ? date.to_s : date
+        date_key = date.to_s # Ensure consistent string format
         formatted_date = date.strftime("%d %b")
 
         if participant_data.key?(date_key)

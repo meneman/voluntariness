@@ -35,8 +35,10 @@ Rails.application.routes.draw do
 
   # patch :archive
   # patch :participants, :archive
-  post "/participants/archive/:id", to: "participants#archive", as: :archive_participant, defaults: { format: :turbo_stream }
-  post "/tasks/archive/:id", to: "tasks#archive", as: :archive_task, defaults: { format: :turbo_stream }
+  patch "/participants/archive/:id", to: "participants#archive", as: :archive_participant, defaults: { format: :turbo_stream }
+  patch "/participants/unarchive/:id", to: "participants#unarchive", as: :unarchive_participant, defaults: { format: :turbo_stream }
+  patch "/tasks/archive/:id", to: "tasks#archive", as: :archive_task, defaults: { format: :turbo_stream }
+  patch "/tasks/unarchive/:id", to: "tasks#unarchive", as: :unarchive_task, defaults: { format: :turbo_stream }
 
   resources :actions
 
@@ -45,10 +47,10 @@ Rails.application.routes.draw do
 
   get "settings", to: "pages#settings", as: :settings
 
-  post "/settings/toggle_streak_boni", to: "settings#toggle_streak_boni", as: :toggle_streak_boni
-  post "/settings/toggle_overdue_bonus", to: "settings#toggle_overdue_bonus", as: :toggle_overdue_bonus
+  patch "/settings/toggle_streak_boni", to: "settings#toggle_streak_boni", as: :toggle_streak_boni
+  patch "/settings/toggle_overdue_bonus", to: "settings#toggle_overdue_bonus", as: :toggle_overdue_bonus
 
-  post "/settings/update_streak_bonus_days_threshold", to: "settings#update_streak_bonus_days_threshold", as: :update_streak_bonus_days_threshold
+  patch "/settings/update_streak_bonus_days_threshold", to: "settings#update_streak_bonus_days_threshold", as: :update_streak_bonus_days_threshold
   post "toggle_theme", to: "application#toggle_theme"
   # Defines the root path route ("/")
   root "pages#home"

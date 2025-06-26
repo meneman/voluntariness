@@ -281,7 +281,7 @@ class StatisticsServiceTest < ActiveSupport::TestCase
     chart_data = result[:chart_cumulative_data]
 
     alice_data = chart_data["Alice"]
-
+    puts alice_data["02 Dec"]
     # Should have data for all dates in range
     assert alice_data["01 Dec"] == 10
     assert alice_data["02 Dec"] == 10  # Should carry forward last known value
