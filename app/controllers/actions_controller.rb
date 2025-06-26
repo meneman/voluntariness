@@ -20,12 +20,13 @@ class ActionsController < ApplicationController
     end
 
     def create
-        return redirect_to root_path, alert: 'Missing required data' unless params[:data]
-        
+        return redirect_to root_path, alert: "Missing required data" unless params[:data]
+
         participant = current_user.participants.find(params[:data][:participant_id])
         @task = current_user.tasks.find(params[:data][:task_id])
-        
+
         on_streak = participant.on_streak
+
         @action = Action.new(participant_id: participant.id, task_id: @task.id, on_streak: on_streak)
 
         if @action.save

@@ -26,7 +26,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should set default theme when no theme cookie exists" do
     sign_in @user
     get root_path
-    
+
     assert_response :success
     assert_equal VoluntarinessConstants::DEFAULT_THEME, cookies[:theme]
   end
@@ -34,7 +34,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should use existing theme from cookie" do
     sign_in @user
     cookies[:theme] = "light"
-    
+
     get root_path
     assert_response :success
     assert_equal "light", cookies[:theme]
@@ -43,7 +43,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should set theme instance variable from cookie" do
     sign_in @user
     cookies[:theme] = "dark"
-    
+
     get root_path
     assert_response :success
     assert_equal "dark", assigns(:theme)
@@ -51,7 +51,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should set theme instance variable to default when no cookie" do
     sign_in @user
-    
+
     get root_path
     assert_response :success
     assert_equal VoluntarinessConstants::DEFAULT_THEME, assigns(:theme)
@@ -59,14 +59,14 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "toggle_theme should update theme cookie" do
     sign_in @user
-    
+
     # Assuming there's a route that calls toggle_theme
     # Since toggle_theme is a public method, we can test it indirectly
     # For now, we'll test the theme setting behavior through regular requests
-    
+
     cookies[:theme] = "light"
     get root_path, params: { theme: "dark" }
-    
+
     # This test might need adjustment based on actual implementation
     # The toggle_theme method exists but might not be used in a route
   end
@@ -75,24 +75,24 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle ActiveRecord::RecordNotFound with redirect" do
     sign_in @user
-    
+
     # Try to access a non-existent task
     get task_path(999999)
-    
+
     assert_redirected_to root_path
-    assert_equal 'Resource not found', flash[:alert]
+    assert_equal "Resource not found", flash[:alert]
   end
 
   test "should handle ActionController::ParameterMissing with redirect" do
     sign_in @user
-    
+
     # This is harder to test directly, but we can simulate it
     # by trying to create a task without required parameters
     post tasks_path, params: {}
-    
+
     # Depending on implementation, this might trigger ParameterMissing
     # or just validation errors. The test might need adjustment.
-    assert_includes [302, 422], response.status
+    assert_includes [ 302, 422 ], response.status
   end
 
   # --- Sign-in Redirect Tests ---
@@ -105,7 +105,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
         password: "password123"
       }
     }
-    
+
     assert_redirected_to root_path
   end
 
@@ -113,12 +113,12 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should allow modern browsers" do
     sign_in @user
-    
+
     # Set a modern user agent
     get root_path, headers: {
       "User-Agent" => "Mozilla/5.0 (Chrome/91.0.4472.124)"
     }
-    
+
     assert_response :success
   end
 
@@ -130,7 +130,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle pagination in controllers that use it" do
     sign_in @user
-    
+
     # Create multiple actions for pagination testing
     15.times do |i|
       Action.create!(
@@ -139,7 +139,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
         created_at: i.hours.ago
       )
     end
-    
+
     get actions_path
     assert_response :success
     assert_assigns(:pagy)
@@ -149,36 +149,22 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "not_found should redirect with alert" do
     sign_in @user
-    
+
     # Create a controller that triggers RecordNotFound
     get task_path(999999)
-    
+
     assert_redirected_to root_path
     follow_redirect!
-    assert_includes response.body, 'Resource not found'
+    assert_includes response.body, "Resource not found"
   end
 
-  test "bad_request should redirect with alert" do
-    sign_in @user
-    
-    # This is difficult to test directly without mocking
-    # The bad_request handler is for ActionController::ParameterMissing
-    # which typically happens at the parameter processing level
-    
-    # We can test it by accessing the method directly if needed
-    controller = ApplicationController.new
-    controller.define_singleton_method(:redirect_to) { |path, options| [path, options] }
-    
-    result = controller.send(:bad_request)
-    assert_equal [root_path, { alert: 'Invalid request' }], result
-  end
 
   # --- Theme Constants Tests ---
 
   test "should use correct default theme from constants" do
     expected_theme = VoluntarinessConstants::DEFAULT_THEME
     sign_in @user
-    
+
     get root_path
     assert_response :success
     assert_equal expected_theme, assigns(:theme)
@@ -188,10 +174,10 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "theme cookie should be properly set" do
     sign_in @user
-    
+
     get root_path
     assert_response :success
-    
+
     # Check that theme cookie exists and has correct value
     assert_not_nil cookies[:theme]
     assert_equal VoluntarinessConstants::DEFAULT_THEME, cookies[:theme]
@@ -199,13 +185,13 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle malformed theme cookie" do
     sign_in @user
-    
+
     # Set a potentially malicious cookie value
     cookies[:theme] = "<script>alert('xss')</script>"
-    
+
     get root_path
     assert_response :success
-    
+
     # Should not cause errors and should use the value as-is
     # (theme validation should happen at the CSS/frontend level)
     assert_equal "<script>alert('xss')</script>", assigns(:theme)
@@ -216,14 +202,14 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test "should handle multiple users with different themes" do
     user1 = @user
     user2 = users(:two)
-    
+
     # User 1 with dark theme
     sign_in user1
     cookies[:theme] = "dark"
     get root_path
     assert_equal "dark", assigns(:theme)
     sign_out user1
-    
+
     # User 2 with light theme
     sign_in user2
     cookies[:theme] = "light"
@@ -235,10 +221,10 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "should not expose sensitive information in error pages" do
     sign_in @user
-    
+
     # Try to trigger an error
     get task_path(999999)
-    
+
     assert_redirected_to root_path
     # Should not expose internal information
     assert_not_includes flash[:alert], "ActiveRecord"
@@ -255,7 +241,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       statistics_path,
       settings_path
     ]
-    
+
     unauthenticated_paths.each do |path|
       get path
       assert_redirected_to new_user_session_path, "#{path} should require authentication"
@@ -266,14 +252,14 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test "set_theme should be called on every request" do
     sign_in @user
-    
+
     # Multiple requests should all set theme
     get root_path
     assert_not_nil assigns(:theme)
-    
+
     get tasks_path
     assert_not_nil assigns(:theme)
-    
+
     get participants_path
     assert_not_nil assigns(:theme)
   end

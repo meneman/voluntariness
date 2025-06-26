@@ -31,10 +31,6 @@ class ApplicationController < ActionController::Base
   private
 
   def not_found
-    redirect_to root_path, alert: 'Resource not found'
-  end
-
-  def bad_request
-    redirect_to root_path, alert: 'Invalid request'
+    redirect_to root_path, alert: "Resource not found"
   end
 end

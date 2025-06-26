@@ -11,7 +11,6 @@ class StatisticsService
       .select(
         "tasks.title AS task_title",
         "participants.name AS participant_name",
-        "tasks.archived AS task_archived",
         "COUNT(actions.id) AS actions_count",
         "tasks.worth AS task_worth"
       )

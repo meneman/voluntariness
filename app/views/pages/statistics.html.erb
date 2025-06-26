@@ -92,7 +92,7 @@
 
 
     <h1 class="text-3xl font-bold text-center mb-10 text-slate-800 dark:text-white">Team Performance Dashboard</h1>
-
+<%= @participants.map do |participant| participant.name end %>
 
       <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Performance Over Time</h2>
       <div data-controller="chart"

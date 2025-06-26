@@ -1,14 +1,11 @@
 class Participant < ApplicationRecord
     belongs_to :user
-    has_many :actions, dependent: :destroy, after_remove: :log_action_removal
+    has_many :actions, dependent: :destroy
     has_many :tasks, through: :actions, dependent: :nullify
     validates :name, presence: true
     scope :active, -> { where("archived = false") }
 
-    def log_action_removal(action)
-        puts self
-          Rails.logger.info "Participant changed #{id}."
-    end
+
 
     def total_points
         # Use database aggregation instead of Ruby iteration to avoid N+1 queries
@@ -25,8 +22,9 @@ class Participant < ApplicationRecord
 
     def streak
         return -1 unless self.user.streak_boni_enabled?
+
         days_with_action = actions.last_five_days.reverse.map { |action| action.created_at.to_date }.uniq
-        current_day = Time.now.to_date
+        current_day = Time.now.to_date - 1.day
         streak_count = 0
         days_with_action.each { |day|
             if day == current_day
