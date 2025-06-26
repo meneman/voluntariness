@@ -9,10 +9,10 @@
     </div>
   <% end %>
   <div class="form-inputs space-y-4">
-    <%= f.input :name, label: "Name", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block dark:text-gray-300" } %>
-    <%= f.input :color, label: "Favorite Color", input_html: { type: 'color', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block dark:text-gray-300" } %>
+    <%= f.input :name, label: t('forms.labels.name'), input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block dark:text-gray-300" } %>
+    <%= f.input :color, label: t('forms.labels.favorite_color'), input_html: { type: 'color', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block dark:text-gray-300" } %>
     <div class="form-group">
-      <%= f.label :avatar, "Avatar (Choose an emoji)", class: "block mb-2 dark:text-gray-300" %>
+      <%= f.label :avatar, t('forms.labels.avatar'), class: "block mb-2 dark:text-gray-300" %>
       <div class="flex flex-wrap">
         <% emojis =        [
     "25FE",

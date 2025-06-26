@@ -19,7 +19,7 @@ class ActionsController < ApplicationController
     end
 
     def create
-        return redirect_to root_path, alert: "Missing required data" unless params[:data]
+        return redirect_to root_path, alert: t("flash.missing_required_data") unless params[:data]
 
         participant = current_user.participants.find(params[:data][:participant_id])
         @task = current_user.tasks.find(params[:data][:task_id])
@@ -28,7 +28,7 @@ class ActionsController < ApplicationController
 
         if @action.save
             respond_to do |format|
-                format.html { redirect_to root_path, notice: "Quote was successfully created." }
+                format.html { redirect_to root_path, notice: t("flash.quote_created") }
                 format.turbo_stream { flash.now[:action_flash] = @action }#  {participant: @action.participant, task: @action.task} }
             end
         else

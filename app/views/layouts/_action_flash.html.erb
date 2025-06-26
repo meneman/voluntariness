@@ -7,7 +7,7 @@
     <%# <div class="w-full flex"></div> %>
     <div class="flex">
       <% if key == "action_flash"  %>
-        <%=  button_to "Rückgängig", message, method: :delete , class:"text-blue-800 dark:text-blue-500 relative m-2 font-bold font-xl", form_class: "m-auto"  %>
+        <%=  button_to t('buttons.undo'), message, method: :delete , class:"text-blue-800 dark:text-blue-500 relative m-2 font-bold font-xl", form_class: "m-auto"  %>
         <%=  render partial: "action", locals: {action: message, show_delete: false } %>
       <% else %>
         <div

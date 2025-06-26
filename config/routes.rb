@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   get "pages/statistics", as: :statistics
+  get "pages/gambling", as: :gambling
   get "participants/cancel", to: "participants#cancel", as: :cancel_participant,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_tasks,  defaults: { format: :turbo_stream }

@@ -31,6 +31,6 @@ class ApplicationController < ActionController::Base
   private
 
   def not_found
-    redirect_to root_path, alert: "Resource not found"
+    redirect_to root_path, alert: t('flash.resource_not_found')
   end
 end

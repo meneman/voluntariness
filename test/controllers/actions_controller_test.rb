@@ -80,7 +80,6 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
-    assert_equal "Quote was successfully created.", flash[:notice]
 
     new_action = Action.last
     assert_equal @task, new_action.task

@@ -28,9 +28,11 @@
 #       enabled: "ON"
 
 en:
+  app:
+    name: "Voluntariness"
   addTask: "add task"
   interval: "Interval"
-  worth: "Wert"
+  worth: "Worth"
   confirmMessage: "Are you sure?"
   delete: "delete"
   archived: "archived"
@@ -40,6 +42,21 @@ en:
   history: "History"
   statisitics: "Statistics"
   participants: "Participants"
+  gambling_link: "Wheel of Fortune"
+  gambling:
+    title: "Wheel of Fortune"
+    your_points: "Your Points"
+    points: "pts"
+    bet_one_point: "Bet 1 Point"
+    recent_badges: "Recent Badges"
+    no_badges_yet: "No badges earned yet - place a bet and spin to win!"
+    wheel_of_fortune: "Spin the Wheel"
+    how_to_play: "How to Play"
+    instruction_1: "Click 'Bet 1 Point' to place your bet and enable the wheel"
+    instruction_2: "Click the center of the wheel to spin"
+    instruction_3: "Win points and badges based on where the wheel stops"
+    instruction_4: "Collect different badge types: Bronze, Silver, and Gold!"
+  user_settings: "settings"
   cancel: "cancel"
   overdue_in: "overdue in %{days} days"
   overdue_since: "overdue since %{days} days"
@@ -49,6 +66,33 @@ en:
   add_participant: "add participant"
   edit_mode: "edit mode"
   bonus_points_hint: "Overdue tasks earn bonus points - the longer overdue, the more points you get when completed"
+
+  # New organized keys
+  forms:
+    labels:
+      name: "Name"
+      favorite_color: "Favorite Color"
+      title: "Title"
+      worth: "Worth"
+      interval: "Interval"
+      avatar: "Avatar (Choose an emoji)"
+  
+  buttons:
+    add_quote: "Add quote"
+    update: "Update"
+    undo: "Undo"
+    back: "Back"
+  
+  flash:
+    missing_required_data: "Missing required data"
+    resource_not_found: "Resource not found"
+    participant_created: "Participant was successfully created."
+    participant_deleted: "Participant was successfully deleted."
+    quote_created: "Action completed successfully!"
+
+  
+  settings:
+    streak_bonus_threshold: "Streak bonus days threshold"
 
 
 

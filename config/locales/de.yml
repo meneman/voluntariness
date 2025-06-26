@@ -1,4 +1,6 @@
 de:
+  app:
+    name: "Voluntariness"
   addTask: "Aufgabe hinzufügen"
   interval: "Intervall"
   worth: "Wert"
@@ -11,6 +13,21 @@ de:
   history: "Verlauf"
   statistics: "Statistiken"
   participants: "Teilnehmer"
+  gambling_link: "Glücksrad"
+  gambling:
+    title: "Glücksrad"
+    your_points: "Deine Punkte"
+    points: "Pkt"
+    bet_one_point: "1 Punkt setzen"
+    recent_badges: "Neueste Abzeichen"
+    no_badges_yet: "Noch keine Abzeichen verdient - setze und drehe, um zu gewinnen!"
+    wheel_of_fortune: "Dreh das Rad"
+    how_to_play: "Spielanleitung"
+    instruction_1: "Klicke '1 Punkt setzen' um deinen Einsatz zu platzieren und das Rad zu aktivieren"
+    instruction_2: "Klicke die Mitte des Rades um zu drehen"
+    instruction_3: "Gewinne Punkte und Abzeichen basierend darauf, wo das Rad anhält"
+    instruction_4: "Sammle verschiedene Abzeichen-Typen: Bronze, Silber und Gold!"
+  user_settings: "Einstellungen"
   cancel: "abbrechen"
   overdue_in: "fällig in %{days} Tagen"
   overdue_since: "überfällig seit %{days} Tagen"
@@ -22,3 +39,29 @@ de:
   edit_mode: "Editieren"
   bonus_points_hint: "Überfällige Aufgaben geben Bonuspunkte - je länger überfällig, desto mehr Punkte beim Abschließen"
   bonus_points: Überfälligkeitsbonus
+
+  # New organized keys
+  forms:
+    labels:
+      name: "Name"
+      favorite_color: "Lieblingsfarbe"
+      title: "Titel"
+      worth: "Wert"
+      interval: "Intervall"
+      avatar: "Avatar (Wähle ein Emoji)"
+  
+  buttons:
+    add_quote: "Zitat hinzufügen"
+    update: "Aktualisieren"
+    undo: "Rückgängig"
+    back: "Zurück"
+  
+  flash:
+    missing_required_data: "Erforderliche Daten fehlen"
+    resource_not_found: "Ressource nicht gefunden"
+    participant_created: "Teilnehmer wurde erfolgreich erstellt."
+    participant_deleted: "Teilnehmer wurde erfolgreich gelöscht."
+    quote_created: "Aktion erfolgreich abgeschlossen!"
+  
+  settings:
+    streak_bonus_threshold: "Streak-Bonus Tage Schwellenwert"

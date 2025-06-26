@@ -1,0 +1,85 @@
+<turbo-frame id="content">
+<div id="gambling-interface" data-controller="gambling" data-gambling-user-points-value="100" class="max-w-4xl mx-auto p-4">
+  
+  <!-- Gambling Interface Header -->
+  <div class="gambling-header bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 rounded-lg mb-6 shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-4"><%= t("gambling.title") %></h1>
+    
+    <!-- Points Display -->
+    <div class="flex justify-center items-center space-x-6 mb-4">
+      <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center backdrop-blur-sm">
+        <div class="text-sm opacity-80"><%= t("gambling.your_points") %></div>
+        <div class="text-2xl font-bold">
+          <span data-gambling-target="pointsDisplay">100</span>
+          <span class="text-sm"><%= t("gambling.points") %></span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Bet Button -->
+    <div class="text-center">
+      <button data-gambling-target="betButton" 
+              data-action="click->gambling#placeBet"
+              class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
+        <%= t("gambling.bet_one_point") %>
+      </button>
+    </div>
+    
+    <!-- Status Message -->
+    <div data-gambling-target="statusMessage" class="status-message text-center mt-4 font-medium min-h-[1.5rem]"></div>
+  </div>
+  
+
+
+  <!-- Spinning Wheel Container -->
+  <div class="wheel-container bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
+    <h3 class="text-xl font-semibold text-center mb-4 text-gray-800 dark:text-white"><%= t("gambling.wheel_of_fortune") %></h3>
+    
+    <div id="wrapper" data-controller="spinning-wheel" data-action="spinning-wheel:complete->gambling#onSpinComplete" class="mx-auto">
+        <div id="wheel">
+            <div id="inner-wheel" data-spinning-wheel-target="innerWheel">
+                <!-- Each 'sec' div is a Stimulus target now -->
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-bell-o"></span></div>
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-comment-o"></span></div>
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-smile-o"></span></div>
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-heart-o"></span></div>
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-star-o"></span></div>
+                <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-lightbulb-o"></span></div>
+                  <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-lightbulb-o"></span></div>
+                    <div class="sec" data-spinning-wheel-target="section"><span class="fa fa-lightbulb-o"></span></div>
+            </div>
+
+            <!-- The spin button now has a Stimulus action and target -->
+            <div id="spin" data-action="click->spinning-wheel#spin" data-spinning-wheel-target="spinButton" data-gambling-target="spinButton" class="disabled">
+                <div id="inner-spin"></div>
+            </div>
+
+            <div id="shine"></div>
+        </div>
+
+        <!-- The text output div is also a Stimulus target -->
+        <div id="txt" data-spinning-wheel-target="textOutput"></div>
+    </div>
+  </div>
+
+    <!-- Badge Display Area -->
+  <div class="badge-area mb-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+    <h3 class="text-lg font-semibold mb-3 text-gray-800 dark:text-white"><%= t("gambling.recent_badges") %></h3>
+    <div data-gambling-target="badgeDisplay" class="flex flex-wrap gap-2 min-h-[60px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
+      <div class="text-gray-500 dark:text-gray-400 text-sm italic"><%= t("gambling.no_badges_yet") %></div>
+    </div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instructions bg-gray-50 dark:bg-gray-800 p-6 rounded-lg mt-6 shadow">
+    <h3 class="font-semibold mb-3 text-gray-800 dark:text-white text-lg"><%= t("gambling.how_to_play") %></h3>
+    <ul class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+      <li class="flex items-start"><span class="text-purple-500 mr-2">1.</span><%= t("gambling.instruction_1") %></li>
+      <li class="flex items-start"><span class="text-purple-500 mr-2">2.</span><%= t("gambling.instruction_2") %></li>
+      <li class="flex items-start"><span class="text-purple-500 mr-2">3.</span><%= t("gambling.instruction_3") %></li>
+      <li class="flex items-start"><span class="text-purple-500 mr-2">4.</span><%= t("gambling.instruction_4") %></li>
+    </ul>
+  </div>
+
+</div>
+</turbo-frame>

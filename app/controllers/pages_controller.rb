@@ -63,6 +63,15 @@ class PagesController < ApplicationController
       end
     end
 
+    # GET /gambling
+    # Displays the spinning wheel gambling/game page.
+    def gambling
+      respond_to do |format|
+        format.html { }         # Renders views/pages/gambling.html.erb
+        format.turbo_stream { } # Renders views/pages/gambling.turbo_stream.erb if needed
+      end
+    end
+
     # --- Private Methods ---
 
     private

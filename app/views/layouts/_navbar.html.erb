@@ -47,11 +47,15 @@
                 statistics_path,
                 data: { turbo_action:"advance", turbo_frame: "content" },
                 class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
+            <%= link_to t("gambling_link"),
+                gambling_path,
+                data: { turbo_action:"advance", turbo_frame: "content" },
+                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
             <%= link_to t("participants"),
                 participants_path,
                 data: { turbo_action:"advance", turbo_frame: "content", turbo: "true" },
                 class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-            <%= link_to t("settings"),
+            <%= link_to t("user_settings"),
                 settings_path,
                 data: { turbo_action:"advance", turbo_frame: "content", turbo: "true" },
                 class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
@@ -121,6 +125,9 @@
                 class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
       <%= link_to t("statistics"),
                 statistics_path,
+                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
+      <%= link_to t("gambling"),
+                gambling_path,
                 class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
       <%= link_to t("participants"),
                 participants_path,

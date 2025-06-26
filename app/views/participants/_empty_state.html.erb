@@ -2,7 +2,7 @@
   <p class="empty-state__text">
     You don't have any quotes yet!
   </p>
-  <%= link_to "Add quote",
+  <%= link_to t('buttons.add_quote'),
               new_quote_path,
               class: "btn btn--primary",
               data: { turbo_frame: dom_id(Quote.new) } %>

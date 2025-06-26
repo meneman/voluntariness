@@ -9,11 +9,11 @@
     </div>
   <% end %>
   <div class="form-inputs space-y-2">
-    <%= f.input :title, label: "Title", input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :title, label: t('forms.labels.title'), input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
   </div>
   <div class="form-inputs flex space-x-2" >
-    <%= f.input :worth, label: "Worth", input_html: { type: 'number', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
-    <%= f.input :interval, label: "Interval", input_html: { type: 'number', class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :worth, label: t('forms.labels.worth'), input_html: { type: 'number', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
+    <%= f.input :interval, label: t('forms.labels.interval'), input_html: { type: 'number', class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
   </div>
   <div class="form-actions mt-6">
     <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 dark:text-white font-bold rounded" %>
