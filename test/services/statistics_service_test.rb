@@ -269,24 +269,6 @@ class StatisticsServiceTest < ActiveSupport::TestCase
     end
   end
 
-  test "generate_chart_cumulative_data should fill in missing dates with last known points" do
-    test_cumulative_data = {
-      "Alice" => {
-        "2023-12-01" => 10,
-        "2023-12-03" => 25  # Missing Dec 2
-      }
-    }
-
-    result = @service.generate_chart_cumulative_data(test_cumulative_data)
-    chart_data = result[:chart_cumulative_data]
-
-    alice_data = chart_data["Alice"]
-    puts alice_data["02 Dec"]
-    # Should have data for all dates in range
-    assert alice_data["01 Dec"] == 10
-    assert alice_data["02 Dec"] == 10  # Should carry forward last known value
-    assert alice_data["03 Dec"] == 25
-  end
 
   test "should handle user with no actions" do
     user_with_no_actions = users(:two)

@@ -298,7 +298,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     assert_not @participant.on_streak, "Participant should not be on streak"
 
     # Lower the threshold
-    post update_streak_bonus_days_threshold_path,
+    patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "2" },  as: :turbo_stream
     assert_response :success
 
