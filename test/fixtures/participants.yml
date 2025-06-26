@@ -1,0 +1,56 @@
+# Test fixtures for Participant model
+alice:
+  name: "Alice"
+  color: "#FF6B6B"
+  archived: false
+  user: one
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
+
+bob:
+  name: "Bob"
+  color: "#4ECDC4"
+  archived: false
+  user: one
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
+
+charlie:
+  name: "Charlie"
+  color: "#45B7D1"
+  archived: false
+  user: one
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
+
+archived_participant:
+  name: "Archived Person"
+  color: "#FFA07A"
+  archived: true
+  user: one
+  created_at: <%= 2.months.ago %>
+  updated_at: <%= 1.month.ago %>
+
+user_two_participant:
+  name: "Dave"
+  color: "#98D8C8"
+  archived: false
+  user: two
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
+
+streak_participant:
+  name: "Streaky"
+  color: "#F7DC6F"
+  archived: false
+  user: with_streak_bonuses
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
+
+no_bonus_participant:
+  name: "Simple"
+  color: "#BB8FCE"
+  archived: false
+  user: no_bonuses
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>

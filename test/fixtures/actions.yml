@@ -1,0 +1,80 @@
+# Test fixtures for Action model
+alice_dishwashing_today:
+  task: dishwashing
+  participant: alice
+  on_streak: false
+  bonus_points: 0.0
+  created_at: <%= Time.current.beginning_of_day + 10.hours %>
+
+bob_grocery_yesterday:
+  task: grocery_shopping
+  participant: bob
+  on_streak: true
+  bonus_points: 2.5
+  created_at: <%= 1.day.ago.beginning_of_day + 14.hours %>
+
+charlie_vacuum_three_days_ago:
+  task: vacuum_cleaning
+  participant: charlie
+  on_streak: false
+  bonus_points: 1.0
+  created_at: <%= 3.days.ago.beginning_of_day + 9.hours %>
+
+alice_dishwashing_yesterday:
+  task: dishwashing
+  participant: alice
+  on_streak: true
+  bonus_points: 0.0
+  created_at: <%= 1.day.ago.beginning_of_day + 18.hours %>
+
+bob_dishwashing_two_days_ago:
+  task: dishwashing
+  participant: bob
+  on_streak: true
+  bonus_points: 0.0
+  created_at: <%= 2.days.ago.beginning_of_day + 12.hours %>
+
+charlie_grocery_last_week:
+  task: grocery_shopping
+  participant: charlie
+  on_streak: false
+  bonus_points: 0.0
+  created_at: <%= 1.week.ago.beginning_of_day + 16.hours %>
+
+# Actions for streak testing
+alice_streak_day1:
+  task: dishwashing
+  participant: alice
+  on_streak: false
+  bonus_points: 0.0
+  created_at: <%= 5.days.ago.beginning_of_day + 10.hours %>
+
+alice_streak_day2:
+  task: vacuum_cleaning
+  participant: alice
+  on_streak: false
+  bonus_points: 0.0
+  created_at: <%= 4.days.ago.beginning_of_day + 11.hours %>
+
+alice_streak_day3:
+  task: grocery_shopping
+  participant: alice
+  on_streak: true
+  bonus_points: 0.0
+  created_at: <%= 3.days.ago.beginning_of_day + 12.hours %>
+
+# Actions for overdue bonus testing
+overdue_task_action:
+  task: overdue_task
+  participant: streak_participant 
+  on_streak: false
+  bonus_points: 15.0
+  created_at: <%= 5.days.ago.beginning_of_day + 8.hours %>
+
+# User two actions
+user_two_action:
+  task: user_two_task
+  participant: user_two_participant
+  on_streak: false
+  bonus_points: 0.0
+  created_at: <%= 2.days.ago.beginning_of_day + 15.hours %>

@@ -2,7 +2,8 @@ class TasksController < ApplicationController
     before_action :set_task, except: [ :index, :new, :create, :cancel ]
 
     def index
-         @tasks = current_user.tasks.all()
+         @tasks = current_user.tasks.all
+         @participants = current_user.participants
          respond_to do |format|
             format.html
             format.turbo_stream
@@ -25,7 +26,7 @@ class TasksController < ApplicationController
     def archive
         @task.update(archived: !@task.archived)
         respond_to do |format|
-            format.html { }
+            format.html { redirect_to @task }
             format.turbo_stream { }
         end
     end
@@ -43,7 +44,7 @@ class TasksController < ApplicationController
         if @task.save
             respond_to do |format|
                 format.turbo_stream { }
-                format.html { }
+                format.html { redirect_to @task }
             end
         else
             render :new, status: :unprocessable_entity

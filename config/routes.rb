@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get "pages/statistics", as: :statistics
   get "participants/cancel", to: "participants#cancel", as: :cancel_participant,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: { format: :turbo_stream }
+  get "/tasks/cancel", to: "tasks#cancel", as: :cancel_tasks,  defaults: { format: :turbo_stream }
 
   # devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,0 +1,77 @@
+# Test fixtures for Task model
+dishwashing:
+  title: "Wash dishes"
+  description: "Clean all dishes in the sink"
+  worth: 10.0
+  interval: 1
+  position: 1
+  archived: false
+  user: one
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
+
+grocery_shopping:
+  title: "Grocery shopping"
+  description: "Buy groceries for the week"
+  worth: 15.5
+  interval: 7
+  position: 2
+  archived: false
+  user: one
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
+
+vacuum_cleaning:
+  title: "Vacuum cleaning"
+  description: "Vacuum all rooms"
+  worth: 8.0
+  interval: 3
+  position: 3
+  archived: false
+  user: one
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
+
+archived_task:
+  title: "Old task"
+  description: "This task is archived"
+  worth: 5.0
+  interval: 1
+  position: 4
+  archived: true
+  user: one
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.week.ago %>
+
+no_interval_task:
+  title: "One-time task"
+  description: "Task without interval"
+  worth: 20.0
+  interval: 
+  position: 5
+  archived: false
+  user: one
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
+
+user_two_task:
+  title: "User two task"
+  description: "Task for user two"
+  worth: 12.0
+  interval: 2
+  position: 1
+  archived: false
+  user: two
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
+
+overdue_task:
+  title: "Overdue task"
+  description: "Task that should be overdue"
+  worth: 25.0
+  interval: 1
+  position: 6
+  archived: false
+  user: with_streak_bonuses
+  created_at: <%= 1.week.ago %>
+  updated_at: <%= 1.week.ago %>
