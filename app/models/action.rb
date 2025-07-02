@@ -28,6 +28,12 @@ class Action < ApplicationRecord
     broadcast_replace_to "participants_points",
       target: "points_for_#{self.participant.id}",
       partial: "pages/points",
-      locals: { animate: action_type == :create, id: self.participant.id, total_points: self.participant.total_points }
+      locals: { 
+        animate: action_type == :create, 
+        id: self.participant.id, 
+        total_points: self.participant.total_points,
+        base_points: self.participant.base_points,
+        bonus_points_total: self.participant.bonus_points_total
+      }
   end
 end

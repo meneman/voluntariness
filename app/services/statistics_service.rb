@@ -73,6 +73,42 @@ class StatisticsService
       .sum("tasks.worth")
   end
 
+  def generate_bonus_points_by_day
+    user.actions
+      .where.not(bonus_points: nil)
+      .group_by_day(:created_at, last: 30)
+      .sum("bonus_points")
+  end
+
+  def generate_cumulative_bonus_data
+    # SQL query for cumulative bonus points calculation
+    select_cumulative_sql = <<-SQL.squish
+      DISTINCT
+      participants.name AS participant_name,
+      DATE(actions.created_at) AS action_date,
+      SUM(COALESCE(actions.bonus_points, 0)) OVER (
+        PARTITION BY participants.name
+        ORDER BY DATE(actions.created_at)
+        ROWS UNBOUNDED PRECEDING
+      ) AS cumulative_bonus_points
+    SQL
+
+    cumulative_data = user.actions
+      .joins(:participant)
+      .select(select_cumulative_sql)
+      .where.not(bonus_points: nil)
+      .order("participant_name", "action_date")
+
+    # Process into nested hash
+    cumulative_bonus_by_participant_day = Hash.new { |h, k| h[k] = {} }
+    cumulative_data.each do |record|
+      date_key = record.action_date
+      cumulative_bonus_by_participant_day[record.participant_name][date_key] = record.cumulative_bonus_points
+    end
+
+    cumulative_bonus_by_participant_day
+  end
+
   def generate_cumulative_data
     # SQL query for cumulative points calculation
     select_cumulative_sql = <<-SQL.squish

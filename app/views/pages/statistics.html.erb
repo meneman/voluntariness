@@ -150,6 +150,65 @@
           }.to_json %>">
       </div>
 
+      <!-- Bonus Points Line Chart -->
+      <h2 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Bonus Points Over Time</h2>
+      <div data-controller="chart"
+          data-chart-type-value="line"
+          data-chart-height-value="400"
+          data-chart-data-value="<%= {
+            labels: @bonus_chart_labels,
+            datasets: @participants.map do |participant|
+              participant_chart_data = @bonus_chart_cumulative_data[participant.name] || {}
+              {
+                label: participant.name,
+                data: @bonus_chart_labels.map { |label| participant_chart_data[label] || 0 },
+                borderColor: participant.color || "##{SecureRandom.hex(3)}",
+                backgroundColor: participant.color ? participant.color.gsub('rgb(', 'rgba(').gsub(')', ', 0.2)') : "rgba(#{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, #{SecureRandom.rand(256)}, 0.2)",
+                tension: 0.1,
+                pointRadius: 3,
+                pointHoverRadius: 5
+              }
+            end
+          }.to_json %>"
+          data-chart-options-value="<%= {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: {
+                display: true,
+                text: 'Bonus Points over time'
+              },
+              legend: {
+                position: 'top',
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+              }
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Cumulative Bonus Points'
+                },
+                ticks: {
+                  stepSize: 1,
+                  precision: 1,
+
+                },
+                beginAtZero: true
+              },
+            }
+          }.to_json %>">
+      </div>
+
     <!-- Teilnehmer-Übersicht (Donut-Charts) -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
       <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">

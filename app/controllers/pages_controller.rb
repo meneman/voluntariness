@@ -45,6 +45,13 @@ class PagesController < ApplicationController
       @chart_labels = chart_data[:chart_labels]
       @chart_cumulative_data = chart_data[:chart_cumulative_data]
 
+      # Bonus points data
+      @bonus_points_by_day = service.generate_bonus_points_by_day
+      @cumulative_bonus_by_participant_day = service.generate_cumulative_bonus_data
+      bonus_chart_data = service.generate_chart_cumulative_data(@cumulative_bonus_by_participant_day)
+      @bonus_chart_labels = bonus_chart_data[:chart_labels]
+      @bonus_chart_cumulative_data = bonus_chart_data[:chart_cumulative_data]
+
       respond_to do |format|
         format.html { }
         format.turbo_stream { }

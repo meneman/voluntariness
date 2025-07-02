@@ -19,6 +19,17 @@ class Participant < ApplicationRecord
         "%g" % ("%.1f" % total)
     end
 
+    def base_points
+        points = actions.joins(:task).sum("tasks.worth")
+        "%g" % ("%.1f" % points)
+    end
+
+    def bonus_points_total
+        bonus_points = actions.sum("COALESCE(bonus_points, 0)")
+        streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
+        bonus_points + streak_bonus
+    end
+
 
 
     def streak

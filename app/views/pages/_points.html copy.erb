@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "points_for_#{id}" do %>
+  <div class="relative m-auto w-full h-full flex flex-col justify-center text-center">
+    <div class="text-lg font-bold">
+      <%= total_points || 0 %>
+    </div>
+    <div class="text-xs opacity-75 leading-tight">
+      <div><%= base_points || 0 %> base</div>
+      <% if bonus_points_total && bonus_points_total > 0 %>
+        <div>+<%= bonus_points_total %> bonus</div>
+      <% end %>
+    </div>
+    <% if animate == true %>
+      <span data-controller="removals" class="absolute top-0 bottom-0 right-0 left-0 font-bold text-green-600 fade-away" data-action="animationend->removals#remove">
+        <%= total_points || 0 %>
+      </span>
+    <% end  %>
+  </div>
+<% end %>
