@@ -1,14 +1,6 @@
 class TasksController < ApplicationController
     before_action :set_task, except: [ :index, :new, :create, :cancel ]
 
-    def index
-         @tasks = current_user.tasks.all
-         @participants = current_user.participants
-         respond_to do |format|
-            format.html
-            format.turbo_stream
-          end
-    end
 
     def show
         @participants = current_user.participants
@@ -55,7 +47,10 @@ class TasksController < ApplicationController
                 format.html { redirect_to @task }
             end
         else
-            render :new, status: :unprocessable_entity
+            respond_to do |format|
+                format.turbo_stream { render :new, status: :unprocessable_entity }
+                format.html { render :new, status: :unprocessable_entity }
+            end
         end
     end
 

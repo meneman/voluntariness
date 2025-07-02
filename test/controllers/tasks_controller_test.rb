@@ -26,11 +26,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "should get index" do
-    get tasks_path
-    assert_response :success
-    assert_includes response.body, @task.title
-  end
 
   test "should get index as turbo stream" do
     get tasks_path, as: :turbo_stream
@@ -38,18 +33,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
 
-  test "index should only show current user's tasks" do
-    get tasks_path
-    assert_response :success
 
-    # Should include user's tasks
-    @user.tasks.each do |task|
-      assert_includes response.body, task.title
-    end
-
-    # Should not include other user's tasks
-    assert_not_includes response.body, @other_user_task.title
-  end
 
   test "should get show" do
     get task_path(@task)

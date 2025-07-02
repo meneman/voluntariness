@@ -1,3 +1,6 @@
-<%= turbo_stream.prepend "new_task" do %>
-  <div >hallo </div>
+<%= turbo_stream.update "new_task" do %>
+  <div style="max-width: 300px" class="relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg">
+    <%= render partial: "form", locals: {task: @task} %>
+    <%= link_to t("cancel"), cancel_task_path, {data: { turbo_stream: true}, class: "text-red-500 absolute top-0 right-0 m-2 font-bold font-medium"} %>
+  </div>
 <% end %>

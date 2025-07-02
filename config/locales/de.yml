@@ -65,3 +65,30 @@ de:
   
   settings:
     streak_bonus_threshold: "Streak-Bonus Tage Schwellenwert"
+
+  # ActiveRecord error messages
+  activerecord:
+    errors:
+      messages:
+        blank: "darf nicht leer sein"
+        taken: "ist bereits vergeben"
+        too_short: "ist zu kurz (mindestens %{count} Zeichen)"
+        too_long: "ist zu lang (maximal %{count} Zeichen)"
+        invalid: "ist nicht gültig"
+        confirmation: "stimmt nicht mit %{attribute} überein"
+        accepted: "muss akzeptiert werden"
+        empty: "darf nicht leer sein"
+        present: "darf nicht ausgefüllt sein"
+        inclusion: "ist kein gültiger Wert"
+        exclusion: "ist nicht verfügbar"
+        wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)"
+        not_a_number: "ist keine Zahl"
+        not_an_integer: "muss ganzzahlig sein"
+        greater_than: "muss größer als %{count} sein"
+        greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
+        equal_to: "muss gleich %{count} sein"
+        less_than: "muss kleiner als %{count} sein"
+        less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
+        other_than: "darf nicht gleich %{count} sein"
+        odd: "muss ungerade sein"
+        even: "muss gerade sein"

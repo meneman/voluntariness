@@ -1,8 +1,0 @@
-<div class="relative m-8 bg-white dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl">
-  <p class="text-slate-900 dark:text-white mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
-  <div class="flex overflow-hidden text-slate-500 dark:text-slate-400 mt-2 text-sm" >
-    <div class="m-2 whitespace-nowrap" >worth:  <%=  task.worth  %></div>
-    <div class="m-2 whitespace-nowrap"> interval:  <%=  task.interval  %></div>
-  </div>
-  <%= button_to t("delete"), task, method: :delete, class: "text-red-500 absolute top-0 right-0 m-2 font-bold font-medium" %>
-</div>
