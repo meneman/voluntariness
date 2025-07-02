@@ -14,6 +14,33 @@
     <%= render partial: "participant", locals: {p: @participant} %>
     <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true, library: pieChart %>
   </div>
+  
+  <% if @participant.useable_items.any? %>
+    <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold text-xl">Items</h2>
+        <%= link_to "Manage Items", useable_items_path(participant_id: @participant.id), class: "text-blue-400 hover:text-blue-300 text-sm" %>
+      </div>
+      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4">
+        <% @participant.useable_items.each do |item| %>
+          <div class="flex flex-col items-center p-2 rounded border border-gray-600 hover:border-gray-400 transition-colors">
+            <div class="w-12 h-12 text-yellow-400 mb-2">
+              <%= raw item.svg %>
+            </div>
+            <span class="text-xs text-center text-gray-300"><%= item.name %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% else %>
+    <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold text-xl">Items</h2>
+        <%= link_to "Get Items", useable_items_path(participant_id: @participant.id), class: "text-blue-400 hover:text-blue-300 text-sm" %>
+      </div>
+      <p class="text-gray-400 text-center py-4">No items yet. Start earning items by completing tasks!</p>
+    </div>
+  <% end %>
   <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
     <h2 class=" font-semibold text-xl "> History </h2>
     <% @participant.actions.desc.each do |action| %>

@@ -1,0 +1,11 @@
+<div class="gamble-container" data-controller="gamble">
+  <!-- Step Indicator -->
+  <div id="gamble_step_indicator" class="step-indicator">
+    <%= render "gamble/step_indicator", current_step: 'select' %>
+  </div>
+
+  <!-- Main Content Area -->
+  <div id="gamble_content" class="gamble-content">
+    <%= render "gamble/participant_selection", participants: @participants %>
+  </div>
+</div>

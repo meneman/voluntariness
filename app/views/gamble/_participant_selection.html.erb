@@ -1,0 +1,47 @@
+<div class="relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg">
+  <h2 class="text-slate-900 dark:text-slate-200 text-2xl font-semibold text-center mb-6">Select Your Participant</h2>
+  
+  <% if participants.any? %>
+    <div class="flex flex-wrap gap-4" data-gamble-target="participantGrid">
+      <% participants.each do |participant| %>
+        <div class="relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg min-w-64 max-w-128 flex-1 hover:shadow-xl transition-shadow cursor-pointer" data-participant-id="<%= participant.id %>">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style="background: linear-gradient(135deg, <%= participant.color %>, <%= participant.color %>cc);">
+              <span class="text-2xl"><%= participant.avatar %></span>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-slate-900 dark:text-slate-200 text-lg font-medium"><%= participant.name %></h3>
+              <div class="flex items-center space-x-2">
+                <span class="text-2xl font-bold text-blue-600 dark:text-green-400"><%= participant.total_points %></span>
+                <span class="text-slate-400 text-sm">points</span>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4">
+            <%= form_with url: gamble_select_participant_path, 
+                method: :post, 
+                local: false,
+                class: "w-full",
+                data: { 
+                  turbo_stream: true,
+                  turbo_frame: "_top"
+                } do |form| %>
+              <%= form.hidden_field :participant_id, value: participant.id %>
+              <%= form.submit "Select #{participant.name}", 
+                  class: "w-full p-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded shadow transition-colors",
+                  data: { 
+                    action: "click->gamble#selectParticipant",
+                    participant_id: participant.id
+                  } %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-8">
+      <p class="text-slate-400 text-lg mb-6">No participants available for gambling.</p>
+      <%= link_to "Create a Participant", new_participant_path, class: "bg-blue-500 dark:bg-blue-800 hover:bg-blue-300 text-slate-900 dark:text-slate-200 p-2 rounded shadow font-medium" %>
+    </div>
+  <% end %>
+</div>

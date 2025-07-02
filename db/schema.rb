@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_151134) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_27_080018) do
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
     t.integer "participant_id", null: false
@@ -53,6 +53,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_151134) do
     t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
+  create_table "useable_items", force: :cascade do |t|
+    t.string "name"
+    t.text "svg"
+    t.integer "participant_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_useable_items_on_participant_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -72,4 +81,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_151134) do
   add_foreign_key "actions", "tasks"
   add_foreign_key "participants", "users"
   add_foreign_key "tasks", "users"
+  add_foreign_key "useable_items", "participants"
 end

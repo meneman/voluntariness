@@ -24,6 +24,13 @@ Rails.application.routes.draw do
 
   get "pages/statistics", as: :statistics
   get "pages/gambling", as: :gambling
+
+  # Gamble routes
+  get "gamble", to: "gamble#index", as: :gamble
+  post "gamble/select_participant", to: "gamble#select_participant", as: :gamble_select_participant
+  post "gamble/spin", to: "gamble#spin", as: :gamble_spin
+  post "gamble/result", to: "gamble#result", as: :gamble_result
+  post "gamble/reset", to: "gamble#reset", as: :gamble_reset
   get "participants/cancel", to: "participants#cancel", as: :cancel_participant,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_tasks,  defaults: { format: :turbo_stream }
@@ -33,6 +40,7 @@ Rails.application.routes.draw do
 
   resources :tasks
   resources :participants
+  resources :useable_items, only: [ :index, :show, :create, :destroy ]
 
   # patch :archive
   # patch :participants, :archive

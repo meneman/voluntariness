@@ -2,6 +2,7 @@ class Participant < ApplicationRecord
     belongs_to :user
     has_many :actions, dependent: :destroy
     has_many :tasks, through: :actions, dependent: :nullify
+    has_many :useable_items, dependent: :destroy
     validates :name, presence: true
     scope :active, -> { where("archived = false") }
 

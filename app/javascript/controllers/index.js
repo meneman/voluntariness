@@ -9,6 +9,7 @@ import home_controller from "controllers/home_controller";
 import chart from "controllers/chart_controller";
 import ParticleController from "controllers/particle_controller";
 import spinningWheelController from "controllers/spinning_wheel_controller";
+import gambleController from "controllers/gamble_controller";
 
 import Sortable from "@stimulus-components/sortable";
 
@@ -23,4 +24,5 @@ application.register("home-controller", home_controller);
 application.register("sortable", Sortable);
 application.register("chart", chart);
 application.register("particle", ParticleController)
-aapplication.register("spinning-wheel", spinningWheelController)
+application.register("spinning-wheel", spinningWheelController)
+application.register("gamble", gambleController)

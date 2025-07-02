@@ -1,0 +1,42 @@
+<div class="relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg">
+  <h2 class="text-red-500 dark:text-red-400 text-2xl font-semibold text-center mb-6">Insufficient Points</h2>
+  
+  <div class="bg-slate-50 dark:bg-slate-900 rounded-lg p-6 mb-6 ring-1 ring-slate-200 dark:ring-slate-700">
+    <div class="flex items-center justify-center gap-4">
+      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center shadow-lg">
+        <span class="text-white font-bold text-2xl"><%= participant.name.first.upcase %></span>
+      </div>
+      <div class="text-center">
+        <h3 class="text-slate-900 dark:text-slate-200 text-xl font-semibold"><%= participant.name %></h3>
+        <div class="flex items-center justify-center space-x-1">
+          <span class="text-slate-500 text-sm">Current Points:</span>
+          <span class="text-2xl font-bold text-red-500"><%= participant.total_points %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg p-6 mb-6 text-center">
+    <div class="text-4xl mb-4">⚠️</div>
+    <p class="text-red-700 dark:text-red-300 text-xl font-semibold mb-3">Not enough points to gamble!</p>
+    <p class="text-red-600 dark:text-red-400 leading-relaxed">
+      You need at least <span class="font-bold">1 point</span> to spin the wheel. 
+      Complete some tasks to earn more points and come back to try your luck!
+    </p>
+  </div>
+  
+  <div class="flex flex-col sm:flex-row gap-4 justify-center">
+    <%= form_with url: gamble_reset_path, 
+        method: :post, 
+        local: false,
+        data: { turbo_stream: true },
+        class: "flex-1 max-w-xs" do |form| %>
+      <%= form.submit "← Select Different Participant", 
+          class: "w-full p-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded shadow transition-colors" %>
+    <% end %>
+    
+    <%= link_to "📋 View Tasks", 
+        tasks_path,
+        class: "flex-1 max-w-xs p-3 border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-slate-900 font-medium rounded transition-colors text-center" %>
+  </div>
+</div>

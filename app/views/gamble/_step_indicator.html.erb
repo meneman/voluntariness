@@ -1,0 +1,28 @@
+<div class="flex items-center justify-center mb-6 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+  <div class="flex items-center space-x-3 text-sm">
+    <div class="flex items-center space-x-1">
+      <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold <%= current_step == 'select' ? 'bg-blue-500 text-white' : (['bet', 'spin', 'result'].include?(current_step) ? 'bg-green-500 text-white' : 'bg-slate-300 dark:bg-slate-600 text-slate-600 dark:text-slate-400') %>">
+        <%= ['bet', 'spin', 'result'].include?(current_step) ? '✓' : '1' %>
+      </div>
+      <span class="<%= current_step == 'select' ? 'text-blue-600 dark:text-blue-400 font-medium' : (['bet', 'spin', 'result'].include?(current_step) ? 'text-green-600 dark:text-green-400' : 'text-slate-600 dark:text-slate-400') %>">Select</span>
+    </div>
+    
+    <div class="w-4 h-px bg-slate-300 dark:bg-slate-600"></div>
+    
+    <div class="flex items-center space-x-1">
+      <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold <%= current_step == 'bet' ? 'bg-blue-500 text-white' : (['spin', 'result'].include?(current_step) ? 'bg-green-500 text-white' : 'bg-slate-300 dark:bg-slate-600 text-slate-600 dark:text-slate-400') %>">
+        <%= ['spin', 'result'].include?(current_step) ? '✓' : '2' %>
+      </div>
+      <span class="<%= current_step == 'bet' ? 'text-blue-600 dark:text-blue-400 font-medium' : (['spin', 'result'].include?(current_step) ? 'text-green-600 dark:text-green-400' : 'text-slate-600 dark:text-slate-400') %>">Bet</span>
+    </div>
+    
+    <div class="w-4 h-px bg-slate-300 dark:bg-slate-600"></div>
+    
+    <div class="flex items-center space-x-1">
+      <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold <%= current_step == 'spin' ? 'bg-blue-500 text-white' : (current_step == 'result' ? 'bg-green-500 text-white' : 'bg-slate-300 dark:bg-slate-600 text-slate-600 dark:text-slate-400') %>">
+        <%= current_step == 'result' ? '✓' : '3' %>
+      </div>
+      <span class="<%= current_step == 'spin' ? 'text-blue-600 dark:text-blue-400 font-medium' : (current_step == 'result' ? 'text-green-600 dark:text-green-400' : 'text-slate-600 dark:text-slate-400') %>">Spin</span>
+    </div>
+  </div>
+</div>

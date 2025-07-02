@@ -1,0 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+crown:
+  name: Crown
+  svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l2 7h10l2-7-4-2-3 4-3-4z"/></svg>
+  participant: alice
+
+trophy:
+  name: Trophy
+  svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6m0 5v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9m0 0h1.5a2.5 2.5 0 0 0 0-5H18m-6 15v-6m-3 6h6"/></svg>
+  participant: bob
+
+gem:
+  name: Gem
+  svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 13L2 9z"/></svg>
+  participant: charlie

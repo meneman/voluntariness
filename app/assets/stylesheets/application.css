@@ -12,8 +12,6 @@
 .has-participant-color-badge {
     position: relative;
     padding-left: 32px !important;
-    /* --badge-color: red; *n/
-    /* background-color: var(--badge-color);  */
   }
   
   .has-participant-color-badge::before {
@@ -25,22 +23,11 @@
     width: 26px;
     background-color: var(--badge-color);
   }
-  @keyframes popUp {
-    0% {
-    }
-    100% {
-    }
-  }
   @keyframes fadeAway {
     0% {
       transform: translateX(0) translateY(0);
       opacity: 1;
     }
-    /* 20% {
-        transform: scale(2) translateX(-5px) translateY(0);
-        font-size: xx-large;
-        font-weight: 900;
-      } */
   
     100% {
       opacity: 0;
@@ -50,23 +37,20 @@
     }
   }
   
-  .pop-up {
-    animation: popUp 2s ease-out;
-  }
   .fade-away {
     z-index: 99999;
     animation: fadeAway 1s ease-in-out;
   }
-  
   .weird-points-centering * {
     text-align: center;
     line-height: 2;
     height: 100%;
     width: 100%;
-  }
+  }  
   @view-transition {
     navigation: auto;
   }
+  
   
   @keyframes shimmer-bounce {
     0% {

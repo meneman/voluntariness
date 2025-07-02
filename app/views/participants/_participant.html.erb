@@ -6,6 +6,23 @@
       </div>
       <h2 class="text-center shimmer-text text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-sky-900 to-purple-500"><%= p.total_points %></h2>
       <h2 class="p-4 text-center m-auto  text-2xl font-semibold text-gray-300"><%= p.name %></h2>
+      
+      <% if p.useable_items.any? %>
+        <div class="px-4 pb-2">
+          <div class="flex flex-wrap justify-center gap-1">
+            <% p.useable_items.limit(6).each do |item| %>
+              <div class="w-8 h-8 text-yellow-400 hover:text-yellow-300 transition-colors" title="<%= item.name %>">
+                <%= raw item.svg %>
+              </div>
+            <% end %>
+            <% if p.useable_items.count > 6 %>
+              <div class="w-8 h-8 flex items-center justify-center text-xs text-gray-400 font-bold">
+                +<%= p.useable_items.count - 6 %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     <%end%>
     <div class="text-center pb-4 px-8   text-slate-800 dark:text-slate-200 flex justify-between">
       <%= link_to t("edit"), edit_participant_path(p), {class: "mx-2"} %>
