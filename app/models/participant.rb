@@ -3,6 +3,7 @@ class Participant < ApplicationRecord
     has_many :actions, dependent: :destroy
     has_many :tasks, through: :actions, dependent: :nullify
     has_many :useable_items, dependent: :destroy
+    has_many :bets, dependent: :destroy
     validates :name, presence: true
     scope :active, -> { where("archived = false") }
 
@@ -13,8 +14,9 @@ class Participant < ApplicationRecord
         base_points = actions.joins(:task).sum("tasks.worth")
         bonus_points = actions.sum("COALESCE(bonus_points, 0)")
         streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
+        bet_costs = bets.sum(:cost)
 
-        total = base_points + bonus_points + streak_bonus
+        total = base_points + bonus_points + streak_bonus - bet_costs
         # rounds only if decimals are not 0s
         "%g" % ("%.1f" % total)
     end
@@ -27,7 +29,8 @@ class Participant < ApplicationRecord
     def bonus_points_total
         bonus_points = actions.sum("COALESCE(bonus_points, 0)")
         streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
-        bonus_points + streak_bonus
+        bet_costs = bets.sum(:cost)
+        bonus_points + streak_bonus - bet_costs
     end
 
 

@@ -9,8 +9,8 @@
       <div class="text-center">
         <h3 class="text-slate-900 dark:text-slate-200 text-xl font-semibold"><%= participant.name %></h3>
         <div class="flex items-center justify-center space-x-1">
-          <span class="text-orange-600 dark:text-orange-400 text-sm">Final Points:</span>
-          <span class="text-2xl font-bold text-blue-600 dark:text-green-400"><%= participant.total_points %></span>
+          <span class="text-orange-600 dark:text-orange-400 text-sm">Final Bonus Points:</span>
+          <span class="text-2xl font-bold text-orange-400"><%= participant.bonus_points_total %></span>
         </div>
       </div>
     </div>
@@ -26,6 +26,7 @@
         </div>
         <h3 class="text-slate-900 dark:text-slate-200 text-2xl font-bold mb-3"><%= winning_item[:name] %></h3>
         <p class="text-slate-600 dark:text-slate-400">A magnificent <%= winning_item[:name].downcase %> has been added to your collection!</p>
+                <p class="text-slate-600 dark:text-slate-400">It means nothing for now! yay!</p>
       </div>
     <% else %>
       <div class="bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 rounded-xl p-8 text-center max-w-sm ring-2 ring-purple-200 dark:ring-purple-700">

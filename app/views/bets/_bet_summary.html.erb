@@ -1,0 +1,23 @@
+<div id="bets_for_<%= participant.id %>" class="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
+  <h4 class="font-semibold text-gray-800 dark:text-white mb-2">Bets for <%= participant.name %></h4>
+  
+  <div class="space-y-2">
+    <% participant.bets.desc.limit(3).each do |bet| %>
+      <div class="flex justify-between items-center text-sm">
+        <span class="text-gray-600 dark:text-gray-300 truncate"><%= bet.description %></span>
+        <div class="flex items-center space-x-2">
+          <span class="text-gray-800 dark:text-white">$<%= bet.cost %></span>
+          <span class="px-2 py-1 rounded-full text-xs font-medium <%= bet.outcome == 'won' ? 'bg-green-100 text-green-800' : bet.outcome == 'lost' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
+            <%= bet.outcome.capitalize %>
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <% if participant.bets.count > 3 %>
+    <div class="text-center mt-2">
+      <%= link_to "View all bets", bets_path, class: "text-blue-500 hover:text-blue-700 text-sm" %>
+    </div>
+  <% end %>
+</div>

@@ -31,7 +31,7 @@ class ParticipantsController < ApplicationController
 
         if @participant.save
             respond_to do |format|
-                format.html { redirect_to participants_path, notice: t('flash.participant_created') }
+                format.html { redirect_to participants_path, notice: t("flash.participant_created") }
                 format.turbo_stream { }
             end
         else
@@ -71,8 +71,8 @@ class ParticipantsController < ApplicationController
     def destroy
         @participant.destroy()
         respond_to do |format|
-            format.html { redirect_to root_path, notice: t('flash.participant_deleted') }
-            format.turbo_stream { flash.now[:notice] = t('flash.participant_deleted') }
+            format.html { redirect_to root_path, notice: t("flash.participant_deleted") }
+            format.turbo_stream { flash.now[:notice] = t("flash.participant_deleted") }
         end
     end
 

@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   patch "/tasks/unarchive/:id", to: "tasks#unarchive", as: :unarchive_task, defaults: { format: :turbo_stream }
 
   resources :actions
+  resources :bets
 
   post :action, to: "action#create", defaults: { format: :turbo_stream }
   # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_27_080018) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_05_095334) do
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
     t.integer "participant_id", null: false
@@ -24,6 +24,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_080018) do
     t.index ["participant_id", "created_at"], name: "index_actions_on_participant_id_and_created_at"
     t.index ["participant_id"], name: "index_actions_on_participant_id"
     t.index ["task_id"], name: "index_actions_on_task_id"
+  end
+
+  create_table "bets", force: :cascade do |t|
+    t.integer "participant_id", null: false
+    t.string "outcome"
+    t.decimal "cost", precision: 8, scale: 2
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_bets_on_participant_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -79,6 +89,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_080018) do
 
   add_foreign_key "actions", "participants"
   add_foreign_key "actions", "tasks"
+  add_foreign_key "bets", "participants"
   add_foreign_key "participants", "users"
   add_foreign_key "tasks", "users"
   add_foreign_key "useable_items", "participants"

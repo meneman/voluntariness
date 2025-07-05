@@ -69,6 +69,7 @@ class GambleTest < ActiveSupport::TestCase
   test "participant with insufficient points cannot gamble" do
     # Ensure participant has no points
     @participant.actions.destroy_all
+    @participant.bets.destroy_all  # Also remove existing bets
     @participant.reload
     
     assert_equal 0, @participant.total_points.to_f

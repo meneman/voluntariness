@@ -37,8 +37,9 @@ class GambleHelperTest < ActionView::TestCase
   end
 
   test "participant points display formatting" do
-    # Clear existing actions and test with whole numbers
+    # Clear existing actions and bets, test with whole numbers
     @participant.actions.destroy_all
+    @participant.bets.destroy_all
     task = tasks(:dishwashing) # worth 10.0
     Action.create!(participant: @participant, task: task, bonus_points: 0, on_streak: false)
     @participant.reload
@@ -50,8 +51,9 @@ class GambleHelperTest < ActionView::TestCase
   end
 
   test "participant points display with decimals" do
-    # Clear existing actions and create a task with decimal points
+    # Clear existing actions and bets, create a task with decimal points
     @participant.actions.destroy_all
+    @participant.bets.destroy_all
     decimal_task = Task.create!(
       user: @user,
       title: "Decimal Task",
@@ -132,6 +134,7 @@ class GambleHelperTest < ActionView::TestCase
     # Test disabled button logic
     participant_with_no_points = participants(:alice)
     participant_with_no_points.actions.destroy_all
+    participant_with_no_points.bets.destroy_all
     participant_with_no_points.reload
     
     assert_equal 0, participant_with_no_points.total_points.to_f

@@ -1,0 +1,49 @@
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Bets</h1>
+    <%= link_to "New Bet", new_bet_path, class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full table-auto">
+      <thead class="bg-gray-100 dark:bg-gray-700">
+        <tr>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Participant</th>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Description</th>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Cost</th>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Outcome</th>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Created</th>
+          <th class="px-4 py-2 text-left text-gray-800 dark:text-white">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bets.each do |bet| %>
+          <tr class="border-b dark:border-gray-600">
+            <td class="px-4 py-2 text-gray-800 dark:text-white"><%= bet.participant.name %></td>
+            <td class="px-4 py-2 text-gray-800 dark:text-white"><%= bet.description %></td>
+            <td class="px-4 py-2 text-gray-800 dark:text-white">$<%= bet.cost %></td>
+            <td class="px-4 py-2">
+              <span class="px-2 py-1 rounded-full text-xs font-medium <%= bet.outcome == 'won' ? 'bg-green-100 text-green-800' : bet.outcome == 'lost' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800' %>">
+                <%= bet.outcome.capitalize %>
+              </span>
+            </td>
+            <td class="px-4 py-2 text-gray-800 dark:text-white"><%= bet.created_at.strftime("%m/%d/%Y") %></td>
+            <td class="px-4 py-2">
+              <%= link_to "View", bet_path(bet), class: "text-blue-500 hover:text-blue-700 mr-2" %>
+              <%= link_to "Edit", edit_bet_path(bet), class: "text-green-500 hover:text-green-700 mr-2" %>
+              <%= link_to "Delete", bet_path(bet), method: :delete, 
+                          confirm: "Are you sure?", 
+                          class: "text-red-500 hover:text-red-700" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @bets.empty? %>
+    <div class="text-center py-8">
+      <p class="text-gray-500 dark:text-gray-400">No bets yet. <%= link_to "Create your first bet!", new_bet_path, class: "text-blue-500 hover:text-blue-700" %></p>
+    </div>
+  <% end %>
+</div>

@@ -59,6 +59,7 @@ class ParticipantTest < ActiveSupport::TestCase
     # Remove other components to test base points
     participant.actions.update_all(bonus_points: 0, on_streak: false)
     participant.user.update(streak_boni_enabled: false)
+    participant.bets.destroy_all  # Remove bets to test just base points
     
     total = participant.total_points.to_f
     assert_equal expected_base_points, total
@@ -71,6 +72,7 @@ class ParticipantTest < ActiveSupport::TestCase
     bonus_amount = 5.5
     participant.actions.update_all(bonus_points: bonus_amount, on_streak: false)
     participant.user.update(streak_boni_enabled: false)
+    participant.bets.destroy_all  # Remove bets to test just bonus points calculation
     
     base_points = participant.actions.joins(:task).sum("tasks.worth")
     total_bonus_points = participant.actions.count * bonus_amount
@@ -110,10 +112,45 @@ class ParticipantTest < ActiveSupport::TestCase
     participant = participants(:alice)
     participant.actions.update_all(bonus_points: nil, on_streak: false)
     participant.user.update(streak_boni_enabled: false)
+    participant.bets.destroy_all  # Remove bets to test nil bonus points handling
     
     expected_total = participant.actions.joins(:task).sum("tasks.worth")
     
     assert_equal expected_total, participant.total_points.to_f
+  end
+
+  test "total_points should subtract bet costs" do
+    participant = participants(:alice)
+    
+    # Clear existing bets and add a known bet cost
+    participant.bets.destroy_all
+    participant.bets.create!(cost: 5.0, description: "Test bet", outcome: "pending")
+    
+    participant.actions.update_all(bonus_points: 0, on_streak: false)
+    participant.user.update(streak_boni_enabled: false)
+    
+    base_points = participant.actions.joins(:task).sum("tasks.worth")
+    expected_total = base_points - 5.0  # Subtract bet cost
+    
+    assert_equal expected_total, participant.total_points.to_f
+  end
+
+  test "bonus_points_total should subtract bet costs" do
+    participant = participants(:alice)
+    
+    # Clear existing bets and add a known bet cost
+    participant.bets.destroy_all
+    participant.bets.create!(cost: 3.0, description: "Test bet", outcome: "pending")
+    
+    # Set up bonus points
+    bonus_amount = 10.0
+    participant.actions.update_all(bonus_points: bonus_amount, on_streak: false)
+    participant.user.update(streak_boni_enabled: false)
+    
+    total_bonus_points = participant.actions.count * bonus_amount
+    expected_total = total_bonus_points - 3.0  # Subtract bet cost
+    
+    assert_equal expected_total, participant.bonus_points_total
   end
 
   test "total_points should format result correctly" do

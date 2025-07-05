@@ -19,7 +19,7 @@ module ApplicationHelper
 
   def contrasting_color(hex_color)
       return nil unless hex_color
-      
+
       hex_color = hex_color.delete("#")
       r = hex_color[0..1].hex
       g = hex_color[2..3].hex

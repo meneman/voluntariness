@@ -1,0 +1,47 @@
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md mx-auto">
+  <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">New Bet</h1>
+
+  <%= form_with(url: bets_path, method: :post, local: true, data: { turbo: false }) do |form| %>
+    <div class="space-y-4">
+      <div>
+        <%= label_tag "data[participant_id]", "Participant", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= select_tag "data[participant_id]", 
+                       options_from_collection_for_select(@participants, :id, :name),
+                       { prompt: "Select a participant", class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" } %>
+      </div>
+
+      <div>
+        <%= label_tag "data[description]", "Description", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= text_area_tag "data[description]", "", 
+                          rows: 3,
+                          class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                          placeholder: "What is the bet about?" %>
+      </div>
+
+      <div>
+        <%= label_tag "data[cost]", "Cost", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= number_field_tag "data[cost]", "", 
+                             step: 0.01,
+                             min: 0.01,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white",
+                             placeholder: "0.00" %>
+      </div>
+
+      <div>
+        <%= label_tag "data[outcome]", "Outcome", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= select_tag "data[outcome]", 
+                       options_for_select([
+                         ["Pending", "pending"],
+                         ["Won", "won"],
+                         ["Lost", "lost"]
+                       ], "pending"),
+                       class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" %>
+      </div>
+
+      <div class="flex justify-between">
+        <%= link_to "Cancel", bets_path, class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+        <%= submit_tag "Create Bet", class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    </div>
+  <% end %>
+</div>

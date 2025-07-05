@@ -1,0 +1,48 @@
+<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-md mx-auto">
+  <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Edit Bet</h1>
+
+  <%= form_with(model: @bet, local: true) do |form| %>
+    <div class="space-y-4">
+      <div>
+        <%= form.label :participant_id, "Participant", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= form.collection_select :participant_id, 
+                                   current_user.participants.active, 
+                                   :id, :name, 
+                                   { selected: @bet.participant_id },
+                                   { class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" } %>
+      </div>
+
+      <div>
+        <%= form.label :description, "Description", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= form.text_area :description, 
+                           rows: 3,
+                           class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" %>
+      </div>
+
+      <div>
+        <%= form.label :cost, "Cost", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= form.number_field :cost, 
+                              step: 0.01,
+                              min: 0.01,
+                              class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" %>
+      </div>
+
+      <div>
+        <%= form.label :outcome, "Outcome", class: "block text-sm font-medium text-gray-700 dark:text-gray-300" %>
+        <%= form.select :outcome, 
+                        options_for_select([
+                          ["Pending", "pending"],
+                          ["Won", "won"],
+                          ["Lost", "lost"]
+                        ], @bet.outcome),
+                        {},
+                        { class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" } %>
+      </div>
+
+      <div class="flex justify-between">
+        <%= link_to "Cancel", @bet, class: "bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" %>
+        <%= form.submit "Update Bet", class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -102,14 +102,17 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
     target_angle = target_angle_match[1].to_f
     assert target_angle >= 0 && target_angle < 360, "Target angle should be between 0-360 degrees"
     
-    # Check that point was deducted
-    @participant.reload
-    assert_equal initial_points - 1, @participant.total_points.to_f
+    # Check that bet was created (no point deduction)
+    bet = Bet.last
+    assert_equal @participant, bet.participant
+    assert_equal 1.0, bet.cost
+    assert_equal "pending", bet.outcome
   end
 
-  test "should handle insufficient points gracefully" do
+  test "should allow gambling regardless of points" do
     # Ensure participant has no points
     @participant.actions.destroy_all
+    @participant.bets.destroy_all  # Also remove existing bets
     @participant.reload
     
     assert_equal 0, @participant.total_points.to_f
@@ -119,33 +122,32 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
          headers: { "Accept" => "text/vnd.turbo-stream.html" }
     
     assert_response :success
-    assert_includes response.body, "Insufficient Points"
+    assert_includes response.body, "Spin the Wheel"
+    
+    # Verify bet was created even without points
+    bet = Bet.last
+    assert_equal @participant, bet.participant
+    assert_equal 1.0, bet.cost
+    assert_equal "pending", bet.outcome
   end
 
-  test "should create gambling action when spinning" do
-    # Give participant some points first
-    task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
-    
-    initial_action_count = @participant.actions.count
+  test "should create bet when spinning" do
+    initial_bet_count = Bet.count
     
     post gamble_spin_path,
          params: { participant_id: @participant.id },
          headers: { "Accept" => "text/vnd.turbo-stream.html" }
     
-    @participant.reload
-    assert_equal initial_action_count + 1, @participant.actions.count
+    # Check that bet was created (no actions)
+    assert_equal initial_bet_count + 1, Bet.count
     
-    # Check that the gambling action was created
-    gambling_action = @participant.actions.last
-    assert_equal "Gamble Bet", gambling_action.task.title
-    assert_equal(-1, gambling_action.task.worth)
+    bet = Bet.last
+    assert_equal @participant, bet.participant
+    assert_equal 1.0, bet.cost
+    assert_equal "pending", bet.outcome
   end
 
   test "should store winning item in session and calculate target angle" do
-    # Give participant some points first
-    task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
     
     post gamble_spin_path,
          params: { participant_id: @participant.id },
