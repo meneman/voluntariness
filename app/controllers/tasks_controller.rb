@@ -56,7 +56,12 @@ class TasksController < ApplicationController
 
     def update
         if @task.update(task_params)
-            redirect_to @task
+            # Check if this is a sortable position update
+            if params[:task][:position] && request.xhr?
+                head :ok  # Return 200 OK for AJAX sortable requests
+            else
+                redirect_to @task
+            end
         else
             render :edit, status: :unprocessable_entity
         end

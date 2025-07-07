@@ -51,6 +51,9 @@ Rails.application.routes.draw do
 
   resources :actions
   resources :bets
+  
+  # Style Guide
+  get "style-guide", to: "style_guide#index", as: :style_guide
 
   post :action, to: "action#create", defaults: { format: :turbo_stream }
   # post :participant, to: "participants#archive", defaults: {format: :turbo_stream}
