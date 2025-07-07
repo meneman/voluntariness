@@ -22,6 +22,7 @@
     height: 100%;
     width: 26px;
     background-color: var(--badge-color);
+    border-radius: 9999px 0 0 9999px;
   }
   @keyframes fadeAway {
     0% {

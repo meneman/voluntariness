@@ -1,21 +1,43 @@
 <%= turbo_frame_tag task, data: {sortable_update_url: task_path(task), home_target: "task" } do  %>
- <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg px-6 py-8 ring-1 shadow-lg min-w-64 max-w-128 flex-1" data-controller="particle">
+  <div class="task relative bg-green-300 dark:bg-slate-800 rounded-lg shadow-lg w-full md:min-w-64 md:max-w-128 flex flex-col" data-controller="particle">
     <div class="sortable-handle"></div>
-    <p class="task-title text-slate-900 dark:text-slate-200 mt-5 text-base font-medium tracking-tight "><%=  task.title  %></h2>
-    <div class="task-content flex overflow-hidden text-slate-900  mt-2 text-sm  dark:text-slate-200"  >
-      <div class="m-2 whitespace-nowrap" ><%= t("worth") %>  <%=  task.worth  %></div>
-      <%= render partial: "tasks/task_overdue_tag", locals: { task: task } %>
+    
+    <!-- Card Header -->
+    <div class="px-4 md:px-6 py-4 md:py-5 border-b border-slate-300 dark:border-slate-600">
+      <h3 class="task-title text-lg font-medium text-slate-900 dark:text-slate-200">
+        <%= task.title %>
+      </h3>
     </div>
-    <%= link_to t("edit"), edit_task_path(task), class: "edit-button text-blue-500 absolute top-0 left-0 m-2 font-bold font-medium" %>
-    <%= button_to t("archive"), archive_task_path(task), method: :patch, class: "archive-button text-red-500 absolute top-0 right-0 m-2 font-bold font-medium", data: {turbo_confirm: "Are you sure?" } %>
-    <div class="flex flex-wrap gap-4" style="--primary-color:#fff">
-      <% @participants.each do |participant| %>
-        <% next if participant.archived  %>
-        <%= button_to "#{participant.name} ✓",
-           { controller: "actions", action:"create" , method:"post",
-            data: {task_id: task, participant_id: participant,   } },
-             { "data-action":"click->particle#spawn", "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"participant-button has-participant-color-badge bg-blue-500 dark:bg-blue-800 hover:bg-blue-300 text-slate-900  dark:text-slate-200 p-2 text-small rounded shadow"} %>
-      <%end%>
+    
+    <!-- Card Content -->
+    <div class="px-4 md:px-6 py-4 md:py-2 flex-1">
+      <div class="flex items-center justify-between mb-4">
+        <div class="text-slate-700 dark:text-slate-300">
+          <span class="text-sm font-medium"><%= t("worth") %> <%= task.worth %> points</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <%= render partial: "tasks/task_overdue_tag", locals: { task: task } %>
+        </div>
+      </div>
+      
+      <!-- Action Buttons in Header -->
+      <div class="flex justify-between items-center">
+        <%= link_to t("edit"), edit_task_path(task), class: " edit-button text-blue-500 hover:text-blue-700 font-medium text-sm" %>
+        <%= button_to t("archive"), archive_task_path(task), method: :patch, class: " archive-button text-red-500 hover:text-red-700 font-medium text-sm", data: {turbo_confirm: "Are you sure?" } %>
+      </div>
+    </div>
+    
+    <!-- Participant Buttons - Bottom of Card -->
+    <div class="px-4 md:px-6 py-4 md:py-5 border-t border-slate-300 dark:border-slate-600">
+      <div class="flex flex-wrap gap-3" style="--primary-color:#fff">
+        <% @participants.each do |participant| %>
+          <% next if participant.archived %>
+          <%= button_to "#{participant.name} ✓",
+             { controller: "actions", action:"create" , method:"post",
+              data: {task_id: task, participant_id: participant } },
+               { "data-action":"click->particle#spawn", "data-controller":"color-badge", "data-color":participant.color, style: "--primary-color:#fff", class:"participant-button has-participant-color-badge bg-blue-400 dark:bg-blue-500 hover:bg-blue-500 dark:hover:bg-blue-400 text-white px-4 py-3 text-base rounded-full shadow-md font-medium transition-all duration-200 hover:shadow-lg hover:scale-105"} %>
+        <%end%>
+      </div>
     </div>
   </div>
 <%end%>

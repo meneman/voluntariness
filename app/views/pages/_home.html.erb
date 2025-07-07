@@ -1,27 +1,42 @@
 <%= turbo_frame_tag "home" do %>
-  <%= turbo_frame_tag "participants_list_home" do %>
-    <%= render partial: "participants/list", locals: {participants: @participants} %>
-  <% end %>
-  <div class="home" data-home-edit-mode-value="false" data-controller="home" data-sortable-animation-value="150">
-    <label class="inline-flex items-center cursor-pointer">
-      <input type="checkbox" value="" class="sr-only peer" data-action="home#toggleEditMode">
-      <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-600 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-      <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"><%= t("edit_mode") %></span>
-    </label>
-    <div class="flex flex-wrap gap-4 max-sm:justify-center">
+  <!-- Header Section -->
+  <div class="container mx-auto px-4 py-6">
+    <%= turbo_frame_tag "participants_list_home" do %>
+      <%= render partial: "participants/list", locals: {participants: @participants} %>
+    <% end %>
+  </div>
+
+  <!-- Main Content -->
+  <div class="home container mx-auto px-4" data-home-edit-mode-value="false" data-controller="home" data-sortable-animation-value="150">
+    <!-- Edit Mode Toggle -->
+    <div class="mb-6">
+      <label class="inline-flex items-center cursor-pointer">
+        <input type="checkbox" value="" class="sr-only peer" data-action="home#toggleEditMode">
+        <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-600 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ms-3 text-sm font-medium text-slate-900 dark:text-slate-300"><%= t("edit_mode") %></span>
+      </label>
+    </div>
+
+    <!-- Tasks Grid -->
+    <div class="w-full">
       <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>
-        <div data-controller="sortable" data-sortable-handle-value=".sortable-handle" data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="flex flex-wrap gap-4 max-sm:justify-center  ">
+        <div data-controller="sortable" data-sortable-handle-value=".sortable-handle" data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           <% @tasks.each do |task| %>
-            <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
+            <div class="w-full min-w-0">
+              <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
+            </div>
           <%end%>
         </div>
       <%end%>
+      
+      <!-- Add Task Button -->
       <%= turbo_frame_tag "new_task", class: "contents" %>
-      <%= link_to new_task_path, data: { turbo_frame: "new_task" }, class: " flex m-4 bg-transparent hover:bg-blue-600 text-blue-800   dark:text-blue-300 font-semibold hover:text-white py-2 px-4 text-xl border dark:border-blue-300 border-blue-600 hover:border-transparent rounded" do %>
-        <p class="m-auto"><%= t("addTask") %></p>
-      <% end %>
+      <div class="flex justify-center md:justify-start mt-6">
+        <%= link_to new_task_path, data: { turbo_frame: "new_task" }, class: "inline-flex items-center px-6 py-3 bg-transparent hover:bg-blue-600 text-blue-800 dark:text-blue-300 font-semibold hover:text-white border dark:border-blue-300 border-blue-600 hover:border-transparent rounded-lg transition-colors duration-200 shadow-sm" do %>
+          <span class="text-lg"><%= t("addTask") %></span>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
 <%end%>
 <%= turbo_stream_from "participants_points" %>
