@@ -4,6 +4,7 @@ de:
   addTask: "Aufgabe hinzufügen"
   interval: "Intervall"
   worth: "Wert"
+  points: "Punkte"
   confirmMessage: "Bist du sicher?"
   delete: "löschen"
   archived: "archiviert"

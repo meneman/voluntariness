@@ -35,5 +35,13 @@ class Action < ApplicationRecord
         base_points: self.participant.base_points,
         bonus_points_total: self.participant.bonus_points_total
       }
+
+    broadcast_replace_to "participants_points",
+      target: "bonus_points_for_#{self.participant.id}",
+      partial: "participants/bonus_points",
+      locals: {
+        id: self.participant.id,
+        bonus_points_total: self.participant.bonus_points_total
+      }
   end
 end

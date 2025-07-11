@@ -1,49 +1,94 @@
 <%= turbo_frame_tag p do  %>
-  <div class="min-w-48 text-slate-400 bg-green-300 dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
-    <%= link_to  participant_path(p), data: { turbo_frame: "_top" }  do %>
-      <div class="bg-blue-500 h-24  flex" style="<%="background-color:#{p.color}"%>">
-        <span class="text-center m-auto text-2xl font-semibold text-gray-800"  style=" <%= "color:#{ contrasting_color(p.color) || " inherit"}" %>"><%= p.avatar %></span>
-      </div>
-      <h2 class="text-center shimmer-text text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-sky-900 to-purple-500"><%= p.total_points %></h2>
-      <h2 class="p-4 text-center m-auto  text-2xl font-semibold text-gray-300"><%= p.name %></h2>
-      
-      <% if p.useable_items.any? %>
-        <div class="px-4 pb-2">
-          <div class="flex flex-wrap justify-center gap-1">
-            <% p.useable_items.limit(6).each do |item| %>
-              <div class="w-8 h-8 text-yellow-400 hover:text-yellow-300 transition-colors" title="<%= item.name %>">
-                <%= raw item.svg %>
-              </div>
-            <% end %>
-            <% if p.useable_items.count > 6 %>
-              <div class="w-8 h-8 flex items-center justify-center text-xs text-gray-400 font-bold">
-                +<%= p.useable_items.count - 6 %>
-              </div>
-            <% end %>
+  <div class="min-w-64 max-w-sm bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl border border-slate-200 dark:border-slate-700">
+    <%= link_to  participant_path(p), data: { turbo_frame: "_top" }, class: "block" do %>
+      <!-- Header with avatar -->
+      <div class="relative h-32 flex items-center justify-center bg-white" style="background: linear-gradient(135deg, <%= p.color %>, <%= p.color %>88);background-color: white;">
+        <div class="w-16 h-16 rounded-full bg-white dark:bg-slate-800 shadow-lg flex items-center justify-center text-3xl font-bold" style="color: <%= p.color %>">
+          <%= p.avatar %>
+        </div>
+        <% if p.archived %>
+          <div class="absolute top-2 right-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+            <%= t("archived") %>
           </div>
-        </div>
-      <% end %>
-    <%end%>
-    <div class="text-center pb-4 px-8   text-slate-800 dark:text-slate-200 flex justify-between">
-      <%= link_to t("edit"), edit_participant_path(p), {class: "mx-2"} %>
-      <%= button_to t("archive") ,archive_participant_path(p), {turbo_stream: true, class: "mx-2" }%>
-      <%= button_to t("delete"), participant_path(p), {method: :delete, 
-                                                    class: "mx-2 text-red-500", 
-                                                    data: {turbo_confirm: t("confirm_delete_participant")}} %>
-    </div>
-    <div class="w-full bg-yellow-200 rounded-full dark:bg-gray-700 ">
-      <% if current_user.streak_boni_enabled? %>
-        <div 
-        class="  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full whitespace-nowrap"
-        style="width: <%= 100 * [(p.streak.to_f/current_user.streak_boni_days_threshold),1].min %>%">
-          <%= "#{p.streak} / #{current_user.streak_boni_days_threshold}" %>
-        </div>
-      <% end %>
-    </div>
-    <% if p.archived%>
-      <div class="flex text-orange-700 font-sans font-bold">
-        <h3 class="m-auto"> <%= t("archived") %></h3>
+        <% end %>
       </div>
-    <%end%>
+      
+      <!-- Content -->
+      <div class="p-6">
+        <!-- Name -->
+        <h3 class="text-xl font-bold text-center text-slate-800 dark:text-slate-200 mb-2">
+          <%= p.name %>
+        </h3>
+        
+        <!-- Points display -->
+        <div class="text-center mb-4">
+          <div class=" text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent shimmer-text">
+            <%= p.total_points %>
+          </div>
+          <div class="text-sm text-slate-500 dark:text-slate-400">total points</div>
+          
+          <!-- Bonus points -->
+          <% if p.bonus_points_total && p.bonus_points_total > 0 %>
+            <div class="mt-2 inline-flex items-center bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-sm font-medium px-3 py-1 rounded-full">
+              <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              +<%= p.bonus_points_total %> bonus
+            </div>
+          <% end %>
+        </div>
+        
+        <!-- Items display -->
+        <% if p.useable_items.any? %>
+          <div class="mb-4">
+            <div class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2 text-center">Items</div>
+            <div class="flex flex-wrap justify-center gap-2">
+              <% p.useable_items.limit(6).each do |item| %>
+                <div class="w-8 h-8 text-yellow-500 hover:text-yellow-400 transition-colors hover:scale-110 transform" title="<%= item.name %>">
+                  <%= raw item.svg %>
+                </div>
+              <% end %>
+              <% if p.useable_items.count > 6 %>
+                <div class="w-8 h-8 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 font-bold bg-slate-100 dark:bg-slate-700 rounded-full">
+                  +<%= p.useable_items.count - 6 %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        
+        <!-- Streak progress -->
+        <% if current_user.streak_boni_enabled? %>
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
+              <span>Streak</span>
+              <span><%= p.streak %> / <%= current_user.streak_boni_days_threshold %></span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+              <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300" 
+                   style="width: <%= 100 * [(p.streak.to_f/current_user.streak_boni_days_threshold),1].min %>%">
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <!-- Action buttons -->
+    <div class="border-t border-slate-200 dark:border-slate-700 p-4">
+      <div class="flex justify-center space-x-3">
+        <%= link_to t("edit"), edit_participant_path(p), 
+            class: "inline-flex items-center px-3 py-2 border border-slate-300 dark:border-slate-600 shadow-sm text-sm leading-4 font-medium rounded-md text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+        
+        <%= button_to t("archive"), archive_participant_path(p), 
+            method: :patch, turbo_stream: true,
+            class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+        
+        <%= button_to t("delete"), participant_path(p), 
+            method: :delete,
+            data: { turbo_confirm: t("confirm_delete_participant") },
+            class: "inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" %>
+      </div>
+    </div>
   </div>
 <%end%>

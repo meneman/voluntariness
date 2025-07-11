@@ -55,21 +55,28 @@
   
   @keyframes shimmer-bounce {
     0% {
-      background-position: -200%;
+      background-position: -100%;
     }
     50% {
-      background-position: 200%;
+      background-position: 100%;
     }
     100% {
-      background-position: -200%;
+      background-position: -100%;
     }
   }
   
   .shimmer-text {
-    background-size: 200%;
-    animation: shimmer-bounce 20s infinite ease-in-out;
+    background-size: 100%;
+    animation: shimmer-bounce 10s infinite ease-in-out;
+  }
+
+  .home .edit-section {
+    display: none;
   }
   
+  .home.edit-mode .edit-section {
+    display: flex;
+  }
   .home .edit-button,
   .home .archive-button {
     visibility: hidden;
@@ -86,6 +93,7 @@
     background-color: #3b3b3b;
     opacity: 0.5;
     z-index: 3;
+    width: 100%;
   }
   
   .home.home.edit-mode .task-content,

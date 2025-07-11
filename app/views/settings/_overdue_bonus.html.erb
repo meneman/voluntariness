@@ -11,7 +11,7 @@
       </div>
     <% end %>
   </div>
-  <%= form_with url: toggle_overdue_bonus_path, method: :post, data: { turbo_frame: "overdue_bonus_toggle" } do |f| %>
+  <%= form_with url: toggle_overdue_bonus_path, method: :patch, data: { turbo_frame: "overdue_bonus_toggle" } do |f| %>
     <label class="relative inline-flex items-center cursor-pointer">
       <%= f.check_box :enabled, checked: overdue_bonus_enabled, class: "sr-only peer", onchange: "this.form.requestSubmit()" %>
       <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>

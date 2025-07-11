@@ -1,30 +1,35 @@
 <div class="flex py-4 gap-4 flex-wrap">
   <% participants.each do |p| %>
-    <div class="relative shadow-lg bg-green-300 dark:bg-slate-700  text-fuchsia-800  dark:text-white flex space-x-2 rounded h-12">
-      <div class="w-20">
-        <span 
-        style="<%="background-color:#{ p.color || " inherit"};color:#{ contrasting_color(p.color) || " inherit"}; opacity:#{p.archived == true ? "0.3" : "1" };" %>"  
-        class="text-2xl m-auto rounded absolute h-full w-20 left-0 top-0 bottom-0">
-          <div class="relative w-full h-full flex weird-points-centering ">
-            <%= render partial: "points", locals: {animate: false, id: p.id, total_points: p.total_points, base_points: p.base_points, bonus_points_total: p.bonus_points_total }%>
-          </div>
+    <%= link_to participant_path(p), data: { turbo_frame: "_top" }, class: "block" do %>
+      <div class="inline-flex items-center bg-white dark:bg-slate-800 shadow-md rounded-full px-3 py-2 border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:scale-105 transition-all duration-200 <%= 'opacity-60' if p.archived %>">
+        <!-- Avatar -->
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 shadow-sm" style="background-color: <%= p.color || '#6366f1' %>; color: <%= contrasting_color(p.color) || 'white' %>;">
+          <%= p.avatar || p.name[0, 2].upcase %>
+        </div>
+        
+        <!-- Initials (hidden on small screens since avatar shows them) -->
+        <span class="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-300 mr-3">
+          <%= p.name[0, 2].upcase %>
         </span>
-      </div>
-      <div class="flex flex-col items-center justify-center flex-1">
-        <span class="leading-none font-bold dark:text-slate-200 "><%= p.name[0, 2].upcase %> </span>
-        <% if p.bonus_points_total && p.bonus_points_total > 0 %>
-          <div class="flex items-center text-orange-400 text-sm">
-            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
-            +<%= p.bonus_points_total %> bonus
+        
+        <!-- Points -->
+        <div class="flex items-center text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <%= render partial: "points", locals: {animate: false, id: p.id, base_points: p.total_points}%>
+          <% if p.bonus_points_total && p.bonus_points_total > 0 %>
+            <span class="ml-1 text-xs text-orange-600 dark:text-orange-400 font-medium">
+              <%= render partial: "participants/bonus_points", locals: { id: p.id, bonus_points_total: p.bonus_points_total } %>
+            </span>
+          <% end %>
+        </div>
+        
+        <!-- Archived indicator -->
+        <% if p.archived %>
+          <div class="ml-2 bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+            A
           </div>
         <% end %>
       </div>
-      <%= link_to  participant_path(p), data: { turbo_frame: "_top" },class: " m-auto px-2"  do %>
-        <%= fa_icon "user" %>
-      <%end %>
-    </div>
+    <% end %>
   <%end%>
   <%= turbo_frame_tag "new_participant" do %>
     <%= link_to "+", participants_path, {data: { turbo_frame: "_top" },class: "text-xl block m-auto h-12 m-2 bg-transparent hover:bg-blue-300 text-blue-800 dark:text-blue-300 font-semibold hover:text-white py-2 px-4 border dark:border-blue-300 border-blue-600  hover:border-transparent rounded  " , turbo_frame: "_top"} %>

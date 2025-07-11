@@ -4,7 +4,7 @@
     <p class="text-sm text-slate-400">After a 5 day streak participants get 1 bonus point for completing tasks</p>
   </div>
   <div >
-    <%= form_with url: toggle_streak_boni_path, method: :post, data: { turbo_frame: "streak_boni_toggle" } do |f| %>
+    <%= form_with url: toggle_streak_boni_path, method: :patch, data: { turbo_frame: "streak_boni_toggle" } do |f| %>
       <label class="relative inline-flex items-center cursor-pointer">
         <%= f.check_box :enabled, checked: streak_enabled, class: "sr-only peer", onchange: "this.form.requestSubmit()" %>
         <div class="w-11 h-6 bg-slate-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-slate-300 after:border-slate-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
@@ -18,7 +18,7 @@
     <div id="streak_active_indicator" class=" flex items-center text-green-400 text-sm">
       Streak bonus activated
     </div>
-    <%= form_with url: update_streak_bonus_days_threshold_path, method: :post, class: "space-y-3" do |f| %>
+    <%= form_with url: update_streak_bonus_days_threshold_path, method: :patch, class: "space-y-3" do |f| %>
       <div>
         <%= f.label :days_threshold, t('settings.streak_bonus_threshold'), class: "block text-sm text-slate-400 mb-1" %>
         <%= f.number_field :days_threshold, value: current_user.streak_boni_days_threshold || VoluntarinessConstants::DEFAULT_STREAK_THRESHOLD, min: 1, class: "w-full bg-slate-800 text-slate-200 border border-slate-600 rounded py-1 px-2" %>

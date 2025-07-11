@@ -60,7 +60,7 @@ class ParticipantsController < ApplicationController
         respond_to do |format|
           if @participant.update(participant_params)
             format.html { redirect_to participants_path }
-
+            format.turbo_stream { }
           else
             format.html { render :edit, status: :unprocessable_entity }
             format.turbo_stream { render :edit, status: :unprocessable_entity }
