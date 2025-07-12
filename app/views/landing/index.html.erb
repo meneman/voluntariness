@@ -1,0 +1,437 @@
+<!-- Navigation Header -->
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="relative">
+          <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
+        </div>
+        <span class="font-bold text-xl text-slate-900 dark:text-white font-serif">
+          Voluntariness
+        </span>
+      </div>
+      
+      <!-- CTA Button -->
+      <div class="flex items-center space-x-4">
+        <%= link_to new_user_registration_path, 
+            class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
+          Start Free Today
+          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <!-- Background decoration -->
+  <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+  
+  <div class="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- Hero Content -->
+      <div class="text-center lg:text-left">
+        <h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
+          Turn <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Household Chores</span> 
+          Into an Engaging Game
+        </h1>
+        
+        <p class="mt-6 text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
+          Transform boring household tasks into an exciting adventure for your entire family. 
+          Track progress, earn points, build streaks, and celebrate achievements together.
+        </p>
+        
+        <!-- Key Benefits -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+          <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-600 dark:text-slate-300">Free Forever</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-600 dark:text-slate-300">Setup in 2 minutes</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-600 dark:text-slate-300">Works on all devices</span>
+          </div>
+        </div>
+        
+        <!-- Primary CTA -->
+        <div class="mt-10">
+          <%= link_to new_user_registration_path, 
+              class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+            Get Started Free
+            <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          <% end %>
+          
+          <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
+            No credit card required • Free forever
+          </p>
+        </div>
+      </div>
+      
+      <!-- Hero Image/Demo -->
+      <div class="relative">
+        <div class="relative mx-auto max-w-md lg:max-w-none">
+          <!-- Mock app interface -->
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4">
+              <div class="flex items-center space-x-2">
+                <div class="h-3 w-3 bg-white/30 rounded-full"></div>
+                <div class="h-3 w-3 bg-white/30 rounded-full"></div>
+                <div class="h-3 w-3 bg-white/30 rounded-full"></div>
+                <span class="ml-4 text-white text-sm font-medium">Voluntariness Dashboard</span>
+              </div>
+            </div>
+            <div class="p-6 space-y-4">
+              <div class="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <div class="flex items-center space-x-3">
+                  <div class="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center">
+                    <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-900 dark:text-white">Kitchen Cleanup</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">+15 points</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm font-medium text-green-600 dark:text-green-400">Completed!</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400">3-day streak</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                <div class="flex items-center space-x-3">
+                  <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span class="text-white text-sm font-bold">!</span>
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-900 dark:text-white">Vacuum Living Room</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">+20 points</p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Due Today</p>
+                </div>
+              </div>
+              
+              <div class="mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-4 text-white">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-sm font-medium">Family Points</p>
+                    <p class="text-2xl font-bold">2,847</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-sm">This Week</p>
+                    <p class="text-lg font-semibold">+342</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-24 bg-white dark:bg-slate-800">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+        Everything You Need to Gamify Your Home
+      </h2>
+      <p class="mt-4 text-xl text-slate-600 dark:text-slate-300">
+        Powerful features designed to make household management engaging and effective
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature 1 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Points & Rewards</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Earn points for completing tasks. Build streaks and unlock bonus rewards to keep motivation high.
+        </p>
+      </div>
+      
+      <!-- Feature 2 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Family Collaboration</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Add family members and track everyone's contributions. Perfect for couples, families, and roommates.
+        </p>
+      </div>
+      
+      <!-- Feature 3 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Progress Tracking</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Beautiful charts and statistics show your family's progress over time. See patterns and celebrate wins.
+        </p>
+      </div>
+      
+      <!-- Feature 4 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Smart Scheduling</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Set recurring tasks with custom intervals. Get bonus points for completing overdue items.
+        </p>
+      </div>
+      
+      <!-- Feature 5 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Mobile Friendly</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Works perfectly on all devices. Mark tasks complete from anywhere in your home.
+        </p>
+      </div>
+      
+      <!-- Feature 6 -->
+      <div class="text-center">
+        <div class="mx-auto h-16 w-16 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+          <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Fun Gambling</h3>
+        <p class="text-slate-600 dark:text-slate-300">
+          Spend earned points on a fun spinning wheel game. Win exciting virtual rewards and items.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social Proof Section -->
+<section class="py-16 bg-slate-50 dark:bg-slate-900">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+        Loved by Families Worldwide
+      </h2>
+      <p class="text-xl text-slate-600 dark:text-slate-300">
+        See how Voluntariness is transforming homes everywhere
+      </p>
+    </div>
+    
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div class="text-center">
+        <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">1,000+</div>
+        <div class="text-slate-600 dark:text-slate-300">Tasks Completed Daily</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">500+</div>
+        <div class="text-slate-600 dark:text-slate-300">Happy Families</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">98%</div>
+        <div class="text-slate-600 dark:text-slate-300">Would Recommend</div>
+      </div>
+    </div>
+    
+    <!-- Testimonials -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg">
+        <div class="flex items-center mb-4">
+          <div class="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold">SM</span>
+          </div>
+          <div class="ml-4">
+            <p class="font-semibold text-slate-900 dark:text-white">Sarah Miller</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Mom of 3</p>
+          </div>
+        </div>
+        <p class="text-slate-600 dark:text-slate-300">
+          "My kids actually fight over who gets to do the dishes now! The point system has completely changed our household dynamics."
+        </p>
+        <div class="flex mt-4">
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg">
+        <div class="flex items-center mb-4">
+          <div class="h-10 w-10 bg-green-500 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold">MJ</span>
+          </div>
+          <div class="ml-4">
+            <p class="font-semibold text-slate-900 dark:text-white">Mike Johnson</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Dad & Partner</p>
+          </div>
+        </div>
+        <p class="text-slate-600 dark:text-slate-300">
+          "Finally, a fair way to track household contributions! No more arguments about who does what. The stats don't lie."
+        </p>
+        <div class="flex mt-4">
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg">
+        <div class="flex items-center mb-4">
+          <div class="h-10 w-10 bg-purple-500 rounded-full flex items-center justify-center">
+            <span class="text-white font-semibold">ER</span>
+          </div>
+          <div class="ml-4">
+            <p class="font-semibold text-slate-900 dark:text-white">Emma Rodriguez</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400">College Roommate</p>
+          </div>
+        </div>
+        <p class="text-slate-600 dark:text-slate-300">
+          "Perfect for roommates! We set up a friendly competition and our apartment has never been cleaner. Love the streak feature!"
+        </p>
+        <div class="flex mt-4">
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+          <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="py-24 bg-gradient-to-r from-blue-600 to-indigo-600">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">
+      Ready to Transform Your Home?
+    </h2>
+    <p class="text-xl text-blue-100 mb-8">
+      Join thousands of families who've made household management fun and engaging.
+      Start your journey today – completely free!
+    </p>
+    
+    <%= link_to new_user_registration_path, 
+        class: "inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105 hover:shadow-2xl" do %>
+      Get Started Free Now
+      <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    <% end %>
+    
+    <p class="mt-4 text-blue-100 text-sm">
+      Free forever • No credit card required • Setup in minutes
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-slate-900 text-white py-12">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center space-x-3 mb-4">
+          <%= image_tag("seifenblasen4.png", { class: "h-8 w-8 object-contain" }) %>
+          <span class="font-bold text-xl font-serif">Voluntariness</span>
+        </div>
+        <p class="text-slate-300 mb-6 max-w-md">
+          Transform your household management with gamified task tracking. 
+          Make chores fun, fair, and engaging for the whole family.
+        </p>
+      </div>
+      
+      <div>
+        <h3 class="font-semibold mb-4">Product</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li><%= link_to "Features", "#", class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "How it Works", "#", class: "hover:text-white transition-colors" %></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h3 class="font-semibold mb-4">Support</h3>
+        <ul class="space-y-2 text-slate-300">
+          <li><%= link_to "Help Center", "#", class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Contact", "#", class: "hover:text-white transition-colors" %></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400">
+      <p>&copy; 2025 Voluntariness. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

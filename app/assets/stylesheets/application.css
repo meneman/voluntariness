@@ -9,6 +9,14 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+/* Landing page styles */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
 .has-participant-color-badge {
     position: relative;
     padding-left: 32px !important;

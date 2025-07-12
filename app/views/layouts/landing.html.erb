@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Voluntariness - Transform Your Home with Gamified Task Management</title>
+    <meta name="description" content="Turn household chores into an engaging game. Motivate your family with points, streaks, and rewards. Join thousands of families making housework fun.">
+    
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    
+    <%= stylesheet_link_tag "application.tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="Voluntariness - Gamified Household Task Management">
+    <meta property="og:description" content="Transform boring household chores into an engaging game for the whole family. Track tasks, earn points, and build streaks together.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    
+    <!-- Schema.org markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Voluntariness",
+      "applicationCategory": "ProductivityApplication",
+      "description": "Gamified household task management for families",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+  </head>
+
+  <body class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+    <%= yield %>
+    
+    <!-- Analytics placeholder -->
+    <!-- Add your analytics code here -->
+  </body>
+</html>

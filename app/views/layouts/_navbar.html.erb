@@ -35,7 +35,7 @@
         <!-- Desktop Navigation -->
         <div class="hidden sm:ml-8 sm:block">
           <div class="flex space-x-1">
-            <%= link_to t("home"), root_path,
+            <%= link_to t("home"), pages_home_path,
                 data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
                 class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
             
@@ -128,7 +128,7 @@
       </div>
 
       <!-- Navigation links -->
-      <%= link_to t("home"), root_path,
+      <%= link_to t("home"), pages_home_path,
           data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
           class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
       
