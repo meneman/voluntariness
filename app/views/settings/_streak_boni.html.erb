@@ -1,7 +1,7 @@
 <div class="flex items-center justify-between">
   <div >
     <h3 class="text-base font-medium text-slate-200">Enable Streak Boni</h3>
-    <p class="text-sm text-slate-400">After a 5 day streak participants get 1 bonus point for completing tasks</p>
+    <p class="text-sm text-slate-400">After a <%= current_user.streak_boni_days_threshold || VoluntarinessConstants::DEFAULT_STREAK_THRESHOLD %> day streak participants get 1 bonus point for completing tasks</p>
   </div>
   <div >
     <%= form_with url: toggle_streak_boni_path, method: :patch, data: { turbo_frame: "streak_boni_toggle" } do |f| %>

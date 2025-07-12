@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "home" do %>
   <!-- Header Section -->
-  <div class="container mx-auto px-4 py-6">
+  <div class="container mx-auto px-4">
     <%= turbo_frame_tag "participants_list_home" do %>
       <%= render partial: "participants/list", locals: {participants: @participants} %>
     <% end %>

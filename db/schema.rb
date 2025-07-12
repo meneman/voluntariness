@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_05_095334) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_12_090401) do
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
     t.integer "participant_id", null: false
@@ -83,8 +83,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_05_095334) do
     t.boolean "streak_boni_enabled"
     t.integer "streak_boni_days_threshold", default: 5
     t.boolean "overdue_bonus_enabled"
+    t.string "subscription_plan", default: "free"
+    t.string "subscription_status", default: "active"
+    t.datetime "subscription_purchased_at"
+    t.boolean "lifetime_access", default: false
+    t.string "role", default: "user", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
+    t.index ["subscription_plan"], name: "index_users_on_subscription_plan"
+    t.index ["subscription_status"], name: "index_users_on_subscription_status"
   end
 
   add_foreign_key "actions", "participants"

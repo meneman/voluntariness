@@ -121,6 +121,8 @@
     align-content: center;
     z-index: 1; /* Ensure it appears above the content */
     pointer-events: none; /* Allow interactions to pass through */
+    font-size: 2em;
+    
   }
   
   .home.edit-mode .sortable-handle {
@@ -131,7 +133,10 @@
     left: 0;
     display: block;
     z-index: 2;
+
   }
+
+
   .sortable-handle {
     display: none;
   }

@@ -1,0 +1,122 @@
+<turbo-frame id="content">
+  <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-10 flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-slate-200">Users Management</h1>
+          <p class="mt-2 text-sm text-slate-300">Manage user accounts, roles, and subscriptions.</p>
+        </div>
+        <%= link_to admin_root_path, class: "inline-flex items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Dashboard
+        <% end %>
+      </div>
+
+      <!-- Users Table -->
+      <div class="bg-slate-800 shadow overflow-hidden sm:rounded-lg border border-slate-600">
+        <div class="px-4 py-5 sm:px-6 border-b border-slate-600">
+          <h3 class="text-lg leading-6 font-medium text-slate-200">All Users</h3>
+          <p class="mt-1 max-w-2xl text-sm text-slate-400">Total: <%= @pagy.count %> users</p>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-slate-600">
+            <thead class="bg-slate-700">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  User
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  Role
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  Subscription
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  Joined
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-300 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-slate-800 divide-y divide-slate-600">
+              <% @users.each do |user| %>
+                <tr class="hover:bg-slate-700">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="h-10 w-10 flex-shrink-0">
+                        <div class="h-10 w-10 rounded-full bg-slate-600 flex items-center justify-center">
+                          <span class="text-sm font-medium text-slate-200"><%= user.email.first.upcase %></span>
+                        </div>
+                      </div>
+                      <div class="ml-4">
+                        <div class="text-sm font-medium text-slate-200"><%= user.email %></div>
+                        <div class="text-sm text-slate-400">
+                          <% if user.lifetime_access %>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                              Lifetime
+                            </span>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                      <%= user.admin? ? 'bg-red-100 text-red-800' : user.support? ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800' %>">
+                      <%= user.role_display_name %>
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="h-2.5 w-2.5 rounded-full mr-2 
+                        <%= user.premium_plan? ? 'bg-green-400' : 'bg-slate-400' %>"></div>
+                      <span class="text-sm text-slate-200"><%= user.plan_display_name %></span>
+                    </div>
+                    <% if user.subscription_purchased_at %>
+                      <div class="text-xs text-slate-400">
+                        Since <%= user.subscription_purchased_at.strftime("%b %d, %Y") %>
+                      </div>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-200">
+                    <%= user.created_at.strftime("%b %d, %Y") %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div class="flex space-x-2">
+                      <%= link_to admin_user_path(user), class: "text-indigo-400 hover:text-indigo-300" do %>
+                        View
+                      <% end %>
+                      <%= link_to edit_admin_user_path(user), class: "text-yellow-400 hover:text-yellow-300" do %>
+                        Edit
+                      <% end %>
+                      <% unless user == current_user %>
+                        <%= link_to admin_user_path(user), 
+                            data: { 
+                              turbo_method: :delete,
+                              turbo_confirm: "Are you sure you want to delete #{user.email}? This action cannot be undone."
+                            },
+                            class: "text-red-400 hover:text-red-300" do %>
+                          Delete
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-6 py-4 border-t border-slate-600">
+          <%== pagy_nav(@pagy, pagy_nav_class: "flex justify-center") if @pagy.pages > 1 %>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

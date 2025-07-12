@@ -1,0 +1,153 @@
+<turbo-frame id="content">
+  <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="mb-10">
+        <h1 class="text-3xl font-bold text-slate-200">Admin Dashboard</h1>
+        <p class="mt-2 text-sm text-slate-300">Manage users and view system statistics.</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Total Users -->
+        <div class="bg-slate-800 p-6 rounded-lg border border-slate-600">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-slate-400 truncate">Total Users</dt>
+                <dd class="text-lg font-medium text-slate-200"><%= @users_count %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Premium Users -->
+        <div class="bg-slate-800 p-6 rounded-lg border border-slate-600">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-8 w-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-slate-400 truncate">Premium Users</dt>
+                <dd class="text-lg font-medium text-slate-200"><%= @premium_users_count %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Tasks -->
+        <div class="bg-slate-800 p-6 rounded-lg border border-slate-600">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-8 w-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-slate-400 truncate">Total Tasks</dt>
+                <dd class="text-lg font-medium text-slate-200"><%= @tasks_count %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Actions -->
+        <div class="bg-slate-800 p-6 rounded-lg border border-slate-600">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <svg class="h-8 w-8 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <div class="ml-5 w-0 flex-1">
+              <dl>
+                <dt class="text-sm font-medium text-slate-400 truncate">Total Actions</dt>
+                <dd class="text-lg font-medium text-slate-200"><%= @actions_count %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Recent Users -->
+        <div class="bg-slate-800 shadow rounded-lg border border-slate-600">
+          <div class="px-6 py-5 border-b border-slate-600">
+            <h2 class="text-xl font-semibold text-slate-200">Recent Users</h2>
+          </div>
+          <div class="px-6 py-4">
+            <div class="space-y-4">
+              <% @recent_users.each do |user| %>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-3">
+                    <div class="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center">
+                      <span class="text-sm font-medium text-slate-200"><%= user.email.first.upcase %></span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-slate-200"><%= user.email %></p>
+                      <p class="text-xs text-slate-400">
+                        <%= user.role_display_name %> • 
+                        <%= user.plan_display_name %>
+                        <% if user.premium_plan? %>
+                          <span class="text-green-400">✓</span>
+                        <% end %>
+                      </p>
+                    </div>
+                  </div>
+                  <%= link_to admin_user_path(user), class: "text-indigo-400 hover:text-indigo-300 text-sm" do %>
+                    View
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <div class="mt-6">
+              <%= link_to admin_users_path, class: "w-full flex justify-center items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600" do %>
+                View All Users
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-slate-800 shadow rounded-lg border border-slate-600">
+          <div class="px-6 py-5 border-b border-slate-600">
+            <h2 class="text-xl font-semibold text-slate-200">Quick Actions</h2>
+          </div>
+          <div class="px-6 py-4">
+            <div class="space-y-4">
+              <%= link_to admin_users_path, class: "flex items-center p-3 bg-slate-700 rounded-md hover:bg-slate-600 transition-colors" do %>
+                <svg class="h-5 w-5 text-indigo-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                </svg>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Manage Users</p>
+                  <p class="text-xs text-slate-400">View, edit, and manage user accounts</p>
+                </div>
+              <% end %>
+              
+              <%= link_to root_path, class: "flex items-center p-3 bg-slate-700 rounded-md hover:bg-slate-600 transition-colors" do %>
+                <svg class="h-5 w-5 text-blue-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <div>
+                  <p class="text-sm font-medium text-slate-200">Back to App</p>
+                  <p class="text-xs text-slate-400">Return to the main application</p>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

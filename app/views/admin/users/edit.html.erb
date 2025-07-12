@@ -1,0 +1,160 @@
+<turbo-frame id="content">
+  <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <!-- Header -->
+      <div class="mb-10 flex items-center justify-between">
+        <div>
+          <h1 class="text-3xl font-bold text-slate-200">Edit User</h1>
+          <p class="mt-2 text-sm text-slate-300">Update user account settings and permissions.</p>
+        </div>
+        <%= link_to admin_users_path, class: "inline-flex items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600" do %>
+          <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Users
+        <% end %>
+      </div>
+
+      <!-- User Form -->
+      <div class="bg-slate-800 shadow rounded-lg border border-slate-600">
+        <div class="px-6 py-5 border-b border-slate-600">
+          <h2 class="text-xl font-semibold text-slate-200">User Information</h2>
+          <p class="mt-1 text-sm text-slate-400">Edit user account details and permissions</p>
+        </div>
+        
+        <turbo-frame id="user_form">
+          <%= form_with model: [:admin, @user], 
+              data: { turbo_frame: "_top" },
+              class: "px-6 py-5 space-y-6" do |form| %>
+            
+            <!-- Email Field -->
+            <div>
+              <%= form.label :email, "Email Address", class: "block text-sm font-medium text-slate-200 mb-2" %>
+              <%= form.email_field :email, 
+                  class: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+              <% if @user.errors[:email].any? %>
+                <p class="mt-1 text-sm text-red-400"><%= @user.errors[:email].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Role Field -->
+            <div>
+              <%= form.label :role, "Role", class: "block text-sm font-medium text-slate-200 mb-2" %>
+              <%= form.select :role, 
+                  options_for_select([
+                    ['User', 'user'],
+                    ['Support', 'support'],
+                    ['Admin', 'admin']
+                  ], @user.role),
+                  {},
+                  class: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+              <% if @user.errors[:role].any? %>
+                <p class="mt-1 text-sm text-red-400"><%= @user.errors[:role].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Subscription Plan Field -->
+            <div>
+              <%= form.label :subscription_plan, "Subscription Plan", class: "block text-sm font-medium text-slate-200 mb-2" %>
+              <%= form.select :subscription_plan, 
+                  options_for_select([
+                    ['Free', 'free'],
+                    ['Premium', 'premium'],
+                    ['Pro', 'pro'],
+                    ['Enterprise', 'enterprise']
+                  ], @user.subscription_plan),
+                  {},
+                  class: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+              <% if @user.errors[:subscription_plan].any? %>
+                <p class="mt-1 text-sm text-red-400"><%= @user.errors[:subscription_plan].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Subscription Status Field -->
+            <div>
+              <%= form.label :subscription_status, "Subscription Status", class: "block text-sm font-medium text-slate-200 mb-2" %>
+              <%= form.select :subscription_status, 
+                  options_for_select([
+                    ['Active', 'active'],
+                    ['Cancelled', 'cancelled'],
+                    ['Past Due', 'past_due'],
+                    ['Suspended', 'suspended']
+                  ], @user.subscription_status),
+                  {},
+                  class: "w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" %>
+              <% if @user.errors[:subscription_status].any? %>
+                <p class="mt-1 text-sm text-red-400"><%= @user.errors[:subscription_status].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Lifetime Access Field -->
+            <div class="flex items-center">
+              <%= form.check_box :lifetime_access, 
+                  class: "h-4 w-4 text-indigo-600 bg-slate-700 border-slate-600 rounded focus:ring-indigo-500 focus:ring-2" %>
+              <%= form.label :lifetime_access, "Lifetime Access", class: "ml-2 block text-sm text-slate-200" %>
+              <% if @user.errors[:lifetime_access].any? %>
+                <p class="mt-1 text-sm text-red-400"><%= @user.errors[:lifetime_access].first %></p>
+              <% end %>
+            </div>
+
+            <!-- Current Status Display -->
+            <div class="bg-slate-700 p-4 rounded-md">
+              <h3 class="text-sm font-medium text-slate-200 mb-2">Current Status</h3>
+              <div class="space-y-2">
+                <div class="flex justify-between text-sm">
+                  <span class="text-slate-400">Member since:</span>
+                  <span class="text-slate-200"><%= @user.created_at.strftime("%B %d, %Y") %></span>
+                </div>
+                <div class="flex justify-between text-sm">
+                  <span class="text-slate-400">Current plan:</span>
+                  <span class="text-slate-200 flex items-center">
+                    <div class="h-2 w-2 rounded-full mr-2 <%= @user.premium_plan? ? 'bg-green-400' : 'bg-slate-400' %>"></div>
+                    <%= @user.plan_display_name %>
+                  </span>
+                </div>
+                <% if @user.subscription_purchased_at %>
+                  <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Subscription since:</span>
+                    <span class="text-slate-200"><%= @user.subscription_purchased_at.strftime("%B %d, %Y") %></span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-between items-center pt-6 border-t border-slate-600">
+              <div>
+                <% unless @user == current_user %>
+                  <%= link_to admin_user_path(@user), 
+                      method: :delete,
+                      data: { 
+                        confirm: "Are you sure you want to delete #{@user.email}? This action cannot be undone and will permanently remove all their data including tasks, participants, and actions.",
+                        turbo_method: :delete
+                      },
+                      class: "inline-flex items-center px-4 py-2 border border-red-600 shadow-sm text-sm font-medium rounded-md text-red-400 bg-slate-800 hover:bg-red-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500" do %>
+                    <svg class="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                    Delete User
+                  <% end %>
+                <% else %>
+                  <p class="text-sm text-slate-400">You cannot delete your own account from here.</p>
+                <% end %>
+              </div>
+              
+              <div class="flex space-x-3">
+                <%= link_to admin_users_path, 
+                    data: { turbo_action: "advance", turbo_frame: "content" },
+                    class: "inline-flex items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600" do %>
+                  Cancel
+                <% end %>
+                <%= form.submit "Update User", 
+                    class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" %>
+              </div>
+            </div>
+          <% end %>
+        </turbo-frame>
+      </div>
+    </div>
+  </div>
+</turbo-frame>

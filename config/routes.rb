@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    root "dashboard#index"
+    get "dashboard", to: "dashboard#index"
+    resources :users, only: [ :index, :show, :edit, :update, :destroy ]
+  end
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "password/edit", to: "passwords#edit", as: "edit_password"
@@ -51,7 +56,6 @@ Rails.application.routes.draw do
 
   resources :actions
   resources :bets
-  
   # Style Guide
   get "style-guide", to: "style_guide#index", as: :style_guide
 

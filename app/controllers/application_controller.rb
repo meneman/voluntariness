@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
   # Global error handling
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
+  # Custom exception for authorization
+  class Forbidden < StandardError; end
+  rescue_from Forbidden, with: :forbidden
+
 
   def set_theme
     if cookies[:theme].present?
@@ -32,5 +36,17 @@ class ApplicationController < ActionController::Base
 
   def not_found
     redirect_to root_path, alert: t("flash.resource_not_found")
+  end
+
+  def forbidden
+    redirect_to root_path, alert: "You don't have permission to access this page."
+  end
+
+  def require_admin!
+    raise Forbidden unless current_user&.admin?
+  end
+
+  def require_admin_or_support!
+    raise Forbidden unless current_user&.admin? || current_user&.support?
   end
 end

@@ -42,6 +42,32 @@
           <p class="mt-1 text-sm text-slate-400">Manage your account preferences</p>
         </div>
         <div class="px-6 py-5 space-y-6">
+          <!-- Subscription Status -->
+          <div>
+            <div class="flex items-center space-x-3 mb-3">
+              <h3 class="text-base font-medium text-slate-200">Subscription Plan</h3>
+              <div class="flex items-center space-x-2">
+                <% if current_user.premium_plan? %>
+                  <div class="h-3 w-3 bg-green-400 rounded-full"></div>
+                  <span class="text-sm font-medium text-green-400"><%= current_user.plan_display_name %> Plan</span>
+                <% else %>
+                  <div class="h-3 w-3 bg-slate-400 rounded-full"></div>
+                  <span class="text-sm font-medium text-slate-400"><%= current_user.plan_display_name %> Plan</span>
+                <% end %>
+              </div>
+              <% if current_user.lifetime_access %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                  Lifetime Access
+                </span>
+              <% end %>
+            </div>
+            <% if current_user.subscription_purchased_at %>
+              <p class="text-xs text-slate-500">
+                Active since <%= current_user.subscription_purchased_at.strftime("%B %d, %Y") %>
+              </p>
+            <% end %>
+          </div>
+
           <!-- User Profile -->
           <turbo-frame id="edit-registration">
             <div>

@@ -14,4 +14,37 @@ class User < ApplicationRecord
   def remember_me
     true
   end
+
+  def premium_plan?
+    subscription_plan != "free" && subscription_status == "active"
+  end
+
+  def plan_display_name
+    case subscription_plan
+    when "premium"
+      "Premium"
+    when "pro"
+      "Pro"
+    when "enterprise"
+      "Enterprise"
+    else
+      "Free"
+    end
+  end
+
+  def admin?
+    role == "admin"
+  end
+
+  def user?
+    role == "user"
+  end
+
+  def support?
+    role == "support"
+  end
+
+  def role_display_name
+    role.humanize
+  end
 end

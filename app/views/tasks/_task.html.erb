@@ -3,7 +3,7 @@
     <div class="sortable-handle"></div>
     
     <!-- Card Header -->
-    <div class="px-6 py-5 bg-slate-800 dark:bg-slate-900">
+    <div class="px-6 py-3 bg-slate-800 dark:bg-slate-900">
       <h3 class="task-title text-xl font-bold text-white text-center">
         <%= task.title %>
       </h3>
@@ -12,12 +12,12 @@
     <!-- Card Content -->
     <div class="p-6 flex-1">
       <!-- Overdue tag -->
-      <div class="mb-4">
+      <div class="mb-2">
         <%= render partial: "tasks/task_overdue_tag", locals: { task: task } %>
       </div>
       
       <!-- Points display -->
-      <div class="text-center mb-6">
+      <div class="text-center mb-4">
         <div class="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
           <%= task.worth %>
         </div>

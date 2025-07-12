@@ -1,141 +1,175 @@
-<nav class="bg-blue-600 dark:bg-slate-700 w-full" data-controller="navbar" data-navbar-theme-value="<%= @theme %>">
-  <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
-        <button data-action="navbar#toggleShowMenu" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50" data-controller="navbar" data-navbar-theme-value="<%= @theme %>">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Mobile menu button -->
+      <div class="flex items-center sm:hidden">
+        <button data-action="navbar#toggleShowMenu" type="button" 
+                class="relative inline-flex items-center justify-center rounded-lg p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-200" 
+                aria-controls="mobile-menu" aria-expanded="false">
           <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">history</span>
-          <!--
-            Icon when menu is closed.
-
-            Menu open: "hidden", Menu closed: "block"
-          -->
-          <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          <span class="sr-only">Open main menu</span>
+          <!-- Hamburger icon -->
+          <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" data-navbar-target="menuIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
-          <!--
-            Icon when menu is open.
-
-            Menu open: "block", Menu closed: "hidden"
-          -->
-          <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          <!-- Close icon -->
+          <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" data-navbar-target="closeIcon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start max-h-100">
-        <div class="flex flex-shrink-0 items-center font-extrabold text-xl text-zinc-200 font-serif m">
-          <div class="relative">
-          <%= image_tag("seifenblasen4.png",{ class: "max-h-full w-16 object-contain" }) %>
+
+      <!-- Logo/Brand -->
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex flex-shrink-0 items-center">
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
+            </div>
+            <span class="font-bold text-xl text-slate-900 dark:text-white font-serif">
+              Voluntariness
+            </span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden sm:ml-8 sm:block">
+          <div class="flex space-x-1">
+            <%= link_to t("home"), root_path,
+                data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
+            
+            <%= link_to t("history"), actions_path,
+                data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
+            
+            <%= link_to t("statistics"), statistics_path,
+                data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
+            
+            <%= link_to t("gambling_link"), gambling_path,
+                data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
+            
+            <%= link_to t("participants"), participants_path,
+                data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side items -->
+      <div class="flex items-center space-x-4">
+        <!-- Desktop Settings & Admin -->
+        <div class="hidden sm:flex sm:items-center sm:space-x-2">
+          <%= link_to settings_path,
+              data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+              class: "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200" do %>
+            <svg class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <%= t("user_settings") %>
+          <% end %>
+          
+          <% if current_user&.admin? %>
+            <%= link_to admin_root_path,
+                data: { turbo_action: "advance", turbo_frame: "content" },
+                class: "px-3 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-300 dark:hover:bg-red-900/70 transition-all duration-200" do %>
+              <svg class="h-4 w-4 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              Admin
+            <% end %>
+          <% end %>
+        </div>
+
+        <!-- User Profile & Logout -->
+        <div class="flex items-center space-x-3">
+          <div class="hidden sm:flex sm:items-center sm:space-x-2 sm:text-sm sm:text-slate-600 dark:sm:text-slate-400">
+            <div class="h-8 w-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+              <span class="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                <%= current_user&.email&.first&.upcase || "U" %>
+              </span>
+            </div>
+            <span class="hidden lg:block"><%= current_user&.email %></span>
           </div>
           
-          Voluntariness
+          <%= button_to destroy_user_session_path, method: :delete, 
+              class: "inline-flex items-center px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200" do %>
+            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            <span class="hidden sm:block">Logout</span>
+          <% end %>
         </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <%#     data: { turbo_action:"replace" } would update route %>
-            <%= link_to t("home"),
-                root_path,
-                data: { turbo_action:"advance", turbo_frame: "content" },  
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3   py-2 text-sm font-medium text-white" %>
-            <%= link_to t("history"),
-                actions_path,
-                data: { turbo_action:"advance", turbo_frame: "content" },
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-            <%= link_to t("statistics"),
-                statistics_path,
-                data: { turbo_action:"advance", turbo_frame: "content" },
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-            <%= link_to t("gambling_link"),
-                gambling_path,
-                data: { turbo_action:"advance", turbo_frame: "content" },
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-            <%= link_to t("participants"),
-                participants_path,
-                data: { turbo_action:"advance", turbo_frame: "content", turbo: "true" },
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-            <%= link_to t("user_settings"),
-                settings_path,
-                data: { turbo_action:"advance", turbo_frame: "content", turbo: "true" },
-                class: "rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <!-- Profile dropdown -->
-        <div class="relative ml-3">
-          <!--
-            Dropdown menu, show/hide based on menu state.
-
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
-        </div>
-      </div>
-      <% if false %>
-      <button type="button" 
-      class="hidden   inline-flex items-center  <%= @theme == "dark" ? "hidden" : "" %>  gap-x-2 py-2 px-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20" 
-       data-action="navbar#setDarkTheme"
-        data-navbar-target="darkbutton">
-        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-        </svg>
-        Dark
-      </button>
-      <button type="button" 
-      class="hidden dark:inline-flex <%= @theme == "dark" ? "" : "hidden" %> items-center gap-x-2 py-2 px-3 bg-white/10 rounded-full text-sm text-white hover:bg-white/20 focus:outline-none focus:bg-white/20" 
-       data-action="navbar#setLightTheme"
-        data-navbar-target="lightbutton">
-        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="m4.93 4.93 1.41 1.41"></path>
-          <path d="m17.66 17.66 1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="m6.34 17.66-1.41 1.41"></path>
-          <path d="m19.07 4.93-1.41 1.41"></path>
-        </svg>
-        Light
-      </button>
-      <% end %>
-      <div class=" mx-4">
-        <%# app/views/layouts/_navigation.html.erb %>
-<%# app/views/layouts/_navbar.html.erb %>
-
-        <%= button_to "logout", destroy_user_session_path, method: :delete, class: "text-white dark:text-slate-200"  %>
       </div>
     </div>
   </div>
-  <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="sm:hidden" id="mobile-menu" >
-    <div class="space-y-1 px-2 pb-3 pt-2 hidden " data-navbar-target="menu" >
-      <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <%= link_to t("home"),
-                root_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-      <%= link_to t("history"),
-                actions_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-      <%= link_to t("statistics"),
-                statistics_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-      <%= link_to t("gambling_link"),
-                gamble_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-      <%= link_to t("participants"),
-                participants_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
-      <%= link_to t("user_settings"),
-                settings_path,
-                class: "block rounded-md bg-cyan-800 dark:bg-slate-800 px-3 py-2 text-sm font-medium text-white" %>
 
+  <!-- Mobile menu -->
+  <div class="sm:hidden border-t border-slate-200 dark:border-slate-700" id="mobile-menu">
+    <div class="hidden px-2 pb-3 pt-2 space-y-1 bg-white dark:bg-slate-900" data-navbar-target="menu">
+      <!-- User info in mobile -->
+      <div class="flex items-center space-x-3 px-3 py-3 border-b border-slate-200 dark:border-slate-700 mb-2">
+        <div class="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+          <span class="text-lg font-medium text-indigo-700 dark:text-indigo-300">
+            <%= current_user&.email&.first&.upcase || "U" %>
+          </span>
+        </div>
+        <div>
+          <div class="text-base font-medium text-slate-900 dark:text-white">
+            <%= current_user&.email %>
+          </div>
+          <div class="text-sm text-slate-500 dark:text-slate-400">
+            <%= current_user&.plan_display_name %> Plan
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation links -->
+      <%= link_to t("home"), root_path,
+          data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+          class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
+      
+      <%= link_to t("history"), actions_path,
+          data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+          class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
+      
+      <%= link_to t("statistics"), statistics_path,
+          data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+          class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
+      
+      <%= link_to t("gambling_link"), gambling_path,
+          data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+          class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
+      
+      <%= link_to t("participants"), participants_path,
+          data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+          class: "block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" %>
+      
+      <div class="border-t border-slate-200 dark:border-slate-700 pt-2 mt-2">
+        <%= link_to settings_path,
+            data: { turbo_action: "advance", turbo_frame: "content", navbar_target: "navLink" },
+            class: "flex items-center px-3 py-2 rounded-lg text-base font-medium transition-all duration-200" do %>
+          <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <%= t("user_settings") %>
+        <% end %>
+        
+        <% if current_user&.admin? %>
+          <%= link_to admin_root_path,
+              data: { turbo_action: "advance", turbo_frame: "content" },
+              class: "flex items-center px-3 py-2 rounded-lg text-base font-medium bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-300 dark:hover:bg-red-900/70 transition-all duration-200" do %>
+            <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            Admin
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </nav>
