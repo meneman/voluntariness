@@ -66,6 +66,7 @@ en:
   add_participant: "add participant"
   edit_mode: "edit mode"
   bonus_points_hint: "Overdue tasks earn bonus points - the longer overdue, the more points you get when completed"
+  time_ago: "%{time} ago"
 
   # New organized keys
   forms:
@@ -93,6 +94,87 @@ en:
   
   settings:
     streak_bonus_threshold: "Streak bonus days threshold"
+
+  # Landing page translations
+  landing:
+    navigation:
+      about: "About"
+      pricing: "Pricing"
+      sign_in: "Sign In"
+      start_free: "Start Free Today"
+    
+    hero:
+      headline: 'End the <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Household Chore</span> Dilemma Forever'
+      subheadline: "Stop the endless arguments about who does what. Voluntariness gamifies household management with points, streaks, and fair tracking that motivates everyone to participate willingly."
+      benefits:
+        end_arguments: "End Chore Arguments"
+        fair_transparent: "Fair & Transparent"
+        motivating: "Motivating Gamification"
+      cta:
+        get_started: "Get Started Free"
+        sign_in: "Sign In"
+        no_card_required: "No credit card required • Free forever"
+    
+    features:
+      section_title: "Solve Your Household's Biggest Problems"
+      section_subtitle: "End the cycle of nagging, unfair distribution, and household tension with smart gamification"
+      feature_1:
+        title: "Fair Point System"
+        description: "No more \"I do everything around here.\" Track actual contributions with transparent points that reflect effort and time invested."
+      feature_2:
+        title: "Stop the Nagging"
+        description: "Replace constant reminders with self-motivated participation. Visual progress and friendly competition make chores actually appealing."
+      feature_3:
+        title: "Automatic Scheduling"
+        description: "Never wonder \"when was this last done?\" Set intervals for every task and get smart reminders when things are actually due."
+      feature_4:
+        title: "Smart Scheduling"
+        description: "Set recurring tasks with custom intervals. Get bonus points for completing overdue items."
+      feature_5:
+        title: "One-Click Completion"
+        description: "Every task completed with just one click. Family members can mark tasks done for each other - no barriers to participation."
+      feature_6:
+        title: "Fun Gambling"
+        description: "Spend earned points on a fun spinning wheel game. Win exciting virtual rewards and items."
+    
+    social_proof:
+      section_title: "Loved by Families Worldwide"
+      section_subtitle: "See how Voluntariness is transforming homes everywhere"
+      stats:
+        tasks_completed: "Tasks Completed Daily"
+        happy_families: "Happy Families"
+        would_recommend: "Would Recommend"
+      testimonial_1:
+        name: "Sarah Miller"
+        role: "Mom of 3"
+        quote: "My kids actually fight over who gets to do the dishes now! The point system has completely changed our household dynamics."
+      testimonial_2:
+        name: "Mike Johnson"
+        role: "Dad & Partner"
+        quote: "Finally, a fair way to track household contributions! No more arguments about who does what. The stats don't lie."
+      testimonial_3:
+        name: "Emma Rodriguez"
+        role: "College Roommate"
+        quote: "Perfect for roommates! We set up a friendly competition and our apartment has never been cleaner. Love the streak feature!"
+    
+    final_cta:
+      title: "Ready to Transform Your Home?"
+      subtitle: "Join thousands of families who've made household management fun and engaging. Start your journey today – completely free!"
+      button: "Get Started Free Now"
+      disclaimer: "Free forever • No credit card required • Setup in minutes"
+    
+    footer:
+      brand_description: "Transform your household management with gamified task tracking. Make chores fun, fair, and engaging for the whole family."
+      product:
+        title: "Product"
+        features: "Features"
+        pricing: "Pricing"
+        how_it_works: "How it Works"
+      support:
+        title: "Support"
+        help_center: "Help Center"
+        contact: "Contact"
+      copyright: "All rights reserved."
 
 
 

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag p do  %>
-  <div class="min-w-64 max-w-sm bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden transform transition-all hover:scale-105 hover:shadow-2xl border border-slate-200 dark:border-slate-700">
+  <div class="min-w-64 max-w-sm bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden transform transition-all <%= 'hover:scale-105 hover:shadow-2xl' unless local_assigns[:show_view] %> border border-slate-200 dark:border-slate-700">
     <%= link_to  participant_path(p), data: { turbo_frame: "_top" }, class: "block" do %>
       <!-- Header with avatar -->
       <div class="relative h-32 flex items-center justify-center bg-white" style="background: linear-gradient(135deg, <%= p.color %>, <%= p.color %>);background-color: white;">

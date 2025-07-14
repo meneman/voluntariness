@@ -1,13 +1,21 @@
 <turbo-frame id="content">
-  <div class="flex p-2">
-    <div class="flex-1"></div>
-    <%== pagy_nav(@pagy)%>
-  </div>
-  <div class="flex  flex-col">
-    <%= turbo_frame_tag "actions", class:"contents" do %>
-      <% @actions.desc.each do |action| %>
-        <%= render partial: "action", locals: {action: action, show_delete: true}%>
+  <div class="container mx-auto px-4 py-6">
+
+    
+    <!-- Actions List -->
+    <div class="space-y-3">
+      <%= turbo_frame_tag "actions", class:"contents" do %>
+        <% @actions.desc.each do |action| %>
+          <%= render partial: "action", locals: {action: action, show_delete: true}%>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
+        <!-- Pagination -->
+    <div class="flex justify-center mb-6">
+      <nav class="bg-white dark:bg-slate-800 rounded-lg shadow-md border border-slate-200 dark:border-slate-700 px-4 py-3">
+        <%== pagy_nav(@pagy)%>
+      </nav>
+    </div>
+    
   </div>
 </turbo-frame>

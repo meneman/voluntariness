@@ -1,0 +1,241 @@
+<!-- Navigation Header -->
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="relative">
+          <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
+        </div>
+        <%= link_to root_path, data: { turbo_frame: "main_content" }, class: "font-bold text-xl text-slate-900 dark:text-white font-serif" do %>
+          Voluntariness
+        <% end %>
+      </div>
+      
+      <!-- Navigation Links -->
+      <div class="flex items-center space-x-4">
+        <%= link_to root_path, 
+            data: { turbo_frame: "main_content" },
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.about") %>
+        <% end %>
+        <%= link_to pricing_path, 
+            data: { turbo_frame: "main_content" },
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.pricing") %>
+        <% end %>
+        <%= link_to new_user_session_path, 
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.sign_in") %>
+        <% end %>
+        <%= link_to new_user_registration_path, 
+            class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
+          <%= t("landing.navigation.start_free") %>
+          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<%= turbo_frame_tag "main_content" do %>
+<!-- Pricing Page -->
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+  <div class="container mx-auto px-4 py-16">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl mb-6">
+        Simple, <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Honest Pricing</span>
+      </h1>
+      <p class="text-xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl mx-auto">
+        Choose the plan that works for your household. Start free or unlock the full experience with our one-time lifetime payment.
+      </p>
+    </div>
+
+    <!-- Pricing Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      
+      <!-- Free Tier -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 p-8 relative">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Free Forever</h3>
+          <p class="text-slate-600 dark:text-slate-300 mb-6">Perfect for getting started</p>
+          <div class="mb-6">
+            <span class="text-5xl font-bold text-slate-900 dark:text-white">$0</span>
+            <span class="text-slate-600 dark:text-slate-400 text-lg">/forever</span>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Unlimited tasks & participants</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Points & streak tracking</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Statistics & charts</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Gambling wheel game</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Smart scheduling & intervals</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-slate-700 dark:text-slate-300">Includes small ads</span>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <%= link_to new_user_registration_path, class: "block w-full text-center px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-300 font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" do %>
+          Get Started Free
+        <% end %>
+      </div>
+
+      <!-- Lifetime Tier -->
+      <div class="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-2xl p-8 relative text-white transform scale-105">
+        <!-- Popular Badge -->
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span class="bg-orange-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">
+            Most Popular
+          </span>
+        </div>
+
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold mb-2">Ad-Free Lifetime</h3>
+          <p class="text-blue-100 mb-6">One payment, forever yours</p>
+          <div class="mb-6">
+            <span class="text-5xl font-bold">$8</span>
+            <span class="text-blue-200 text-lg">/lifetime</span>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white">Unlimited tasks & participants</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white">Points & streak tracking</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white">Statistics & charts</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white">Gambling wheel game</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white">Smart scheduling & intervals</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg class="h-5 w-5 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            <span class="text-white font-semibold">Zero ads forever</span>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <%= link_to "#", class: "block w-full text-center px-6 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors duration-200 shadow-lg" do %>
+          Upgrade to Lifetime
+        <% end %>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mt-24 max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-white mb-12">
+        Frequently Asked Questions
+      </h2>
+      
+      <div class="space-y-8">
+        <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+            What happens after I pay the $8 lifetime fee?
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300">
+            You'll never see ads again and get priority support. The payment is truly one-time - no recurring charges, no subscription renewals. You own the ad-free experience forever.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+            Are there any limitations on the free version?
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300">
+            No functional limitations! You get all features including unlimited tasks, participants, and full statistics. The only difference is the presence of small, non-intrusive ads.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+            Can I upgrade from free to lifetime later?
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300">
+            Absolutely! You can upgrade to the ad-free lifetime version at any time. All your data, tasks, and progress will remain exactly the same.
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-md border border-slate-200 dark:border-slate-700">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+            What payment methods do you accept?
+          </h3>
+          <p class="text-slate-600 dark:text-slate-300">
+            We accept all major credit cards, PayPal, and other secure payment methods through our trusted payment processor.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-16 text-center">
+      <p class="text-slate-600 dark:text-slate-300 mb-6">
+        Ready to transform your household chore management?
+      </p>
+      <%= link_to new_user_registration_path, class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+        Start Free Today
+        <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% end %>

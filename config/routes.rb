@@ -69,6 +69,9 @@ Rails.application.routes.draw do
 
   patch "/settings/update_streak_bonus_days_threshold", to: "settings#update_streak_bonus_days_threshold", as: :update_streak_bonus_days_threshold
   post "toggle_theme", to: "application#toggle_theme"
+  
+  # Pricing page
+  get "pricing", to: "pages#pricing", as: :pricing
   # Landing page for non-authenticated users
   root "landing#index"
 

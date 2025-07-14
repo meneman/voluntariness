@@ -39,7 +39,8 @@ de:
   add_participant: "Teilnehmer hinzufügen"
   edit_mode: "Editieren"
   bonus_points_hint: "Überfällige Aufgaben geben Bonuspunkte - je länger überfällig, desto mehr Punkte beim Abschließen"
-  bonus_points: Überfälligkeitsbonus
+  bonus_points: "Überfälligkeitsbonus"
+  time_ago: "vor %{time}"
 
   # New organized keys
   forms:
@@ -67,6 +68,87 @@ de:
   settings:
     streak_bonus_threshold: "Streak-Bonus Tage Schwellenwert"
 
+  # Landing page translations
+  landing:
+    navigation:
+      about: "Über uns"
+      pricing: "Preise"
+      sign_in: "Anmelden"
+      start_free: "Kostenlos starten"
+    
+    hero:
+      headline: 'Beendet das <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Haushalts-Dilemma</span> für immer'
+      subheadline: "Schluss mit endlosen Diskussionen darüber, wer was macht. Voluntariness macht Haushaltsführung zu einem Spiel mit Punkten, Streaks und fairer Verfolgung, die alle zum freiwilligen Mitmachen motiviert."
+      benefits:
+        end_arguments: "Haushaltsstreit beenden"
+        fair_transparent: "Fair & Transparent"
+        motivating: "Motivierende Gamification"
+      cta:
+        get_started: "Kostenlos loslegen"
+        sign_in: "Anmelden"
+        no_card_required: "Keine Kreditkarte erforderlich • Für immer kostenlos"
+    
+    features:
+      section_title: "Löst die größten Probleme eures Haushalts"
+      section_subtitle: "Beendet den Kreislauf aus Nörgeln, unfairer Verteilung und Haushaltsspannungen mit intelligenter Gamification"
+      feature_1:
+        title: "Faires Punktesystem"
+        description: "Schluss mit \"Ich mache hier alles allein.\" Verfolgt echte Beiträge mit transparenten Punkten, die Aufwand und investierte Zeit widerspiegeln."
+      feature_2:
+        title: "Schluss mit Nörgeln"
+        description: "Ersetzt ständige Erinnerungen durch selbstmotivierte Teilnahme. Visueller Fortschritt und freundlicher Wettbewerb machen Hausarbeit tatsächlich attraktiv."
+      feature_3:
+        title: "Automatische Planung"
+        description: "Nie wieder fragen \"Wann wurde das zuletzt gemacht?\" Setzt Intervalle für jede Aufgabe und erhaltet intelligente Erinnerungen, wenn Dinge wirklich fällig sind."
+      feature_4:
+        title: "Intelligente Planung"
+        description: "Stellt wiederkehrende Aufgaben mit benutzerdefinierten Intervallen ein. Erhaltet Bonuspunkte für das Erledigen überfälliger Aufgaben."
+      feature_5:
+        title: "Ein-Klick-Erledigung"
+        description: "Jede Aufgabe mit nur einem Klick erledigt. Familienmitglieder können Aufgaben füreinander als erledigt markieren - keine Hindernisse für die Teilnahme."
+      feature_6:
+        title: "Spaßiges Glücksspiel"
+        description: "Gebt verdiente Punkte für ein lustiges Glücksradspiel aus. Gewinnt aufregende virtuelle Belohnungen und Gegenstände."
+    
+    social_proof:
+      section_title: "Von Familien weltweit geliebt"
+      section_subtitle: "Seht, wie Voluntariness Zuhause überall verwandelt"
+      stats:
+        tasks_completed: "Täglich erledigte Aufgaben"
+        happy_families: "Glückliche Familien"
+        would_recommend: "Würden weiterempfehlen"
+      testimonial_1:
+        name: "Sarah Müller"
+        role: "Mutter von 3 Kindern"
+        quote: "Meine Kinder streiten sich jetzt darum, wer abwaschen darf! Das Punktesystem hat unsere Haushaltsdynamik komplett verändert."
+      testimonial_2:
+        name: "Mike Schmidt"
+        role: "Vater & Partner"
+        quote: "Endlich eine faire Art, Haushaltsbeiträge zu verfolgen! Keine Diskussionen mehr darüber, wer was macht. Die Statistiken lügen nicht."
+      testimonial_3:
+        name: "Emma Rodriguez"
+        role: "WG-Mitbewohnerin"
+        quote: "Perfekt für Mitbewohner! Wir haben einen freundlichen Wettbewerb eingerichtet und unsere Wohnung war noch nie so sauber. Liebe die Streak-Funktion!"
+    
+    final_cta:
+      title: "Bereit, euer Zuhause zu verwandeln?"
+      subtitle: "Schließt euch Tausenden von Familien an, die Haushaltsführung spaßig und engagiert gemacht haben. Startet eure Reise heute – völlig kostenlos!"
+      button: "Jetzt kostenlos starten"
+      disclaimer: "Für immer kostenlos • Keine Kreditkarte erforderlich • Einrichtung in Minuten"
+    
+    footer:
+      brand_description: "Verwandelt eure Haushaltsführung mit gamifizierter Aufgabenverfolgung. Macht Hausarbeit spaßig, fair und ansprechend für die ganze Familie."
+      product:
+        title: "Produkt"
+        features: "Funktionen"
+        pricing: "Preise"
+        how_it_works: "Wie es funktioniert"
+      support:
+        title: "Support"
+        help_center: "Hilfe-Center"
+        contact: "Kontakt"
+      copyright: "Alle Rechte vorbehalten."
+
   # ActiveRecord error messages
   activerecord:
     errors:
@@ -93,3 +175,49 @@ de:
         other_than: "darf nicht gleich %{count} sein"
         odd: "muss ungerade sein"
         even: "muss gerade sein"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "etwa eine Stunde"
+        other: "etwa %{count} Stunden"
+      about_x_months:
+        one: "etwa ein Monat"
+        other: "etwa %{count} Monate"
+      about_x_years:
+        one: "etwa ein Jahr"
+        other: "etwa %{count} Jahre"
+      almost_x_years:
+        one: "fast ein Jahr"
+        other: "fast %{count} Jahre"
+      half_a_minute: "eine halbe Minute"
+      less_than_x_seconds:
+        one: "weniger als eine Sekunde"
+        other: "weniger als %{count} Sekunden"
+      less_than_x_minutes:
+        one: "weniger als eine Minute"
+        other: "weniger als %{count} Minuten"
+      over_x_years:
+        one: "mehr als ein Jahr"
+        other: "mehr als %{count} Jahre"
+      x_seconds:
+        one: "eine Sekunde"
+        other: "%{count} Sekunden"
+      x_minutes:
+        one: "eine Minute"
+        other: "%{count} Minuten"
+      x_days:
+        one: "ein Tag"
+        other: "%{count} Tagen"
+      x_months:
+        one: "ein Monat"
+        other: "%{count} Monaten"
+      x_years:
+        one: "ein Jahr"
+        other: "%{count} Jahren"
+    prompts:
+      second: "Sekunde"
+      minute: "Minute"
+      hour: "Stunde"
+      day: "Tag"
+      month: "Monat"
+      year: "Jahr"

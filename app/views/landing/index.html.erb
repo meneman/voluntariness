@@ -7,16 +7,30 @@
         <div class="relative">
           <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
         </div>
-        <span class="font-bold text-xl text-slate-900 dark:text-white font-serif">
+        <%= link_to root_path, data: { turbo_frame: "main_content" }, class: "font-bold text-xl text-slate-900 dark:text-white font-serif" do %>
           Voluntariness
-        </span>
+        <% end %>
       </div>
       
-      <!-- CTA Button -->
+      <!-- Navigation Links -->
       <div class="flex items-center space-x-4">
+        <%= link_to root_path, 
+            data: { turbo_frame: "main_content" },
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.about") %>
+        <% end %>
+        <%= link_to pricing_path, 
+            data: { turbo_frame: "main_content" },
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.pricing") %>
+        <% end %>
+        <%= link_to new_user_session_path, 
+            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
+          <%= t("landing.navigation.sign_in") %>
+        <% end %>
         <%= link_to new_user_registration_path, 
             class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
-          Start Free Today
+          <%= t("landing.navigation.start_free") %>
           <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
@@ -26,6 +40,7 @@
   </div>
 </nav>
 
+<%= turbo_frame_tag "main_content" do %>
 <!-- Hero Section -->
 <section class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
   <!-- Background decoration -->
@@ -36,13 +51,11 @@
       <!-- Hero Content -->
       <div class="text-center lg:text-left">
         <h1 class="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
-          Turn <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Household Chores</span> 
-          Into an Engaging Game
+          <%= t("landing.hero.headline").html_safe %>
         </h1>
         
         <p class="mt-6 text-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-          Transform boring household tasks into an exciting adventure for your entire family. 
-          Track progress, earn points, build streaks, and celebrate achievements together.
+          <%= t("landing.hero.subheadline") %>
         </p>
         
         <!-- Key Benefits -->
@@ -51,36 +64,44 @@
             <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-slate-600 dark:text-slate-300">Free Forever</span>
+            <span class="text-slate-600 dark:text-slate-300"><%= t("landing.hero.benefits.end_arguments") %></span>
           </div>
           <div class="flex items-center space-x-2">
             <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-slate-600 dark:text-slate-300">Setup in 2 minutes</span>
+            <span class="text-slate-600 dark:text-slate-300"><%= t("landing.hero.benefits.fair_transparent") %></span>
           </div>
           <div class="flex items-center space-x-2">
             <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
             </svg>
-            <span class="text-slate-600 dark:text-slate-300">Works on all devices</span>
+            <span class="text-slate-600 dark:text-slate-300"><%= t("landing.hero.benefits.motivating") %></span>
           </div>
         </div>
         
         <!-- Primary CTA -->
-        <div class="mt-10">
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <%= link_to new_user_registration_path, 
-              class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
-            Get Started Free
+              class: "inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+            <%= t("landing.hero.cta.get_started") %>
             <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           <% end %>
           
-          <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">
-            No credit card required • Free forever
-          </p>
+          <%= link_to new_user_session_path, 
+              class: "inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-800 border-2 border-blue-600 text-blue-600 dark:text-blue-400 text-lg font-semibold rounded-xl shadow-lg hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-200 transform hover:scale-105" do %>
+            <%= t("landing.hero.cta.sign_in") %>
+            <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+          <% end %>
         </div>
+        
+        <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 text-center lg:text-left">
+          <%= t("landing.hero.cta.no_card_required") %>
+        </p>
       </div>
       
       <!-- Hero Image/Demo -->
@@ -96,49 +117,70 @@
                 <span class="ml-4 text-white text-sm font-medium">Voluntariness Dashboard</span>
               </div>
             </div>
-            <div class="p-6 space-y-4">
-              <div class="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                <div class="flex items-center space-x-3">
-                  <div class="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center">
-                    <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
+            <div class="p-4 space-y-3">
+              <!-- Participant Cards Section -->
+              <div class="mb-4">
+                <div class="flex gap-2 mb-3">
+                  <div class="inline-flex items-center bg-white dark:bg-slate-700 shadow-sm rounded-full px-3 py-1 border border-slate-200 dark:border-slate-600">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-2 shadow-sm" style="background-color: #3b82f6; color: white;">👩</div>
+                    <div class="text-sm font-medium text-slate-700 dark:text-slate-300 mr-2">Sarah</div>
+                    <div class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">245</div>
                   </div>
-                  <div>
-                    <p class="font-medium text-slate-900 dark:text-white">Kitchen Cleanup</p>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">+15 points</p>
+                  <div class="inline-flex items-center bg-white dark:bg-slate-700 shadow-sm rounded-full px-3 py-1 border border-slate-200 dark:border-slate-600">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mr-2 shadow-sm" style="background-color: #10b981; color: white;">👨</div>
+                    <div class="text-sm font-medium text-slate-700 dark:text-slate-300 mr-2">Mike</div>
+                    <div class="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">198</div>
                   </div>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-medium text-green-600 dark:text-green-400">Completed!</p>
-                  <p class="text-xs text-slate-500 dark:text-slate-400">3-day streak</p>
                 </div>
               </div>
-              
-              <div class="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-                <div class="flex items-center space-x-3">
-                  <div class="h-8 w-8 bg-blue-500 rounded-full flex items-center justify-center">
-                    <span class="text-white text-sm font-bold">!</span>
-                  </div>
-                  <div>
-                    <p class="font-medium text-slate-900 dark:text-white">Vacuum Living Room</p>
-                    <p class="text-sm text-slate-500 dark:text-slate-400">+20 points</p>
-                  </div>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Due Today</p>
-                </div>
-              </div>
-              
-              <div class="mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-4 text-white">
+
+              <!-- Task Cards -->
+              <div class="bg-white dark:bg-slate-700 rounded-lg p-3 border border-slate-200 dark:border-slate-600 shadow-sm">
                 <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-sm font-medium">Family Points</p>
-                    <p class="text-2xl font-bold">2,847</p>
+                  <div class="flex items-center space-x-2">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background-color: #3b82f6; color: white;">👩</div>
+                    <div>
+                      <p class="text-sm font-medium text-slate-900 dark:text-white">Dishes & Kitchen Cleanup</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-400">Daily • Worth 15 points</p>
+                    </div>
                   </div>
                   <div class="text-right">
-                    <p class="text-sm">This Week</p>
-                    <p class="text-lg font-semibold">+342</p>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-2 py-1 rounded font-medium">Complete</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white dark:bg-slate-700 rounded-lg p-3 border border-slate-200 dark:border-slate-600 shadow-sm">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background-color: #10b981; color: white;">👨</div>
+                    <div>
+                      <p class="text-sm font-medium text-slate-900 dark:text-white">Vacuum Living Areas</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-400">Every 3 days • Worth 25 points</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-xs text-orange-600 dark:text-orange-400 font-medium">Due in 1 day</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 border border-green-200 dark:border-green-800">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-2">
+                    <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                      <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-medium text-slate-900 dark:text-white">Bathroom Deep Clean</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-400">Sarah • vor 2 Stunden</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-sm font-medium text-green-600 dark:text-green-400">+30 points</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">5-day streak!</p>
                   </div>
                 </div>
               </div>
@@ -155,10 +197,10 @@
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
       <h2 class="text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
-        Everything You Need to Gamify Your Home
+        Solve Your Household's Biggest Problems
       </h2>
       <p class="mt-4 text-xl text-slate-600 dark:text-slate-300">
-        Powerful features designed to make household management engaging and effective
+        End the cycle of nagging, unfair distribution, and household tension with smart gamification
       </p>
     </div>
     
@@ -170,9 +212,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Points & Rewards</h3>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Fair Point System</h3>
         <p class="text-slate-600 dark:text-slate-300">
-          Earn points for completing tasks. Build streaks and unlock bonus rewards to keep motivation high.
+          No more "I do everything around here." Track actual contributions with transparent points that reflect effort and time invested.
         </p>
       </div>
       
@@ -183,9 +225,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Family Collaboration</h3>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Stop the Nagging</h3>
         <p class="text-slate-600 dark:text-slate-300">
-          Add family members and track everyone's contributions. Perfect for couples, families, and roommates.
+          Replace constant reminders with self-motivated participation. Visual progress and friendly competition make chores actually appealing.
         </p>
       </div>
       
@@ -196,9 +238,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Progress Tracking</h3>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Automatic Scheduling</h3>
         <p class="text-slate-600 dark:text-slate-300">
-          Beautiful charts and statistics show your family's progress over time. See patterns and celebrate wins.
+          Never wonder "when was this last done?" Set intervals for every task and get smart reminders when things are actually due.
         </p>
       </div>
       
@@ -219,12 +261,12 @@
       <div class="text-center">
         <div class="mx-auto h-16 w-16 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-xl flex items-center justify-center mb-6">
           <svg class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">Mobile Friendly</h3>
+        <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">One-Click Completion</h3>
         <p class="text-slate-600 dark:text-slate-300">
-          Works perfectly on all devices. Mark tasks complete from anywhere in your home.
+          Every task completed with just one click. Family members can mark tasks done for each other - no barriers to participation.
         </p>
       </div>
       
@@ -417,6 +459,7 @@
         <h3 class="font-semibold mb-4">Product</h3>
         <ul class="space-y-2 text-slate-300">
           <li><%= link_to "Features", "#", class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Pricing", pricing_path, class: "hover:text-white transition-colors" %></li>
           <li><%= link_to "How it Works", "#", class: "hover:text-white transition-colors" %></li>
         </ul>
       </div>
@@ -435,3 +478,4 @@
     </div>
   </div>
 </footer>
+<% end %>

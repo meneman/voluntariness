@@ -2,11 +2,14 @@
 class PagesController < ApplicationController
     # --- Filters ---
 
+    # Skip authentication for public pages
+    skip_before_action :authenticate_user!, only: [ :pricing ]
+
     # Set @participants and @tasks instance variables for most actions,
     # loading either all or only active ones based on params[:active].
     # Excludes the :home action as it has specific loading logic.
-    before_action :set_participants, except: [ :home ]
-    before_action :set_tasks, except: [ :home ]
+    before_action :set_participants, except: [ :home, :pricing ]
+    before_action :set_tasks, except: [ :home, :pricing  ]
 
     # --- Actions ---
 
@@ -76,6 +79,15 @@ class PagesController < ApplicationController
       respond_to do |format|
         format.html { }         # Renders views/pages/gambling.html.erb
         format.turbo_stream { } # Renders views/pages/gambling.turbo_stream.erb if needed
+      end
+    end
+
+    # GET /pricing
+    # Displays the pricing page with subscription tiers.
+    def pricing
+      respond_to do |format|
+        format.html { }         # Renders views/pages/pricing.html.erb
+        format.turbo_stream { } # Renders views/pages/pricing.turbo_stream.erb if needed
       end
     end
 

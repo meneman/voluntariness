@@ -10,8 +10,18 @@
 
 %>
 <div class="p-12 flex flex-col gap-4">
+  <!-- Back Button -->
+  <div class="mb-4">
+    <%= link_to :back, class: "inline-flex items-center text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200" do %>
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+      Back
+    <% end %>
+  </div>
+  
   <div class="flex flex-wrap">
-    <%= render partial: "participant", locals: {p: @participant} %>
+    <%= render partial: "participant", locals: {p: @participant, show_view: true} %>
     <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true, library: pieChart %>
   </div>
   
