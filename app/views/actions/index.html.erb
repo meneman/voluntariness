@@ -6,7 +6,7 @@
     <div class="space-y-3">
       <%= turbo_frame_tag "actions", class:"contents" do %>
         <% @actions.desc.each do |action| %>
-          <%= render partial: "action", locals: {action: action, show_delete: true}%>
+          <%= render partial: "action", locals: {action: action, show_delete: true, show_timeago: true}%>
         <% end %>
       <% end %>
     </div>

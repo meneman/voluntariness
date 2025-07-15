@@ -5,7 +5,7 @@
 <div class="flex flex-col">
   <%= turbo_frame_tag "actions", class:"contents" do %>
     <% (@actions || []).each do |action| %>
-      <%= render partial: "actions/action", locals: {action: action, show_delete: true} %>
+      <%= render partial: "actions/action", locals: {action: action, show_delete: true, show_timeago: true} %>
     <% end %>
   <% end %>
 </div>

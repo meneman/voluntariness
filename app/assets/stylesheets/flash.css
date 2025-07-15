@@ -15,7 +15,7 @@
 }
 
 .flash__message {
-  animation: appear-then-fade 3s both;
+  animation: appear-then-fade 4s both;
 }
 
 @keyframes appear-then-fade {
