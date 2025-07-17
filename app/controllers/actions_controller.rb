@@ -2,7 +2,7 @@ class ActionsController < ApplicationController
     before_action :set_action, except: [ :index, :new, :create ]
 
     def index
-        @pagy, @actions = pagy(current_user.actions, {})
+        @pagy, @actions = pagy(current_user.actions.distinct, {})
     end
 
     def show
@@ -47,7 +47,50 @@ class ActionsController < ApplicationController
                 format.turbo_stream { flash.now[:action_flash] = @action }
             end
         else
-            render :new, status: :unprocessable_entity
+            respond_to do |format|
+                format.html { render :new, status: :unprocessable_entity }
+                format.turbo_stream { render :new, status: :unprocessable_entity }
+            end
+        end
+    end
+
+    def add_participant
+        unless params[:participant_id]
+            respond_to do |format|
+                format.turbo_stream { render plain: "Missing participant_id", status: :bad_request }
+                format.html { redirect_to root_path, alert: "Missing participant_id" }
+            end
+            return
+        end
+        
+        participant_id = params[:participant_id]
+        
+        # Validate participant belongs to current user
+        @participant = current_user.participants.find_by(id: participant_id)
+        unless @participant
+            respond_to do |format|
+                format.turbo_stream { render plain: "Invalid participant", status: :bad_request }
+                format.html { redirect_to root_path, alert: "Invalid participant" }
+            end
+            return
+        end
+        
+        # Check if participant is already in this action
+        if @action.participants.exists?(id: participant_id)
+            respond_to do |format|
+                format.turbo_stream { render plain: "Participant already added", status: :unprocessable_entity }
+                format.html { redirect_to root_path, alert: "Participant already added" }
+            end
+            return
+        end
+        
+        # Add participant to existing action
+        @action.add_participants([participant_id])
+        @task = @action.task
+        
+        respond_to do |format|
+            format.turbo_stream { flash.now[:action_flash] = @action }
+            format.html { redirect_to root_path, notice: "#{@participant.name} added to task" }
         end
     end
 

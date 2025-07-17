@@ -20,7 +20,7 @@
           
           <!-- Points -->
           <div class="flex items-center text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            <%= render partial: "points", locals: {animate: false, id: p.id, base_points: p.total_points}%>
+            <%= render partial: "points", locals: {animate: false, id: p.id, base_points: p.base_points}%>
             <% if p.bonus_points_total && p.bonus_points_total > 0 %>
               <span class="ml-1 text-xs text-orange-600 dark:text-orange-400 font-medium">
                 <%= render partial: "participants/bonus_points", locals: { id: p.id, bonus_points_total: p.bonus_points_total } %>

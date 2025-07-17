@@ -1,5 +1,5 @@
 <%= turbo_frame_tag task, data: {sortable_update_url: task_path(task), home_target: "task" } do  %>
-  <div class="task relative bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden transform transition-all hover:shadow-2xl border border-slate-200 dark:border-slate-700 w-full md:min-w-64 md:max-w-128 flex flex-col" data-controller="particle">
+  <div class="task relative bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden transform transition-all hover:shadow-2xl border border-slate-200 dark:border-slate-700 w-full md:min-w-64 md:max-w-128 flex flex-col" data-controller="particle multi-participant-timer" data-multi-participant-timer-task-id-value="<%= task.id %>">
     <div class="sortable-handle"></div>
     
     <!-- Card Header -->
@@ -30,14 +30,17 @@
       <!-- Participant Action Buttons -->
       <div class="mb-4">
         <div class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4 text-center">Complete Task</div>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-2 gap-4">
           <% @participants.each do |participant| %>
             <% next if participant.archived %>
             <%= button_to({ controller: "actions", action: "create", method: "post", data: {task_id: task, participant_id: participant } }, { 
-                   "data-action" => "click->particle#spawn", 
+                   "data-action" => "click->particle#spawn click->multi-participant-timer#participantClick", 
                    "data-controller" => "color-badge", 
-                   "data-color" => participant.color, 
-                   class: "participant-button flex items-center overflow-hidden rounded-lg shadow-md transition-all duration-200 hover:shadow-lg hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                   "data-color" => participant.color,
+                   "data-multi-participant-timer-target" => "button",
+                   "data-participant-id" => participant.id,
+                   "data-participant-name" => participant.name,
+                   class: "participant-button flex items-center overflow-hidden rounded-lg shadow-md transition-all duration-200 transform focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
                    style: "background: linear-gradient(135deg, #64748b 0%, #64748b 40%, #{participant.color} 100%); width: 100%"
                  }) do %>
               <!-- Color section with avatar and initials -->
@@ -63,6 +66,7 @@
         </div>
       </div>
     </div>
+    
     
     <!-- Action buttons footer -->
     <div class="edit-section border-t border-slate-200 dark:border-slate-700 p-4">

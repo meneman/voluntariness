@@ -54,7 +54,11 @@ Rails.application.routes.draw do
   patch "/tasks/archive/:id", to: "tasks#archive", as: :archive_task, defaults: { format: :turbo_stream }
   patch "/tasks/unarchive/:id", to: "tasks#unarchive", as: :unarchive_task, defaults: { format: :turbo_stream }
 
-  resources :actions
+  resources :actions do
+    member do
+      post :add_participant, defaults: { format: :turbo_stream }
+    end
+  end
   resources :bets
   # Style Guide
   get "style-guide", to: "style_guide#index", as: :style_guide

@@ -13,7 +13,6 @@ class ActionParticipant < ApplicationRecord
 
   def update_streak_status!
     participant.update_streak!
-    
     # Update on_streak based on the participant's new streak status
     update!(on_streak: participant.on_streak)
   end
@@ -23,14 +22,14 @@ class ActionParticipant < ApplicationRecord
   def broadcast_total_points
     return unless participant_id && Participant.exists?(participant_id)
     participant.reload # Ensure we have fresh data
-    
     broadcast_replace_to "participants_points",
       target: "points_for_#{participant.id}",
       partial: "pages/points",
       locals: {
+        
         animate: true,
         id: participant.id,
-        total_points: participant.total_points,
+        total_points: participant.base_points,
         base_points: participant.base_points,
         bonus_points_total: participant.bonus_points_total
       }
@@ -39,7 +38,7 @@ class ActionParticipant < ApplicationRecord
       target: "bonus_points_for_#{participant.id}",
       partial: "participants/bonus_points",
       locals: {
-        id: participant.id,
+          id: participant.id,
         bonus_points_total: participant.bonus_points_total
       }
   end

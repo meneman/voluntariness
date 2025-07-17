@@ -2,4 +2,3 @@
 <%= turbo_stream.replace "task_overdue_#{@task.id}" do  %>
   <%= render partial: "tasks/task_overdue_tag", locals: { task: @task } %>
 <% end %>
-<div data-action-id="<%= @action.id %>" style="display: none;"></div>
