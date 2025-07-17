@@ -22,7 +22,7 @@
   
   <div class="flex flex-wrap">
     <%= render partial: "participant", locals: {p: @participant, show_view: true} %>
-    <%= pie_chart  Action.where(participant_id: @participant.id).joins(:task).group("tasks.title").count, donut: true, library: pieChart %>
+    <%= pie_chart  Action.joins(:action_participants, :task).where(action_participants: { participant_id: @participant.id }).group("tasks.title").count, donut: true, library: pieChart %>
   </div>
   
   <% if @participant.useable_items.any? %>

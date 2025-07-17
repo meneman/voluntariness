@@ -118,7 +118,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_redirected_to root_path
-    assert_equal "Resource not found", flash[:alert]
+    assert_equal "Invalid participants selected", flash[:alert]
   end
 
   test "should not create action with invalid participant_id" do
@@ -129,7 +129,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_redirected_to root_path
-    assert_equal "Resource not found", flash[:alert]
+    assert_equal "Invalid participants selected", flash[:alert]
   end
 
   test "should not create action with other user's task" do
@@ -142,7 +142,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_redirected_to root_path
-    assert_equal "Resource not found", flash[:alert]
+    assert_equal "Invalid participants selected", flash[:alert]
   end
 
   test "should not create action with other user's participant" do
@@ -155,7 +155,7 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     }
     assert_redirected_to root_path
-    assert_equal "Resource not found", flash[:alert]
+    assert_equal "Invalid participants selected", flash[:alert]
   end
 
   test "should set on_streak status when creating action" do
@@ -164,10 +164,12 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
 
     # Create actions on previous days to build a streak
     travel_to 2.days.ago do
-      Action.create!(participant: @participant, task: @task)
+      action = Action.create!(task: @task)
+      action.add_participants([@participant.id])
     end
     travel_to 1.day.ago do
-      Action.create!(participant: @participant, task: @task)
+      action = Action.create!(task: @task)
+      action.add_participants([@participant.id])
     end
 
     # Now create an action today - this should be on_streak
@@ -179,7 +181,8 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     }
 
     new_action = Action.last
-    assert new_action.on_streak, "Action should be on streak after 3 consecutive days with threshold of 2"
+    action_participant = new_action.action_participants.first
+    assert action_participant.on_streak, "ActionParticipant should be on streak after 3 consecutive days with threshold of 2"
   end
 
   test "should get edit" do
@@ -262,7 +265,8 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    # Should either redirect with error or raise exception
+    assert_redirected_to root_path
+    assert_equal "Invalid participants selected", flash[:alert]
   end
 
   test "should set bonus points on action creation" do

@@ -31,7 +31,8 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
 
     # Step 2: Verify task appears on home page
     get root_path
-    assert_response :success
+    assert_redirected_to pages_home_path
+    follow_redirect!
     assert_includes response.body, "Integration Test Task"
 
     # Step 3: Complete the task
@@ -101,7 +102,8 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
 
     # Verify archived task doesn't appear on home page
     get root_path
-    assert_response :success
+    assert_redirected_to pages_home_path
+    follow_redirect!
     assert_not_includes response.body, "Updated Lifecycle Task"
 
     # Unarchive task
@@ -113,7 +115,8 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
 
     # Verify unarchived task appears on home page again
     get root_path
-    assert_response :success
+    assert_redirected_to pages_home_path
+    follow_redirect!
     assert_includes response.body, "Updated Lifecycle Task"
 
     # Delete task
@@ -222,17 +225,21 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
 
     # Verify archived participant doesn't appear in active lists
     get root_path
-    assert_response :success
+    assert_redirected_to pages_home_path
+    follow_redirect!
     # This depends on whether the home page filters by active participants
 
     # Delete participant
     action_id = action.id
     delete participant_path(new_participant)
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
 
-    # Verify participant and associated actions are deleted
+    # Verify participant is deleted, but action remains (multi-participant system)
     assert_nil Participant.find_by(id: new_participant.id)
-    assert_nil Action.find_by(id: action_id)
+    # Action should still exist but participant should be removed from it
+    remaining_action = Action.find_by(id: action_id)
+    assert_not_nil remaining_action
+    assert_not_includes remaining_action.participants, new_participant
   end
 
   test "multi-participant task completion workflow" do
@@ -364,6 +371,8 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
   end
 
   test "full application workflow: sign up, create data, view statistics" do
+    # Skip registration test since registrations are disabled
+    skip "Registration is disabled - test only relevant with registrations enabled"
     # Sign out current user
     sign_out @user
 

@@ -35,7 +35,8 @@ class ApplicationController < ActionController::Base
   private
 
   def not_found
-    redirect_to root_path, alert: t("flash.resource_not_found")
+    redirect_path = user_signed_in? ? pages_home_path : root_path
+    redirect_to redirect_path, alert: t("flash.resource_not_found")
   end
 
   def forbidden

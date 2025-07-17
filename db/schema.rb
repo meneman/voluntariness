@@ -10,19 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_12_090401) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_16_202606) do
+  create_table "action_participants", force: :cascade do |t|
+    t.integer "action_id", null: false
+    t.integer "participant_id", null: false
+    t.decimal "points_earned", precision: 8, scale: 2
+    t.decimal "bonus_points", precision: 8, scale: 2, default: "0.0"
+    t.boolean "on_streak", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_id", "participant_id"], name: "index_action_participants_on_action_id_and_participant_id", unique: true
+    t.index ["action_id"], name: "index_action_participants_on_action_id"
+    t.index ["participant_id"], name: "index_action_participants_on_participant_id"
+  end
+
   create_table "actions", force: :cascade do |t|
     t.integer "task_id", null: false
-    t.integer "participant_id", null: false
     t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "on_streak", default: false, null: false
-    t.float "bonus_points"
-    t.index ["created_at", "participant_id"], name: "index_actions_on_created_at_and_participant_id"
     t.index ["created_at", "task_id"], name: "index_actions_on_created_at_and_task_id"
-    t.index ["participant_id", "created_at"], name: "index_actions_on_participant_id_and_created_at"
-    t.index ["participant_id"], name: "index_actions_on_participant_id"
+    t.index ["created_at"], name: "index_actions_on_created_at_and_participant_id"
+    t.index ["created_at"], name: "index_actions_on_participant_id_and_created_at"
     t.index ["task_id"], name: "index_actions_on_task_id"
   end
 
@@ -44,6 +53,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_090401) do
     t.datetime "updated_at", null: false
     t.boolean "archived", default: false
     t.integer "user_id", null: false
+    t.integer "streak"
+    t.boolean "on_streak"
     t.index ["archived"], name: "index_participants_on_archived"
     t.index ["user_id"], name: "index_participants_on_user_id"
   end
@@ -95,7 +106,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_12_090401) do
     t.index ["subscription_status"], name: "index_users_on_subscription_status"
   end
 
-  add_foreign_key "actions", "participants"
+  add_foreign_key "action_participants", "actions"
+  add_foreign_key "action_participants", "participants"
   add_foreign_key "actions", "tasks"
   add_foreign_key "bets", "participants"
   add_foreign_key "participants", "users"

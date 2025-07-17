@@ -71,7 +71,7 @@ class ParticipantsController < ApplicationController
     def destroy
         @participant.destroy()
         respond_to do |format|
-            format.html { redirect_to root_path, notice: t("flash.participant_deleted") }
+            format.html { redirect_to pages_home_path, notice: t("flash.participant_deleted") }
             format.turbo_stream { flash.now[:notice] = t("flash.participant_deleted") }
         end
     end

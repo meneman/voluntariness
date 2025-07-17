@@ -79,7 +79,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should spin successfully with sufficient points" do
     # Create a task to give participant points
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     @participant.reload
 
     initial_points = @participant.total_points.to_f
@@ -173,7 +173,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should show result successfully" do
     # Set up session with winning item by spinning first
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     
     post gamble_spin_path,
          params: { participant_id: @participant.id },
@@ -191,7 +191,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should create useable item for participant" do
     # Give participant some points first
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     
     initial_items_count = @participant.useable_items.count
     
@@ -233,7 +233,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should clear winning item from session" do
     # Give participant some points first
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     
     # Spin first to set up session
     post gamble_spin_path,
@@ -310,7 +310,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should use obtainable items from constants" do
     # Give participant some points first
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     
     # Spin to get a winning item
     post gamble_spin_path,
@@ -337,7 +337,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
   test "should handle all obtainable items correctly and calculate proper angles" do
     # Test that spinning produces one of the valid obtainable items
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task); action.add_participants([@participant.id])
     
     # Spin multiple times to test randomness and angle calculation
     5.times do
@@ -368,7 +368,7 @@ class GambleControllerTest < ActionDispatch::IntegrationTest
            headers: { "Accept" => "text/vnd.turbo-stream.html" }
       
       # Give participant more points for next iteration
-      Action.create!(participant: @participant, task: task)
+      action = Action.create!(task: task); action.add_participants([@participant.id])
     end
   end
 end

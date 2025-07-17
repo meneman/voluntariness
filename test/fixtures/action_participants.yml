@@ -1,0 +1,96 @@
+# Test fixtures for ActionParticipant model
+
+alice_dishwashing_today_ap:
+  action: alice_dishwashing_today
+  participant: alice
+  points_earned: 15.0
+  bonus_points: 0.0
+  on_streak: false
+
+bob_grocery_yesterday_ap:
+  action: bob_grocery_yesterday
+  participant: bob
+  points_earned: 20.0
+  bonus_points: 2.5
+  on_streak: true
+
+charlie_vacuum_three_days_ago_ap:
+  action: charlie_vacuum_three_days_ago
+  participant: charlie
+  points_earned: 25.0
+  bonus_points: 1.0
+  on_streak: false
+
+alice_dishwashing_yesterday_ap:
+  action: alice_dishwashing_yesterday
+  participant: alice
+  points_earned: 15.0
+  bonus_points: 0.0
+  on_streak: true
+
+bob_dishwashing_two_days_ago_ap:
+  action: bob_dishwashing_two_days_ago
+  participant: bob
+  points_earned: 15.0
+  bonus_points: 0.0
+  on_streak: true
+
+charlie_grocery_last_week_ap:
+  action: charlie_grocery_last_week
+  participant: charlie
+  points_earned: 20.0
+  bonus_points: 0.0
+  on_streak: false
+
+# Action participants for streak testing
+alice_streak_day1_ap:
+  action: alice_streak_day1
+  participant: alice
+  points_earned: 15.0
+  bonus_points: 0.0
+  on_streak: false
+
+alice_streak_day2_ap:
+  action: alice_streak_day2
+  participant: alice
+  points_earned: 25.0
+  bonus_points: 0.0
+  on_streak: false
+
+alice_streak_day3_ap:
+  action: alice_streak_day3
+  participant: alice
+  points_earned: 20.0
+  bonus_points: 0.0
+  on_streak: true
+
+# Action participants for overdue bonus testing
+overdue_task_action_ap:
+  action: overdue_task_action
+  participant: streak_participant
+  points_earned: 30.0
+  bonus_points: 15.0
+  on_streak: false
+
+# User two action participants
+user_two_action_ap:
+  action: user_two_action
+  participant: user_two_participant
+  points_earned: 10.0
+  bonus_points: 0.0
+  on_streak: false
+
+# Additional shared task examples for testing
+shared_task_alice_bob:
+  action: alice_dishwashing_today
+  participant: bob
+  points_earned: 7.5  # Half points for shared task
+  bonus_points: 0.0
+  on_streak: false
+
+shared_task_charlie_alice:
+  action: charlie_vacuum_three_days_ago
+  participant: alice
+  points_earned: 12.5  # Half points for shared task
+  bonus_points: 0.5
+  on_streak: false

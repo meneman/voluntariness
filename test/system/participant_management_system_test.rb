@@ -55,7 +55,8 @@ class ParticipantManagementSystemTest < ApplicationSystemTestCase
 
   test "user can see participant points and statistics" do
     # Create some actions for the participant
-    Action.create!(task: @task, participant: @participant)
+    action = Action.create!(task: @task)
+    action.add_participants([@participant.id])
     
     visit root_path
     
@@ -223,11 +224,8 @@ class ParticipantManagementSystemTest < ApplicationSystemTestCase
     
     # Create some consecutive actions to build a streak
     3.times do |i|
-      Action.create!(
-        task: @task,
-        participant: @participant,
-        created_at: i.days.ago
-      )
+      action = Action.create!(task: @task, created_at: i.days.ago)
+      action.add_participants([@participant.id])
     end
     
     visit root_path

@@ -222,7 +222,8 @@ class TaskManagementSystemTest < ApplicationSystemTestCase
 
   test "charts and statistics display correctly" do
     # Create some test data first
-    Action.create!(task: @task, participant: @participant)
+    action = Action.create!(task: @task)
+    action.add_participants([@participant.id])
     
     visit statistics_path
     

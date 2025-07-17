@@ -1,7 +1,8 @@
 class Participant < ApplicationRecord
     belongs_to :user
-    has_many :actions, dependent: :destroy
-    has_many :tasks, through: :actions, dependent: :nullify
+    has_many :action_participants, dependent: :destroy
+    has_many :actions, through: :action_participants
+    has_many :tasks, through: :actions
     has_many :useable_items, dependent: :destroy
     has_many :bets, dependent: :destroy
     validates :name, presence: true
@@ -11,9 +12,9 @@ class Participant < ApplicationRecord
 
     def total_points
         # Use database aggregation instead of Ruby iteration to avoid N+1 queries
-        base_points = actions.joins(:task).sum("tasks.worth")
-        bonus_points = actions.sum("COALESCE(bonus_points, 0)")
-        streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
+        base_points = action_participants.sum("points_earned")
+        bonus_points = action_participants.sum("COALESCE(bonus_points, 0)")
+        streak_bonus = user.streak_boni_enabled? ? action_participants.where(on_streak: true).count : 0
         bet_costs = bets.sum(:cost)
 
         total = base_points + bonus_points + streak_bonus - bet_costs
@@ -22,23 +23,26 @@ class Participant < ApplicationRecord
     end
 
     def base_points
-        points = actions.joins(:task).sum("tasks.worth")
+        points = action_participants.sum("points_earned")
         "%g" % ("%.1f" % points)
     end
 
     def bonus_points_total
-        bonus_points = actions.sum("COALESCE(bonus_points, 0)")
-        streak_bonus = user.streak_boni_enabled? ? actions.where(on_streak: true).count : 0
+        bonus_points = action_participants.sum("COALESCE(bonus_points, 0)")
+        streak_bonus = user.streak_boni_enabled? ? action_participants.where(on_streak: true).count : 0
         bet_costs = bets.sum(:cost)
         bonus_points + streak_bonus - bet_costs
     end
 
 
 
-    def streak
+    def calculate_streak
         return -1 unless self.user.streak_boni_enabled?
 
-        days_with_action = actions.last_five_days.map { |action| action.created_at.to_date }.uniq.sort.reverse
+        days_with_action = action_participants.joins(:action)
+                            .where(actions: { created_at: VoluntarinessConstants::STREAK_CALCULATION_DAYS.days.ago.beginning_of_day..Time.now.end_of_day })
+                            .includes(:action)
+                            .map { |ap| ap.action.created_at.to_date }.uniq.sort.reverse
         return 0 if days_with_action.empty?
 
         # A streak should count consecutive days leading up to today (or yesterday at most)
@@ -66,8 +70,24 @@ class Participant < ApplicationRecord
     end
 
 
+    def streak
+        calculate_streak
+    end
+
     def on_streak
-        streak > self.user.streak_boni_days_threshold # returns true if the streak count is more than the set threshold
+        streak_value = streak
+        return false if streak_value == -1 || streak_value.nil?
+        streak_value > self.user.streak_boni_days_threshold # returns true if the streak count is more than the set threshold
+    end
+
+    def update_streak!
+      current_streak = calculate_streak
+      new_on_streak = user.streak_boni_enabled? && current_streak > user.streak_boni_days_threshold
+      
+      update_columns(
+        streak: current_streak,
+        on_streak: new_on_streak
+      )
     end
 
     def log_action_removal(action)
@@ -79,7 +99,7 @@ class Participant < ApplicationRecord
 
     def apply_bonuses(base_points, action)
       [
-        ->(pts) { user.streak_boni_enabled? && action.on_streak? ? pts + VoluntarinessConstants::STREAK_BONUS_POINTS : pts },
+        ->(pts) { user.streak_boni_enabled? && action.on_streak ? pts + VoluntarinessConstants::STREAK_BONUS_POINTS : pts },
         ->(pts) { user.overdue_bonus_enabled? ? pts + action.bonus_points : pts }
       ].reduce(base_points) { |points, bonus_fn| bonus_fn.call(points) }
     end

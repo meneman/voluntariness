@@ -24,7 +24,7 @@ class CustomRegistrationsControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to root_path  # Default after_sign_in_path
+    assert_redirected_to pages_home_path  # Default after_sign_in_path
   end
 
   test "should not allow registration with invalid email" do
@@ -178,7 +178,7 @@ class CustomRegistrationsControllerTest < ActionDispatch::IntegrationTest
         password: "newpassword123"
       }
     }
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
   end
 
   test "should not allow password change with incorrect current password" do
@@ -202,7 +202,7 @@ class CustomRegistrationsControllerTest < ActionDispatch::IntegrationTest
         password: "password123"
       }
     }
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
   end
 
   test "should not allow password change with mismatched confirmation" do
@@ -226,7 +226,7 @@ class CustomRegistrationsControllerTest < ActionDispatch::IntegrationTest
         password: "password123"
       }
     }
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
   end
 
   # --- Account Deletion Tests ---

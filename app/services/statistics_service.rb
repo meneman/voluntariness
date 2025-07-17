@@ -5,13 +5,14 @@ class StatisticsService
   end
 
   def generate_task_completion_data
-    user.actions
-      .joins(:task, :participant)
+    ActionParticipant
+      .joins(action: :task, participant: :user)
+      .where(users: { id: user.id })
       .group("tasks.title", "participants.name")
       .select(
         "tasks.title AS task_title",
         "participants.name AS participant_name",
-        "COUNT(actions.id) AS actions_count",
+        "COUNT(action_participants.id) AS actions_count",
         "tasks.worth AS task_worth"
       )
       .where("tasks.archived = ?", false)
@@ -19,7 +20,9 @@ class StatisticsService
   end
 
   def generate_task_completion_by_participant
-    user.actions
+    ActionParticipant
+      .joins(participant: :user)
+      .where(users: { id: user.id })
       .joins(:participant)
       .group("participants.name")
       .count
@@ -37,15 +40,17 @@ class StatisticsService
   end
 
   def generate_points_by_participant
-    user.actions
-      .joins(:task, :participant)
+    ActionParticipant
+      .joins(action: :task, participant: :user)
+      .where(users: { id: user.id })
       .group("participants.name")
-      .sum("tasks.worth")
+      .sum("action_participants.points_earned")
   end
 
   def generate_task_popularity
-    user.actions
-      .joins(:task)
+    ActionParticipant
+      .joins(action: :task, participant: :user)
+      .where(users: { id: user.id })
       .group("tasks.title")
       .count
       .sort_by { |_, count| -count }
@@ -53,31 +58,37 @@ class StatisticsService
   end
 
   def generate_activity_over_time
-    user.actions
+    ActionParticipant
+      .joins(participant: :user)
+      .where(users: { id: user.id })
       .group_by_day(:created_at, last: 30)
       .count
   end
 
   def generate_participant_activity
-    user.actions
-      .joins(:participant)
+    ActionParticipant
+      .joins(participant: :user)
+      .where(users: { id: user.id })
       .group("participants.name")
       .group_by_day(:created_at, last: 30)
       .count
   end
 
   def generate_points_by_day
-    user.actions
-      .joins(:task)
+    ActionParticipant
+      .joins(action: :task, participant: :user)
+      .where(users: { id: user.id })
       .group_by_day(:created_at, last: 30)
-      .sum("tasks.worth")
+      .sum("action_participants.points_earned")
   end
 
   def generate_bonus_points_by_day
-    user.actions
+    ActionParticipant
+      .joins(participant: :user)
+      .where(users: { id: user.id })
       .where.not(bonus_points: nil)
       .group_by_day(:created_at, last: 30)
-      .sum("bonus_points")
+      .sum("action_participants.bonus_points")
   end
 
   def generate_cumulative_bonus_data
@@ -85,16 +96,17 @@ class StatisticsService
     select_cumulative_sql = <<-SQL.squish
       DISTINCT
       participants.name AS participant_name,
-      DATE(actions.created_at) AS action_date,
-      SUM(COALESCE(actions.bonus_points, 0)) OVER (
+      DATE(action_participants.created_at) AS action_date,
+      SUM(COALESCE(action_participants.bonus_points, 0)) OVER (
         PARTITION BY participants.name
-        ORDER BY DATE(actions.created_at)
+        ORDER BY DATE(action_participants.created_at)
         ROWS UNBOUNDED PRECEDING
       ) AS cumulative_bonus_points
     SQL
 
-    cumulative_data = user.actions
-      .joins(:participant)
+    cumulative_data = ActionParticipant
+      .joins(participant: :user)
+      .where(users: { id: user.id })
       .select(select_cumulative_sql)
       .where.not(bonus_points: nil)
       .order("participant_name", "action_date")
@@ -114,18 +126,19 @@ class StatisticsService
     select_cumulative_sql = <<-SQL.squish
       DISTINCT
       participants.name AS participant_name,
-      DATE(actions.created_at) AS action_date,
-      SUM(tasks.worth) OVER (
+      DATE(action_participants.created_at) AS action_date,
+      SUM(action_participants.points_earned) OVER (
         PARTITION BY participants.name
-        ORDER BY DATE(actions.created_at)
+        ORDER BY DATE(action_participants.created_at)
         ROWS UNBOUNDED PRECEDING
       ) AS cumulative_points
     SQL
 
-    cumulative_data = user.actions
-      .joins(:task, :participant)
+    cumulative_data = ActionParticipant
+      .joins(action: :task, participant: :user)
+      .where(users: { id: user.id })
       .select(select_cumulative_sql)
-      .where("tasks.worth > 0")
+      .where("action_participants.points_earned > 0")
       .order("participant_name", "action_date")
 
     # Process into nested hash

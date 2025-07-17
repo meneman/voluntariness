@@ -59,11 +59,8 @@ class TaskTest < ActiveSupport::TestCase
   test "done_today should return true if last action was today" do
     task = tasks(:dishwashing)
     # Create an action for today
-    Action.create!(
-      task: task,
-      participant: participants(:alice),
-      created_at: Time.current
-    )
+    action = Action.create!(task: task, created_at: Time.current)
+    action.add_participants([participants(:alice).id])
 
     assert task.done_today
   end
@@ -133,11 +130,8 @@ class TaskTest < ActiveSupport::TestCase
   test "calculate_bonus_points should return 0 if task is not overdue" do
     task = tasks(:dishwashing)
     # Create a recent action to make it not overdue
-    Action.create!(
-      task: task,
-      participant: participants(:alice),
-      created_at: Time.current
-    )
+    action = Action.create!(task: task, created_at: Time.current)
+    action.add_participants([participants(:alice).id])
 
     assert task.overdue >= 0
     assert_equal 0, task.calculate_bonus_points
@@ -170,10 +164,8 @@ class TaskTest < ActiveSupport::TestCase
     )
 
     # Make the task 3 days overdue
-    task.actions.create!(
-      participant: participants(:alice),
-      created_at: 4.days.ago
-    )
+    action = Action.create!(task: task, created_at: 4.days.ago)
+    action.add_participants([participants(:alice).id])
 
     overdue_days = task.overdue.abs
     expected_bonus = (overdue_days * VoluntarinessConstants::OVERDUE_BONUS_MULTIPLIER).round(1)

@@ -60,7 +60,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not show other user's participant" do
     get participant_path(@other_user_participant)
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 
@@ -136,7 +136,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not edit other user's participant" do
     get edit_participant_path(@other_user_participant)
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 
@@ -223,7 +223,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     before = @other_user_participant.archived
     patch archive_participant_path(@other_user_participant)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
 
     @other_user_participant.reload
@@ -246,7 +246,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
       delete participant_path(@participant)
     end
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Participant was successfully deleted.", flash[:notice]
   end
 
@@ -265,18 +265,24 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
 
     delete participant_path(@other_user_participant)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
     assert_equal other_user_participant_count, User.find(@other_user_participant.user_id).participants.count
   end
 
-  test "should destroy participant and its actions" do
-    action = Action.create!(task: tasks(:dishwashing), participant: @participant)
+  test "should destroy participant and its action_participants" do
+    action = Action.create!(task: tasks(:dishwashing))
+    action.add_participants([@participant.id])
     action_id = action.id
+    
+    # Verify the action_participant exists before deletion
+    assert_not_nil ActionParticipant.find_by(action_id: action_id, participant_id: @participant.id)
 
     delete participant_path(@participant)
 
-    assert_nil Action.find_by(id: action_id)
+    # Action should still exist but action_participant should be deleted
+    assert_not_nil Action.find_by(id: action_id)
+    assert_nil ActionParticipant.find_by(action_id: action_id, participant_id: @participant.id)
   end
 
   test "should handle avatar parameter" do
@@ -352,7 +358,7 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
   test "should handle ActiveRecord::RecordNotFound gracefully" do
     # This tests the ApplicationController error handling
     get participant_path(999999)  # Non-existent participant
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 

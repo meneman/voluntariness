@@ -182,10 +182,8 @@ class StatisticsServiceTest < ActiveSupport::TestCase
       user: @user
     )
 
-    Action.create!(
-      task: zero_worth_task,
-      participant: participants(:alice)
-    )
+    action1 = Action.create!(task: zero_worth_task)
+    action1.add_participants([participants(:alice).id])
 
     # Create a task with negative worth
     negative_worth_task = Task.create!(
@@ -194,10 +192,8 @@ class StatisticsServiceTest < ActiveSupport::TestCase
       user: @user
     )
 
-    Action.create!(
-      task: negative_worth_task,
-      participant: participants(:alice)
-    )
+    action2 = Action.create!(task: negative_worth_task)
+    action2.add_participants([participants(:alice).id])
 
     result = @service.generate_cumulative_data
 
@@ -273,7 +269,7 @@ class StatisticsServiceTest < ActiveSupport::TestCase
   test "should handle user with no actions" do
     user_with_no_actions = users(:two)
     # Clear any existing actions by going through participants
-    user_with_no_actions.participants.each { |p| p.actions.destroy_all }
+    user_with_no_actions.participants.each { |p| p.action_participants.destroy_all }
 
     service = StatisticsService.new(user_with_no_actions)
 
@@ -292,7 +288,7 @@ class StatisticsServiceTest < ActiveSupport::TestCase
 
   test "should handle user with no participants" do
     user_with_no_participants = users(:two)
-    user_with_no_participants.participants.destroy_all
+    user_with_no_participants.participants.each(&:destroy)
 
     service = StatisticsService.new(user_with_no_participants)
 

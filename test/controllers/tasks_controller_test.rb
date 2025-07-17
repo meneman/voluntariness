@@ -44,7 +44,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should not show other user's task" do
     get task_path(@other_user_task)
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 
@@ -142,7 +142,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should not edit other user's task" do
     get edit_task_path(@other_user_task)
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 
@@ -183,7 +183,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
       task: { title: "Hacked" }
     }
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
 
     @other_user_task.reload
@@ -250,13 +250,14 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
     delete task_path(@other_user_task)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
     assert_equal other_user_task_count, User.find(@other_user_task.user_id).tasks.count
   end
 
   test "should destroy task and its actions" do
-    action = Action.create!(task: @task, participant: participants(:alice))
+    action = Action.create!(task: @task)
+    action.add_participants([participants(:alice).id])
     action_id = action.id
 
     delete task_path(@task)
@@ -351,7 +352,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   test "should handle ActiveRecord::RecordNotFound gracefully" do
     # This tests the ApplicationController error handling
     get task_path(999999)  # Non-existent task
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 

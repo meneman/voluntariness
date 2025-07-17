@@ -13,7 +13,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "should require authentication for all actions" do
     sign_out @user
 
-    get root_path
+    get pages_home_path
     assert_redirected_to new_user_session_path
 
     get statistics_path
@@ -26,7 +26,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   # --- Home Action Tests ---
 
   test "should get home" do
-    get root_path
+    get pages_home_path
     assert_response :success
     assert_assigns(:participants)
     assert_assigns(:tasks)
@@ -34,8 +34,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should get home as turbo stream" do
     get root_path, as: :turbo_stream
-    assert_response :success
-    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_redirected_to pages_home_path
   end
 
   test "home should load only active participants and tasks" do
@@ -43,7 +42,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     archived_participant = participants(:archived_participant)
     archived_task = tasks(:archived_task)
 
-    get root_path
+    get pages_home_path
     assert_response :success
 
     participants = assigns(:participants)
@@ -64,7 +63,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "home should load participants with eager loaded associations" do
-    get root_path
+    get pages_home_path
     assert_response :success
 
     participants = assigns(:participants)
@@ -79,7 +78,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "home should load tasks with eager loaded associations" do
-    get root_path
+    get pages_home_path
     assert_response :success
 
     tasks = assigns(:tasks)
@@ -93,7 +92,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "home should order tasks correctly" do
-    get root_path
+    get pages_home_path
     assert_response :success
 
     tasks = assigns(:tasks)
@@ -107,7 +106,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     other_user_participant = participants(:user_two_participant)
     other_user_task = tasks(:user_two_task)
 
-    get root_path
+    get pages_home_path
     assert_response :success
 
     participants = assigns(:participants)
@@ -278,7 +277,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "should handle missing participants gracefully" do
     @user.participants.destroy_all
 
-    get root_path
+    get pages_home_path
     assert_response :success
 
     participants = assigns(:participants)
@@ -288,7 +287,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "should handle missing tasks gracefully" do
     @user.tasks.destroy_all
 
-    get root_path
+    get pages_home_path
     assert_response :success
 
     tasks = assigns(:tasks)
@@ -300,7 +299,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     @user.participants.update_all(archived: true)
     @user.tasks.update_all(archived: true)
 
-    get root_path
+    get pages_home_path
     assert_response :success
 
     participants = assigns(:participants)
@@ -317,12 +316,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     # Create multiple actions
     3.times do |i|
-      Action.create!(
-        task: task,
-        participant: participant,
-        created_at: i.days.ago,
-        bonus_points: i * 2.5
-      )
+      action = Action.create!(task: task, created_at: i.days.ago)
+      action.add_participants([participant.id])
     end
 
     get statistics_path

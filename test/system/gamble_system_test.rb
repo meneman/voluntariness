@@ -7,7 +7,8 @@ class GambleSystemTest < ApplicationSystemTestCase
     sign_in @user
     # Give participant points for gambling
     @task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: @task)
+    action = Action.create!(task: @task)
+    action.add_participants([@participant.id])
     @participant.reload
   end
   test "complete gambling user interface flow" do
@@ -211,7 +212,8 @@ class GambleSystemTest < ApplicationSystemTestCase
   test "spinning wheel controller integration" do
     # Give participant sufficient points
     if @participant.total_points.to_f < 1
-      Action.create!(participant: @participant, task: @task)
+      action = Action.create!(task: @task)
+      action.add_participants([@participant.id])
       @participant.reload
     end
     visit gamble_path

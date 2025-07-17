@@ -87,6 +87,7 @@ en:
   flash:
     missing_required_data: "Missing required data"
     resource_not_found: "Resource not found"
+    invalid_participants: "Invalid participants selected"
     participant_created: "Participant was successfully created."
     participant_deleted: "Participant was successfully deleted."
     quote_created: "Action completed successfully!"

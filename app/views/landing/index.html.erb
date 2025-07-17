@@ -28,12 +28,16 @@
             class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
           <%= t("landing.navigation.sign_in") %>
         <% end %>
-        <%= link_to new_user_registration_path, 
-            class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
-          <%= t("landing.navigation.start_free") %>
-          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
+        <% if User.devise_modules.include?(:registerable) %>
+          <%= link_to new_user_registration_path, 
+              class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
+            <%= t("landing.navigation.start_free") %>
+            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          <% end %>
+        <% else %>
+
         <% end %>
       </div>
     </div>
@@ -82,12 +86,18 @@
         
         <!-- Primary CTA -->
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-          <%= link_to new_user_registration_path, 
-              class: "inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
-            <%= t("landing.hero.cta.get_started") %>
-            <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
+          <% if User.devise_modules.include?(:registerable) %>
+            <%= link_to new_user_registration_path, 
+                class: "inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+              <%= t("landing.hero.cta.get_started") %>
+              <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            <% end %>
+          <% else %>
+            <span class="inline-flex items-center justify-center px-8 py-4 bg-gray-400 text-white text-lg font-semibold rounded-xl shadow-xl cursor-not-allowed">
+              <%= t("invite_needed") %>
+            </span>
           <% end %>
           
           <%= link_to new_user_session_path, 
@@ -426,12 +436,18 @@
       Start your journey today – completely free!
     </p>
     
-    <%= link_to new_user_registration_path, 
-        class: "inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105 hover:shadow-2xl" do %>
-      Get Started Free Now
-      <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-      </svg>
+    <% if User.devise_modules.include?(:registerable) %>
+      <%= link_to new_user_registration_path, 
+          class: "inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105 hover:shadow-2xl" do %>
+        Get Started Free Now
+        <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      <% end %>
+    <% else %>
+      <span class="inline-flex items-center px-8 py-4 bg-gray-400 text-white text-lg font-semibold rounded-xl shadow-xl cursor-not-allowed">
+        <%= t("invite_needed") %>
+      </span>
     <% end %>
     
     <p class="mt-4 text-blue-100 text-sm">

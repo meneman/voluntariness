@@ -34,13 +34,26 @@
             
             <!-- Action information on the right -->
             <div class="flex items-center space-x-2 flex-1 ml-3">
-              <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-sm" style="background-color: <%= message.participant.color || '#6366f1' %>; color: white;">
-                <%= message.participant.avatar %>
+              <!-- Display participants avatars -->
+              <div class="flex -space-x-1">
+                <% message.participants.each_with_index do |participant, index| %>
+                  <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-sm border-2 border-white dark:border-slate-800" 
+                       style="background-color: <%= participant.color || '#6366f1' %>; color: white; z-index: <%= 10 - index %>;">
+                    <%= participant.avatar %>
+                  </div>
+                <% end %>
               </div>
               <div class="flex-1">
                 <p class="text-sm font-medium text-slate-900 dark:text-white"><%= message.task.title %></p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">
-                  <%= message.participant.name %> • <%= I18n.l(message.created_at, :format => "%d.%m.%y") %>
+                  <% if message.participants.count == 1 %>
+                    <%= message.participants.first.name %>
+                  <% elsif message.participants.count == 2 %>
+                    <%= message.participants.map(&:name).join(' & ') %>
+                  <% else %>
+                    <%= message.participants.first.name %> +<%= message.participants.count - 1 %> others
+                  <% end %>
+                  • <%= I18n.l(message.created_at, :format => "%d.%m.%y") %>
                 </p>
               </div>
               <div class="text-right">

@@ -9,7 +9,8 @@ class GambleTest < ActiveSupport::TestCase
 
   test "participant can have sufficient points for gambling" do
     # Give participant points
-    Action.create!(participant: @participant, task: @task)
+    action = Action.create!(task: @task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     assert @participant.total_points.to_f >= 1, "Participant should have at least 1 point for gambling"
@@ -17,7 +18,8 @@ class GambleTest < ActiveSupport::TestCase
 
   test "participant points are correctly deducted during gambling" do
     # Give participant points
-    Action.create!(participant: @participant, task: @task)
+    action = Action.create!(task: @task)
+    action.add_participants([@participant.id])
     @participant.reload
     initial_points = @participant.total_points.to_f
     
@@ -30,7 +32,8 @@ class GambleTest < ActiveSupport::TestCase
     )
     
     # Create gambling action
-    Action.create!(participant: @participant, task: gambling_task)
+    action = Action.create!(task: gambling_task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     assert_equal initial_points - 1, @participant.total_points.to_f
@@ -138,10 +141,9 @@ class GambleTest < ActiveSupport::TestCase
     )
     
     gambling_action = Action.create!(
-      participant: @participant,
-      task: gambling_task,
-      bonus_points: 0
+      task: gambling_task
     )
+    gambling_action.add_participants([@participant.id])
     
     assert_equal @participant, gambling_action.participant
     assert_equal gambling_task, gambling_action.task
@@ -153,7 +155,8 @@ class GambleTest < ActiveSupport::TestCase
   test "participant total points calculation includes gambling actions" do
     # Give participant initial points
     positive_task = @task # worth 10.0
-    Action.create!(participant: @participant, task: positive_task)
+    action = Action.create!(task: positive_task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     initial_points = @participant.total_points.to_f
@@ -164,7 +167,8 @@ class GambleTest < ActiveSupport::TestCase
       title: "Gamble Bet",
       worth: -1
     )
-    Action.create!(participant: @participant, task: gambling_task)
+    action = Action.create!(task: gambling_task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     expected_points = initial_points - 1
@@ -243,7 +247,8 @@ class GambleTest < ActiveSupport::TestCase
     
     # Give participant enough points for multiple gambles
     3.times do
-      Action.create!(participant: @participant, task: @task)
+      action = Action.create!(task: @task)
+      action.add_participants([@participant.id])
     end
     @participant.reload
     
@@ -255,7 +260,8 @@ class GambleTest < ActiveSupport::TestCase
         title: "Gamble Bet #{i + 1}",
         worth: -1
       )
-      Action.create!(participant: @participant, task: gambling_task)
+      action = Action.create!(task: gambling_task)
+      action.add_participants([@participant.id])
       
       # Win item
       item_data = VoluntarinessConstants::OBTAINABLE_ITEMS[i % VoluntarinessConstants::OBTAINABLE_ITEMS.length]

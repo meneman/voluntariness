@@ -74,7 +74,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     base_points = @participant.actions.joins(:task).sum("tasks.worth")
 
     if @user.streak_boni_enabled?
-      streak_count = @participant.actions.where(on_streak: true).count
+      streak_count = @participant.action_participants.where(on_streak: true).count
       expected_minimum = base_points + streak_count
       assert total_points >= expected_minimum, "Total should include streak bonuses"
     end

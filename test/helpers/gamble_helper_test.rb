@@ -11,7 +11,8 @@ class GambleHelperTest < ActionView::TestCase
   test "participant has sufficient points for gambling" do
     # Give participant points
     task = tasks(:dishwashing)
-    Action.create!(participant: @participant, task: task)
+    action = Action.create!(task: task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     assert @participant.total_points.to_f >= 1
@@ -41,7 +42,8 @@ class GambleHelperTest < ActionView::TestCase
     @participant.actions.destroy_all
     @participant.bets.destroy_all
     task = tasks(:dishwashing) # worth 10.0
-    Action.create!(participant: @participant, task: task, bonus_points: 0, on_streak: false)
+    action = Action.create!(task: task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     points = @participant.total_points
@@ -59,7 +61,8 @@ class GambleHelperTest < ActionView::TestCase
       title: "Decimal Task",
       worth: 5.5
     )
-    Action.create!(participant: @participant, task: decimal_task)
+    action = Action.create!(task: decimal_task)
+    action.add_participants([@participant.id])
     @participant.reload
     
     points = @participant.total_points
@@ -145,7 +148,8 @@ class GambleHelperTest < ActionView::TestCase
     
     # Give points and test again
     task = tasks(:dishwashing)
-    Action.create!(participant: participant_with_no_points, task: task)
+    action = Action.create!(task: task)
+    action.add_participants([participant_with_no_points.id])
     participant_with_no_points.reload
     
     can_gamble = participant_with_no_points.total_points.to_f >= 1

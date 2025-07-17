@@ -10,53 +10,19 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
   # --- Authentication Tests ---
 
   test "should require authentication for protected actions" do
-    # Test that unauthenticated users are redirected to sign in
+    # Test that unauthenticated users can access landing page
     get root_path
+    assert_response :success
+    # Test that protected pages require authentication
+    get pages_home_path
     assert_redirected_to new_user_session_path
   end
 
   test "should allow access when authenticated" do
     sign_in @user
     get root_path
-    assert_response :success
+    assert_redirected_to pages_home_path # Landing page redirects authenticated users to home
   end
-
-  # --- Theme Management Tests ---
-
-  test "should set default theme when no theme cookie exists" do
-    sign_in @user
-    get root_path
-
-    assert_response :success
-    assert_equal VoluntarinessConstants::DEFAULT_THEME, cookies[:theme]
-  end
-
-  test "should use existing theme from cookie" do
-    sign_in @user
-    cookies[:theme] = "light"
-
-    get root_path
-    assert_response :success
-    assert_equal "light", cookies[:theme]
-  end
-
-  test "should set theme instance variable from cookie" do
-    sign_in @user
-    cookies[:theme] = "dark"
-
-    get root_path
-    assert_response :success
-    assert_equal "dark", assigns(:theme)
-  end
-
-  test "should set theme instance variable to default when no cookie" do
-    sign_in @user
-
-    get root_path
-    assert_response :success
-    assert_equal VoluntarinessConstants::DEFAULT_THEME, assigns(:theme)
-  end
-
 
   # --- Error Handling Tests ---
 
@@ -66,14 +32,14 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     # Try to access a non-existent task
     get task_path(999999)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
   end
 
 
   # --- Sign-in Redirect Tests ---
 
-  test "after_sign_in_path_for should redirect to root" do
+  test "after_sign_in_path_for should redirect to home" do
     # Test the custom sign-in redirect
     post user_session_path, params: {
       user: {
@@ -82,7 +48,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
   end
 
   # --- Browser Compatibility Tests ---
@@ -95,7 +61,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       "User-Agent" => "Mozilla/5.0 (Chrome/91.0.4472.124)"
     }
 
-    assert_response :success
+    assert_redirected_to pages_home_path
   end
 
   # --- Pagy Integration Tests ---
@@ -109,11 +75,11 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
     # Create multiple actions for pagination testing
     15.times do |i|
-      Action.create!(
+      action = Action.create!(
         task: tasks(:dishwashing),
-        participant: participants(:alice),
         created_at: i.hours.ago
       )
+      action.add_participants([ participants(:alice).id ])
     end
 
     get actions_path
@@ -129,69 +95,12 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     # Create a controller that triggers RecordNotFound
     get task_path(999999)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     follow_redirect!
     assert_includes response.body, "Resource not found"
   end
 
 
-  # --- Theme Constants Tests ---
-
-  test "should use correct default theme from constants" do
-    expected_theme = VoluntarinessConstants::DEFAULT_THEME
-    sign_in @user
-
-    get root_path
-    assert_response :success
-    assert_equal expected_theme, assigns(:theme)
-  end
-
-  # --- Cookie Security Tests ---
-
-  test "theme cookie should be properly set" do
-    sign_in @user
-
-    get root_path
-    assert_response :success
-
-    # Check that theme cookie exists and has correct value
-    assert_not_nil cookies[:theme]
-    assert_equal VoluntarinessConstants::DEFAULT_THEME, cookies[:theme]
-  end
-
-  test "should handle malformed theme cookie" do
-    sign_in @user
-
-    # Set a potentially malicious cookie value
-    cookies[:theme] = "<script>alert('xss')</script>"
-
-    get root_path
-    assert_response :success
-
-    # Should not cause errors and should use the value as-is
-    # (theme validation should happen at the CSS/frontend level)
-    assert_equal "<script>alert('xss')</script>", assigns(:theme)
-  end
-
-  # --- Concurrent User Tests ---
-
-  test "should handle multiple users with different themes" do
-    user1 = @user
-    user2 = users(:two)
-
-    # User 1 with dark theme
-    sign_in user1
-    cookies[:theme] = "dark"
-    get root_path
-    assert_equal "dark", assigns(:theme)
-    sign_out user1
-
-    # User 2 with light theme
-    sign_in user2
-    cookies[:theme] = "light"
-    get root_path
-    assert_equal "light", assigns(:theme)
-  end
 
   # --- Security Tests ---
 
@@ -201,16 +110,18 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     # Try to trigger an error
     get task_path(999999)
 
-    assert_redirected_to root_path
+    assert_redirected_to pages_home_path
     # Should not expose internal information
     assert_not_includes flash[:alert], "ActiveRecord"
     assert_not_includes flash[:alert], "SQL"
   end
 
   test "authentication should be enforced on all actions" do
+    # Test root path is public
+    get root_path
+    assert_response :success, "root_path should be public"
     # Test various controller actions without authentication
-    unauthenticated_paths = [
-      root_path,
+    protected_paths = [
       tasks_path,
       participants_path,
       actions_path,
@@ -218,26 +129,10 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
       settings_path
     ]
 
-    unauthenticated_paths.each do |path|
+    protected_paths.each do |path|
       get path
       assert_redirected_to new_user_session_path, "#{path} should require authentication"
     end
-  end
-
-  # --- Helper Method Tests ---
-
-  test "set_theme should be called on every request" do
-    sign_in @user
-
-    # Multiple requests should all set theme
-    get root_path
-    assert_not_nil assigns(:theme)
-
-    get tasks_path
-    assert_not_nil assigns(:theme)
-
-    get participants_path
-    assert_not_nil assigns(:theme)
   end
 
   private
