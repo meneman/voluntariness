@@ -37,7 +37,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Bonus Task", worth: 10.0, user: @user)
+    task = Task.create!(title: "Bonus Task", worth: 10, user: @user)
 
     # Mock the task to return specific bonus points
     task.define_singleton_method(:calculate_bonus_points) { 3.5 }
@@ -56,7 +56,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Streak Task", worth: 8.0, user: @user)
+    task = Task.create!(title: "Streak Task", worth: 8, user: @user)
 
     # Mock task to return 0 bonus points
     task.define_singleton_method(:calculate_bonus_points) { 0 }
@@ -89,7 +89,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "total points excludes streak bonuses when disabled" do
-    task = Task.create!(title: "No Streak Task", worth: 6.0, user: @no_bonus_user)
+    task = Task.create!(title: "No Streak Task", worth: 6, user: @no_bonus_user)
 
     # Ensure streak bonuses are disabled
     @no_bonus_user.update!(streak_boni_enabled: false)
@@ -107,7 +107,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Nil Bonus Task", worth: 5.0, user: @user)
+    task = Task.create!(title: "Nil Bonus Task", worth: 5, user: @user)
 
     action = Action.create!(task: task)
     action.add_participants([@participant.id])

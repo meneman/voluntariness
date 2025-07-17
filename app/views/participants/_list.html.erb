@@ -1,33 +1,40 @@
 <div class="flex py-4 gap-4 flex-wrap">
   <% participants.each do |p| %>
     <%= link_to participant_path(p), data: { turbo_frame: "_top" }, class: "block" do %>
-      <div class="inline-flex items-center bg-white dark:bg-slate-800 shadow-md rounded-full px-3 py-2 border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:scale-105 transition-all duration-200 <%= 'opacity-60' if p.archived %>">
-        <!-- Avatar -->
-        <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold mr-3 shadow-sm" style="background-color: <%= p.color || '#6366f1' %>; color: <%= contrasting_color(p.color) || 'white' %>;">
-          <%= p.avatar || p.name[0, 2].upcase %>
+      <div class="inline-flex items-center bg-white dark:bg-slate-800 shadow-md rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-lg hover:scale-105 transition-all duration-200 overflow-hidden <%= 'opacity-60' if p.archived %>">
+        <!-- Color section with avatar and initials -->
+        <div class="relative flex items-center justify-center w-20 h-12 rounded-l-full px-2" style="background-color: <%= p.color || '#6366f1' %>;">
+          <!-- Avatar -->
+          <div class="flex items-center justify-center text-xs font-bold w-8 h-8 mr-1" style="color: <%= contrasting_color(p.color) || 'white' %>;">
+            <%= p.avatar || p.name[0, 2].upcase %>
+          </div>
+          <!-- Initials -->
+          <div class="text-xs font-bold" style="color: <%= contrasting_color(p.color) || 'white' %>;">
+            <%= p.name[0, 2].upcase %>
+          </div>
         </div>
         
-        <!-- Initials (hidden on small screens since avatar shows them) -->
-        <span class="hidden sm:block text-sm font-medium text-slate-700 dark:text-slate-300 mr-3">
-          <%= p.name[0, 2].upcase %>
-        </span>
-        
-        <!-- Points -->
-        <div class="flex items-center text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-          <%= render partial: "points", locals: {animate: false, id: p.id, base_points: p.total_points}%>
-          <% if p.bonus_points_total && p.bonus_points_total > 0 %>
-            <span class="ml-1 text-xs text-orange-600 dark:text-orange-400 font-medium">
-              <%= render partial: "participants/bonus_points", locals: { id: p.id, bonus_points_total: p.bonus_points_total } %>
-            </span>
+        <!-- Content section -->
+        <div class="flex items-center px-3 py-2">
+
+          
+          <!-- Points -->
+          <div class="flex items-center text-lg font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <%= render partial: "points", locals: {animate: false, id: p.id, base_points: p.total_points}%>
+            <% if p.bonus_points_total && p.bonus_points_total > 0 %>
+              <span class="ml-1 text-xs text-orange-600 dark:text-orange-400 font-medium">
+                <%= render partial: "participants/bonus_points", locals: { id: p.id, bonus_points_total: p.bonus_points_total } %>
+              </span>
+            <% end %>
+          </div>
+          
+          <!-- Archived indicator -->
+          <% if p.archived %>
+            <div class="ml-2 bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+              A
+            </div>
           <% end %>
         </div>
-        
-        <!-- Archived indicator -->
-        <% if p.archived %>
-          <div class="ml-2 bg-orange-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
-            A
-          </div>
-        <% end %>
       </div>
     <% end %>
   <%end%>

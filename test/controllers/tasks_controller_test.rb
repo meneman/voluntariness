@@ -66,7 +66,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
       post tasks_path, params: {
         task: {
           title: "New Task",
-          worth: 15.5,
+          worth: 15,
           description: "Test description",
           interval: 3
         }
@@ -77,7 +77,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
     new_task = @user.tasks.last
     assert_equal "New Task", new_task.title
-    assert_equal 15.5, new_task.worth
+    assert_equal 15, new_task.worth
     assert_equal "Test description", new_task.description
     assert_equal 3, new_task.interval
   end
@@ -150,7 +150,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     patch task_path(@task), params: {
       task: {
         title: "Updated Task",
-        worth: 20.0,
+        worth: 20,
         description: "Updated description"
       }
     }
@@ -168,7 +168,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     patch task_path(@task), params: {
       task: {
         title: "",  # Invalid
-        worth: 20.0
+        worth: 20
       }
     }
 

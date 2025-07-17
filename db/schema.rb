@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_16_202606) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_17_164530) do
   create_table "action_participants", force: :cascade do |t|
     t.integer "action_id", null: false
     t.integer "participant_id", null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_16_202606) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "title"
-    t.decimal "worth", precision: 10, scale: 2
+    t.integer "worth"
     t.integer "interval"
     t.text "description"
     t.datetime "created_at", null: false

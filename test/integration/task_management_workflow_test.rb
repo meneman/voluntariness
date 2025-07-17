@@ -17,7 +17,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     post tasks_path, params: {
       task: {
         title: "Integration Test Task",
-        worth: 15.5,
+        worth: 15,
         interval: 3,
         description: "A task for integration testing"
       }
@@ -27,7 +27,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     @user.reload
     new_task = @user.tasks.last
     assert_equal "Integration Test Task", new_task.title
-    assert_equal 15.5, new_task.worth
+    assert_equal 15, new_task.worth
 
     # Step 2: Verify task appears on home page
     get root_path
@@ -72,7 +72,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     post tasks_path, params: {
       task: {
         title: "Lifecycle Task",
-        worth: 10.0,
+        worth: 10,
         interval: 1
       }
     }
@@ -84,7 +84,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     patch task_path(task), params: {
       task: {
         title: "Updated Lifecycle Task",
-        worth: 12.0
+        worth: 12
       }
     }
     assert_redirected_to task
@@ -135,7 +135,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     # Create task that will be overdue
     task = Task.create!(
       title: "Overdue Task",
-      worth: 20.0,
+      worth: 20,
       interval: 1,
       user: @user,
       created_at: 3.days.ago
@@ -182,7 +182,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     # Create task for testing
     task = Task.create!(
       title: "Participant Test Task",
-      worth: 8.0,
+      worth: 8,
       user: @user
     )
 
@@ -248,7 +248,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     # Create a task
     task = Task.create!(
       title: "Multi-Participant Task",
-      worth: 5.0,
+      worth: 5,
       user: @user
     )
 
@@ -284,7 +284,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     # Create task with 1-day interval
     task = Task.create!(
       title: "Daily Task",
-      worth: 3.0,
+      worth: 3,
       interval: 1,
       user: @user
     )
@@ -320,7 +320,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     )
 
     # Create and complete task
-    task = Task.create!(title: "Settings Test", worth: 10.0, user: @user)
+    task = Task.create!(title: "Settings Test", worth: 10, user: @user)
 
     post actions_path, params: {
       data: {
@@ -356,7 +356,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal 3, @user.streak_boni_days_threshold
 
     # Complete another task to see if settings take effect
-    task2 = Task.create!(title: "Settings Test 2", worth: 10.0, user: @user)
+    task2 = Task.create!(title: "Settings Test 2", worth: 10, user: @user)
 
     post actions_path, params: {
       data: {
@@ -407,7 +407,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     post tasks_path, params: {
       task: {
         title: "First Task",
-        worth: 25.0,
+        worth: 25,
         interval: 7
       }
     }

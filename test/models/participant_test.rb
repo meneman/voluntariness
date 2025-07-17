@@ -394,7 +394,7 @@ class ParticipantTest < ActiveSupport::TestCase
     participant.bets.destroy_all # Clear bets for clean calculation
     
     # Create task with interval to enable overdue bonus
-    task = Task.create!(title: "Overdue Task", worth: 10.0, interval: 7, user: user)
+    task = Task.create!(title: "Overdue Task", worth: 10, interval: 7, user: user)
     
     # Mock the task to return overdue bonus
     task.define_singleton_method(:calculate_bonus_points) { 3.0 }

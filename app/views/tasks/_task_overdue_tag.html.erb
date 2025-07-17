@@ -1,40 +1,35 @@
 <%= turbo_frame_tag "task_overdue_#{task.id}" do %>
-  <div class="flex items-center justify-center m-2 flex-wrap gap-4">
-    <!-- Bonus Points (Left Side) -->
-      <% if current_user.overdue_bonus_enabled? && task.calculate_bonus_points > 0 %>
-    <div class="flex-shrink-0">
-        <div class="flex items-center space-x-1">
-          <div class="px-2 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full whitespace-nowrap" title="<%= t("bonus_points_hint") %>">
-            +<%= task.calculate_bonus_points %> <%= t("bonus_points") %>
-            <%= fa_icon "question-circle" %>
-          </div>
-        </div>
-    </div>
-      <% end %>
-    <!-- Status Information (Right Side) -->
-    <div class="flex items-center space-x-2 ">
-      <!-- Overdue Status -->
-      <% if task.overdue != nil %>
-        <div class="whitespace-nowrap text-sm <%= task.overdue < 0 ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-green-400' %>">
-          <%= case task.overdue
-              when 0 then t("overdue_today")
-              when 1.. then t("overdue_in", days: task.overdue)
-              else t("overdue_since", days: task.overdue.abs)
-              end %>
-        </div>
-      <% else %>
-        <div class="whitespace-nowrap text-sm text-slate-400">
-          <%= t("on_demand") %>
-        </div>
-      <% end %>
+  <div class="flex items-center justify-end flex-wrap gap-2">
+    <!-- Overdue Status -->
+    <% if task.overdue != nil %>
+      <div class="text-sm font-medium <%= task.overdue < 0 ? 'text-red-600 dark:text-red-400' : 'text-blue-600 dark:text-green-400' %>">
+        <%= case task.overdue
+            when 0 then t("overdue_today")
+            when 1.. then t("overdue_in", days: task.overdue)
+            else t("overdue_since", days: task.overdue.abs)
+            end %>
+      </div>
+    <% else %>
+      <div class="text-sm font-medium text-slate-500 dark:text-slate-400">
+        <%= t("on_demand") %>
+      </div>
+    <% end %>
 
-      <!-- Done Today Status -->
-      <% if task.done_today %>
-        <div class="flex items-center space-x-1 whitespace-nowrap text-sm text-blue-600 dark:text-green-400">
-          <span><%= t("done_today") %></span>
-          <%= fa_icon "check", class: "text-xs" %>
-        </div>
-      <% end %>
-    </div>
+    <!-- Done Today Status -->
+    <% if task.done_today %>
+      <div class="flex items-center space-x-1 text-sm font-medium text-green-600 dark:text-green-400">
+        <span><%= t("done_today") %></span>
+        <%= fa_icon "check", class: "text-xs" %>
+      </div>
+    <% end %>
+
+    <!-- Bonus Points -->
+    <% if current_user.overdue_bonus_enabled? && task.calculate_bonus_points > 0 %>
+      <div class="px-2.5 py-1 text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 rounded-full" title="<%= t("bonus_points_hint") %>">
+        +<%= task.calculate_bonus_points %> <%= t("bonus_points") %>
+        <%= fa_icon "question-circle" %>
+      </div>
+    <% end %>
+
   </div>
 <% end %>

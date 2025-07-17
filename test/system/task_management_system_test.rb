@@ -258,7 +258,7 @@ class TaskManagementSystemTest < ApplicationSystemTestCase
     # Create additional task for testing
     task2 = Task.create!(
       title: "Second Task",
-      worth: 8.0,
+      worth: 8,
       user: @user
     )
     

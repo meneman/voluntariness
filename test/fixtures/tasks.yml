@@ -2,7 +2,7 @@
 dishwashing:
   title: "Wash dishes"
   description: "Clean all dishes in the sink"
-  worth: 10.0
+  worth: 10
   interval: 1
   position: 1
   archived: false
@@ -13,7 +13,7 @@ dishwashing:
 grocery_shopping:
   title: "Grocery shopping"
   description: "Buy groceries for the week"
-  worth: 15.5
+  worth: 15
   interval: 7
   position: 2
   archived: false
@@ -24,7 +24,7 @@ grocery_shopping:
 vacuum_cleaning:
   title: "Vacuum cleaning"
   description: "Vacuum all rooms"
-  worth: 8.0
+  worth: 8
   interval: 3
   position: 3
   archived: false
@@ -35,7 +35,7 @@ vacuum_cleaning:
 archived_task:
   title: "Old task"
   description: "This task is archived"
-  worth: 5.0
+  worth: 5
   interval: 1
   position: 4
   archived: true
@@ -46,7 +46,7 @@ archived_task:
 no_interval_task:
   title: "One-time task"
   description: "Task without interval"
-  worth: 20.0
+  worth: 20
   interval: 
   position: 5
   archived: false
@@ -57,7 +57,7 @@ no_interval_task:
 user_two_task:
   title: "User two task"
   description: "Task for user two"
-  worth: 12.0
+  worth: 12
   interval: 2
   position: 1
   archived: false
@@ -68,7 +68,7 @@ user_two_task:
 overdue_task:
   title: "Overdue task"
   description: "Task that should be overdue"
-  worth: 25.0
+  worth: 25
   interval: 1
   position: 6
   archived: false

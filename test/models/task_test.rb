@@ -4,14 +4,14 @@ class TaskTest < ActiveSupport::TestCase
   test "should be valid with valid attributes" do
     task = Task.new(
       title: "Test Task",
-      worth: 10.0,
+      worth: 10,
       user: users(:one)
     )
     assert task.valid?
   end
 
   test "should require title" do
-    task = Task.new(worth: 10.0, user: users(:one))
+    task = Task.new(worth: 10, user: users(:one))
     assert_not task.valid?
     assert task.errors[:title].any?, "Title should have validation errors"
   end
@@ -23,7 +23,7 @@ class TaskTest < ActiveSupport::TestCase
   end
 
   test "should require user" do
-    task = Task.new(title: "Test Task", worth: 10.0)
+    task = Task.new(title: "Test Task", worth: 10)
     assert_not task.valid?
     assert task.errors[:user].any?, "User should have validation errors"
   end
@@ -74,7 +74,7 @@ class TaskTest < ActiveSupport::TestCase
   test "done_today should return false if no actions exist" do
     task = Task.create!(
       title: "New Task",
-      worth: 5.0,
+      worth: 5,
       user: users(:one)
     )
     assert_not task.done_today
@@ -97,7 +97,7 @@ class TaskTest < ActiveSupport::TestCase
   test "overdue should calculate days from creation when no actions exist" do
     task = Task.create!(
       title: "New Task",
-      worth: 10.0,
+      worth: 10,
       interval: 3,
       user: users(:one),
       created_at: 5.days.ago
@@ -113,7 +113,7 @@ class TaskTest < ActiveSupport::TestCase
     user = users(:no_bonuses)  # Has overdue_bonus_enabled: false
     task = Task.create!(
       title: "Test Task",
-      worth: 10.0,
+      worth: 10,
       interval: 1,
       user: user,
       created_at: 5.days.ago
@@ -141,7 +141,7 @@ class TaskTest < ActiveSupport::TestCase
     user = users(:with_streak_bonuses)  # Has overdue_bonus_enabled: true
     task = Task.create!(
       title: "Overdue Task",
-      worth: 20.0,
+      worth: 20,
       interval: 1,
       user: user,
       created_at: 5.days.ago
@@ -158,7 +158,7 @@ class TaskTest < ActiveSupport::TestCase
     user = users(:with_streak_bonuses)
     task = Task.create!(
       title: "Overdue Task",
-      worth: 10.0,
+      worth: 10,
       interval: 1,
       user: user
     )
@@ -184,21 +184,26 @@ class TaskTest < ActiveSupport::TestCase
     end
   end
 
-  test "should accept decimal values for worth" do
+  test "should only accept integer values for worth" do
     task = Task.new(
-      title: "Decimal Task",
-      worth: 15.75,
+      title: "Integer Task",
+      worth: 15,
       user: users(:one)
     )
     assert task.valid?
-    # Worth is stored as decimal in database, so decimals are preserved
-    assert_equal 15.75, task.worth
+    # Worth is stored as integer in database
+    assert_equal 15, task.worth
+    
+    # Test that decimal values are invalid
+    task.worth = 15.75
+    assert_not task.valid?
+    assert_includes task.errors[:worth], "must be an integer"
   end
 
   test "should accept nil interval" do
     task = Task.new(
       title: "No Interval Task",
-      worth: 10.0,
+      worth: 10,
       interval: nil,
       user: users(:one)
     )

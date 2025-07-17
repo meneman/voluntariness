@@ -2,7 +2,7 @@ class Task < ApplicationRecord
     belongs_to :user
     has_many :actions, dependent: :destroy
     validates :title, presence: true
-    validates :worth, presence: true
+    validates :worth, presence: true, numericality: { only_integer: true }
     acts_as_list
 
     scope :active, -> { where("archived = false") }

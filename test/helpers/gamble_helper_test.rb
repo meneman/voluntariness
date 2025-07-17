@@ -59,14 +59,14 @@ class GambleHelperTest < ActionView::TestCase
     decimal_task = Task.create!(
       user: @user,
       title: "Decimal Task",
-      worth: 5.5
+      worth: 5
     )
     action = Action.create!(task: decimal_task)
     action.add_participants([@participant.id])
     @participant.reload
     
     points = @participant.total_points
-    assert_equal "5.5", points # Should show decimal when needed
+    assert_equal "5", points # Should show integer when no decimals
   end
 
   test "safe svg rendering in views" do

@@ -8,7 +8,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     @participant = participants(:streak_participant)
     @task = Task.create!(
       title: "Streak Test Task",
-      worth: 10.0,
+      worth: 10,
       interval: 1,
       user: @user
     )
@@ -134,7 +134,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     # Create overdue task by backdating it
     overdue_task = Task.create!(
       title: "Overdue Task",
-      worth: 20.0,
+      worth: 20,
       interval: 1,
       user: @user,
       created_at: 5.days.ago
@@ -173,7 +173,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     # Create overdue task
     overdue_task = Task.create!(
       title: "Overdue No Bonus Task",
-      worth: 15.0,
+      worth: 15,
       interval: 1,
       user: @user,
       created_at: 3.days.ago
@@ -247,7 +247,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     # Create and complete overdue task
     overdue_task = Task.create!(
       title: "Settings Overdue Task",
-      worth: 12.0,
+      worth: 12,
       interval: 1,
       user: @user,
       created_at: 2.days.ago
@@ -367,7 +367,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     # Create task without interval
     no_interval_task = Task.create!(
       title: "No Interval Task",
-      worth: 8.0,
+      worth: 8,
       interval: nil,
       user: @user,
       created_at: 10.days.ago
@@ -400,7 +400,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
     # Create overdue task
     overdue_task = Task.create!(
       title: "Stats Overdue Task",
-      worth: 20.0,
+      worth: 20,
       interval: 1,
       user: @user,
       created_at: 3.days.ago

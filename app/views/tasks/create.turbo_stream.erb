@@ -1,4 +1,4 @@
-<%= turbo_stream.append "tasks_list_home" do %>
+<%= turbo_stream.before "new_task" do %>
   <%= render partial: "task", locals: { task: @task, participants: @participants } %>
 <% end %>
 <%= turbo_stream.update "new_task", "" %>
