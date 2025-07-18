@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     get "dashboard", to: "dashboard#index"
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]
   end
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "password/edit", to: "passwords#edit", as: "edit_password"
   patch "password/update", to: "passwords#update", as: "update_password"
