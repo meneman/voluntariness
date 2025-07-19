@@ -1,13 +1,13 @@
 class StatisticsService
-  def initialize(user, participants = nil)
-    @user = user
-    @participants = participants || user.participants.includes(actions: :task)
+  def initialize(household, participants = nil)
+    @household = household
+    @participants = participants || household.participants.includes(actions: :task)
   end
 
   def generate_task_completion_data
     ActionParticipant
-      .joins(action: :task, participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant, action: :task)
+      .where(participants: { household_id: household.id })
       .group("tasks.title", "participants.name")
       .select(
         "tasks.title AS task_title",
@@ -21,9 +21,8 @@ class StatisticsService
 
   def generate_task_completion_by_participant
     ActionParticipant
-      .joins(participant: :user)
-      .where(users: { id: user.id })
       .joins(:participant)
+      .where(participants: { household_id: household.id })
       .group("participants.name")
       .count
   end
@@ -41,16 +40,16 @@ class StatisticsService
 
   def generate_points_by_participant
     ActionParticipant
-      .joins(action: :task, participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant, action: :task)
+      .where(participants: { household_id: household.id })
       .group("participants.name")
       .sum("action_participants.points_earned")
   end
 
   def generate_task_popularity
     ActionParticipant
-      .joins(action: :task, participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant, action: :task)
+      .where(participants: { household_id: household.id })
       .group("tasks.title")
       .count
       .sort_by { |_, count| -count }
@@ -59,16 +58,16 @@ class StatisticsService
 
   def generate_activity_over_time
     ActionParticipant
-      .joins(participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant)
+      .where(participants: { household_id: household.id })
       .group_by_day(:created_at, last: 30)
       .count
   end
 
   def generate_participant_activity
     ActionParticipant
-      .joins(participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant)
+      .where(participants: { household_id: household.id })
       .group("participants.name")
       .group_by_day(:created_at, last: 30)
       .count
@@ -76,16 +75,16 @@ class StatisticsService
 
   def generate_points_by_day
     ActionParticipant
-      .joins(action: :task, participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant, action: :task)
+      .where(participants: { household_id: household.id })
       .group_by_day(:created_at, last: 30)
       .sum("action_participants.points_earned")
   end
 
   def generate_bonus_points_by_day
     ActionParticipant
-      .joins(participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant)
+      .where(participants: { household_id: household.id })
       .where.not(bonus_points: nil)
       .group_by_day(:created_at, last: 30)
       .sum("action_participants.bonus_points")
@@ -105,8 +104,8 @@ class StatisticsService
     SQL
 
     cumulative_data = ActionParticipant
-      .joins(participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant)
+      .where(participants: { household_id: household.id })
       .select(select_cumulative_sql)
       .where.not(bonus_points: nil)
       .order("participant_name", "action_date")
@@ -135,8 +134,8 @@ class StatisticsService
     SQL
 
     cumulative_data = ActionParticipant
-      .joins(action: :task, participant: :user)
-      .where(users: { id: user.id })
+      .joins(:participant, action: :task)
+      .where(participants: { household_id: household.id })
       .select(select_cumulative_sql)
       .where("action_participants.points_earned > 0")
       .order("participant_name", "action_date")
@@ -193,5 +192,5 @@ class StatisticsService
 
   private
 
-  attr_reader :user, :participants
+  attr_reader :household, :participants
 end
