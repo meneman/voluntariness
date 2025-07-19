@@ -3,11 +3,11 @@ class TasksController < ApplicationController
 
 
     def show
-        @participants = current_user.participants
+        @participants = current_household.participants
     end
 
     def new
-        @task = current_user.tasks.build
+        @task = current_household.tasks.build
         respond_to do |format|
             format.turbo_stream
             format.html
@@ -39,8 +39,8 @@ class TasksController < ApplicationController
     end
 
     def create
-        @task = current_user.tasks.build(task_params)
-        @participants = current_user.participants
+        @task = current_household.tasks.build(task_params)
+        @participants = current_household.participants
         if @task.save
             respond_to do |format|
                 format.turbo_stream { }
@@ -84,6 +84,6 @@ class TasksController < ApplicationController
     end
 
     def set_task
-        @task = current_user.tasks.find(params[:id])
+        @task = current_household.tasks.find(params[:id])
     end
 end

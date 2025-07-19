@@ -1,0 +1,17 @@
+user_one_household_one_owner:
+  user: one
+  household: one
+  role: "owner"
+  current_household: true
+
+user_two_household_one_member:
+  user: two
+  household: one
+  role: "member"
+  current_household: false
+
+user_two_household_two_owner:
+  user: two
+  household: two
+  role: "owner"
+  current_household: false

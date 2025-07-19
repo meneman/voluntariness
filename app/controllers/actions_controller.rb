@@ -2,7 +2,7 @@ class ActionsController < ApplicationController
     before_action :set_action, except: [ :index, :new, :create ]
 
     def index
-        @pagy, @actions = pagy(current_user.actions.distinct, {})
+        @pagy, @actions = pagy(current_household.actions.distinct, {})
     end
 
     def show
@@ -22,7 +22,7 @@ class ActionsController < ApplicationController
         return redirect_to root_path, alert: t("flash.missing_required_data") unless params[:data]
 
         # Find task safely
-        @task = current_user.tasks.find_by(id: params[:data][:task_id])
+        @task = current_household.tasks.find_by(id: params[:data][:task_id])
         return redirect_to root_path, alert: t("flash.invalid_participants") unless @task
         
         participant_ids = Array(params[:data][:participant_ids] || params[:data][:participant_id]).compact.reject(&:blank?)
@@ -30,8 +30,8 @@ class ActionsController < ApplicationController
         # Check if we have any participants
         return redirect_to root_path, alert: t("flash.invalid_participants") if participant_ids.empty?
         
-        # Validate all participants belong to current user
-        participants = current_user.participants.where(id: participant_ids)
+        # Validate all participants belong to current household
+        participants = current_household.participants.where(id: participant_ids)
         return redirect_to root_path, alert: t("flash.invalid_participants") if participants.count != participant_ids.count
 
         # Calculate bonus points before saving the action
@@ -65,8 +65,8 @@ class ActionsController < ApplicationController
         
         participant_id = params[:participant_id]
         
-        # Validate participant belongs to current user
-        @participant = current_user.participants.find_by(id: participant_id)
+        # Validate participant belongs to current household
+        @participant = current_household.participants.find_by(id: participant_id)
         unless @participant
             respond_to do |format|
                 format.turbo_stream { render plain: "Invalid participant", status: :bad_request }
@@ -122,7 +122,7 @@ class ActionsController < ApplicationController
 
     def set_action
         @action = Action.joins(action_participants: :participant)
-                        .where(participants: { user_id: current_user.id })
+                        .where(participants: { household_id: current_household.id })
                         .find(params[:id])
     end
 end

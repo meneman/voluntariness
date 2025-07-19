@@ -2,7 +2,7 @@ class ParticipantsController < ApplicationController
     before_action :set_participant, except: [ :index, :new, :create, :cancel ]
 
     def index
-         @participants = current_user.participants.all()
+         @participants = current_household.participants.all()
          respond_to do |format|
             format.html { }
             format.turbo_stream { }
@@ -14,7 +14,7 @@ class ParticipantsController < ApplicationController
     end
 
     def new
-        @participant = current_user.participants.build
+        @participant = current_household.participants.build
     end
 
     def edit
@@ -27,7 +27,7 @@ class ParticipantsController < ApplicationController
     end
 
     def create
-        @participant = current_user.participants.build(participant_params)
+        @participant = current_household.participants.build(participant_params)
 
         if @participant.save
             respond_to do |format|
@@ -83,6 +83,6 @@ class ParticipantsController < ApplicationController
     end
 
     def set_participant
-        @participant = current_user.participants.find(params[:id])
+        @participant = current_household.participants.find(params[:id])
     end
 end

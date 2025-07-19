@@ -18,8 +18,8 @@ class PagesController < ApplicationController
     # Loads active participants and ordered active tasks specific to the home view.
     def home
       # Eager load associations to prevent N+1 queries
-      @participants = current_user.participants.active.includes(actions: :task)
-      @tasks = current_user.tasks.active.ordered.includes(:actions)
+      @participants = current_household.participants.active.includes(actions: :task)
+      @tasks = current_household.tasks.active.ordered.includes(:actions)
 
       respond_to do |format|
         format.html { }         # Renders views/pages/home.html.erb
@@ -31,7 +31,7 @@ class PagesController < ApplicationController
     # Gathers various data points for displaying charts and statistics.
     def statistics
       # Use StatisticsService to handle complex data generation
-      service = StatisticsService.new(current_user, @participants)
+      service = StatisticsService.new(current_household, @participants)
 
       @data = service.generate_task_completion_data
       @task_completion_by_participant = service.generate_task_completion_by_participant
@@ -100,9 +100,9 @@ class PagesController < ApplicationController
     # otherwise loads all tasks for the current user.
     def set_tasks
       @tasks = if params[:active]
-        current_user.tasks.active
+        current_household.tasks.active
       else
-        current_user.tasks
+        current_household.tasks
       end
     end
 
@@ -112,11 +112,11 @@ class PagesController < ApplicationController
     def set_participants
       # Eager load associations to prevent N+1 queries
       @participants = if params[:active]
-        current_user.participants.active.includes(actions: :task)
+        current_household.participants.active.includes(actions: :task)
       else
-        current_user.participants.includes(actions: :task)
+        current_household.participants.includes(actions: :task)
       end
       # Ensure @participants is loaded if needed for cumulative chart when :active is not set
-      @participants ||= current_user.participants.includes(actions: :task).order(:name) if defined?(@chart_cumulative_data)
+      @participants ||= current_household.participants.includes(actions: :task).order(:name) if defined?(@chart_cumulative_data)
     end
 end

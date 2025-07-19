@@ -1,0 +1,9 @@
+one:
+  name: "Test Household One"
+  description: "First test household"
+  invite_code: "ABCDEF123456"
+
+two:
+  name: "Test Household Two"  
+  description: "Second test household"
+  invite_code: "GHIJKL789012"

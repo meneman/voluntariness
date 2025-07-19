@@ -245,14 +245,14 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
 
-  test "should not destroy other user's task" do
-    other_user_task_count = User.find(@other_user_task.user_id).tasks.count
+  test "should not destroy other household's task" do
+    other_household_task_count = @other_user_task.household.tasks.count
 
     delete task_path(@other_user_task)
 
     assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
-    assert_equal other_user_task_count, User.find(@other_user_task.user_id).tasks.count
+    assert_equal other_household_task_count, @other_user_task.household.tasks.count
   end
 
   test "should destroy task and its actions" do
@@ -320,9 +320,9 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    assert_redirected_to @user.tasks.last
-    new_task = @user.tasks.last
-    assert_equal @user, new_task.user  # Should belong to current user
+    assert_redirected_to Task.last
+    new_task = Task.last
+    assert_equal @user.current_household, new_task.household  # Should belong to current household
     assert_not new_task.archived       # Should not be archived
   end
 

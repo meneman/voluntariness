@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-    belongs_to :user
+    belongs_to :household
     has_many :actions, dependent: :destroy
     validates :title, presence: true
     validates :worth, presence: true, numericality: { only_integer: true }
@@ -28,7 +28,6 @@ class Task < ApplicationRecord
     end
 
     def calculate_bonus_points
-        return 0 unless user.overdue_bonus_enabled?
         return 0 if overdue.nil?
         return 0 if overdue >= 0
 

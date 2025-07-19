@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  resources :households do
+    member do
+      patch :switch_household
+    end
+    collection do
+      get :join
+      post :join
+    end
+  end
   namespace :admin do
     root "dashboard#index"
     get "dashboard", to: "dashboard#index"

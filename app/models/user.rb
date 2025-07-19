@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-  has_many :tasks, dependent: :destroy
-  has_many :participants, dependent: :destroy
+  has_many :household_memberships, dependent: :destroy
+  has_many :households, through: :household_memberships
+  has_many :tasks, through: :households
+  has_many :participants, through: :households
   has_many :actions, through: :tasks
   has_many :bets, through: :participants
 
@@ -9,6 +11,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable,
   :recoverable, :rememberable, :validatable, :registerable
+
+  after_create :create_default_household
 
 
   def remember_me
@@ -46,5 +50,41 @@ class User < ApplicationRecord
 
   def role_display_name
     role.humanize
+  end
+
+  def current_household
+    household_memberships.find_by(current_household: true)&.household
+  end
+
+  def set_current_household(household)
+    transaction do
+      household_memberships.update_all(current_household: false)
+      household_memberships.find_by(household: household)&.update(current_household: true)
+    end
+  end
+
+  def household_role_in(household)
+    household_memberships.find_by(household: household)&.role
+  end
+
+  def can_manage_household?(household)
+    membership = household_memberships.find_by(household: household)
+    membership&.can_manage_household?
+  end
+
+  private
+
+  def create_default_household
+    household = Household.create!(
+      name: "#{email.split('@').first.humanize}'s Household",
+      description: "Default household for #{email}"
+    )
+
+    HouseholdMembership.create!(
+      user: self,
+      household: household,
+      role: 'owner',
+      current_household: true
+    )
   end
 end

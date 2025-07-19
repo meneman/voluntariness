@@ -1,0 +1,130 @@
+<turbo-frame id="content">
+<div class="max-w-4xl mx-auto p-6">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+          <%= @household.name %>
+        </h1>
+        <% if @household.description.present? %>
+          <p class="text-slate-600 dark:text-slate-400">
+            <%= @household.description %>
+          </p>
+        <% end %>
+      </div>
+      
+      <div class="flex space-x-2">
+        <% if @membership&.can_manage_household? %>
+          <%= link_to "Edit", edit_household_path(@household), 
+              class: "px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" %>
+        <% end %>
+        <%= link_to "Back to Households", households_path, 
+            class: "px-4 py-2 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/70 transition-colors duration-200" %>
+      </div>
+    </div>
+
+    <!-- Invite Code Section -->
+    <% if @membership&.can_manage_household? %>
+      <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 mb-6">
+        <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+          Invite Code
+        </h3>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">
+          Share this code with others to invite them to join your household:
+        </p>
+        <div class="flex items-center space-x-3">
+          <code class="bg-white dark:bg-slate-800 px-3 py-2 rounded border font-mono text-lg tracking-wider">
+            <%= @household.invite_code %>
+          </code>
+          <button onclick="navigator.clipboard.writeText('<%= @household.invite_code %>')" 
+                  class="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-200">
+            Copy
+          </button>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-slate-900 dark:text-white">
+          <%= @members.count %>
+        </div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">
+          <%= pluralize(@members.count, 'Member') %>
+        </div>
+      </div>
+      
+      <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-slate-900 dark:text-white">
+          <%= @tasks_count %>
+        </div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">
+          <%= pluralize(@tasks_count, 'Task') %>
+        </div>
+      </div>
+      
+      <div class="bg-slate-50 dark:bg-slate-700 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-slate-900 dark:text-white">
+          <%= @participants_count %>
+        </div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">
+          <%= pluralize(@participants_count, 'Participant') %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members Section -->
+    <div class="mb-8">
+      <h3 class="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+        Members
+      </h3>
+      <div class="space-y-3">
+        <% @members.each do |member| %>
+          <% membership = member.household_memberships.find { |m| m.household_id == @household.id } %>
+          <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded-lg">
+            <div class="flex items-center space-x-3">
+              <div class="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+                <span class="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+                  <%= member.email.first.upcase %>
+                </span>
+              </div>
+              <div>
+                <div class="font-medium text-slate-900 dark:text-white">
+                  <%= member.email %>
+                </div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">
+                  <%= membership&.role&.humanize || "Member" %>
+                </div>
+              </div>
+            </div>
+            
+            <% if membership&.current_household %>
+              <span class="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 px-2 py-1 rounded-full text-xs font-medium">
+                Active
+              </span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="flex flex-wrap gap-3">
+      <% if @household == current_household %>
+        <%= link_to "Go to Dashboard", pages_home_path, 
+            class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
+      <% else %>
+        <%= link_to "Switch to This Household", switch_household_household_path(@household), method: :patch,
+            class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
+      <% end %>
+      
+      <% if @membership&.can_manage_household? && current_user.households.count > 1 %>
+        <%= link_to "Delete Household", household_path(@household), method: :delete,
+            data: { confirm: "Are you sure? This will permanently delete the household and all its data." },
+            class: "px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+</turbo-frame>

@@ -260,14 +260,14 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "Participant was successfully deleted.", flash.now[:notice]
   end
 
-  test "should not destroy other user's participant" do
-    other_user_participant_count = User.find(@other_user_participant.user_id).participants.count
+  test "should not destroy other household's participant" do
+    other_household_participant_count = @other_user_participant.household.participants.count
 
     delete participant_path(@other_user_participant)
 
     assert_redirected_to pages_home_path
     assert_equal "Resource not found", flash[:alert]
-    assert_equal other_user_participant_count, User.find(@other_user_participant.user_id).participants.count
+    assert_equal other_household_participant_count, @other_user_participant.household.participants.count
   end
 
   test "should destroy participant and its action_participants" do
@@ -313,8 +313,8 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_redirected_to participants_path
-    new_participant = @user.participants.last
-    assert_equal @user, new_participant.user  # Should belong to current user
+    new_participant = @user.current_household.participants.last
+    assert_equal @user.current_household, new_participant.household  # Should belong to current household
     assert_not new_participant.archived       # Should not be archived
   end
 

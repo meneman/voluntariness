@@ -10,6 +10,7 @@ module VoluntarinessConstants
   # User settings defaults
   MIN_STREAK_THRESHOLD = 2
   DEFAULT_STREAK_THRESHOLD = 5
+  STREAK_BONI_DAYS_THRESHOLD = 5
   
   # Action scope defaults
   STREAK_CALCULATION_DAYS = 10

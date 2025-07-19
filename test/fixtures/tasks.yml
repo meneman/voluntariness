@@ -6,7 +6,7 @@ dishwashing:
   interval: 1
   position: 1
   archived: false
-  user: one
+  household: one
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -17,7 +17,7 @@ grocery_shopping:
   interval: 7
   position: 2
   archived: false
-  user: one
+  household: one
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -28,7 +28,7 @@ vacuum_cleaning:
   interval: 3
   position: 3
   archived: false
-  user: one
+  household: one
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -39,7 +39,7 @@ archived_task:
   interval: 1
   position: 4
   archived: true
-  user: one
+  household: one
   created_at: <%= 2.weeks.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -50,7 +50,7 @@ no_interval_task:
   interval: 
   position: 5
   archived: false
-  user: one
+  household: one
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -61,7 +61,7 @@ user_two_task:
   interval: 2
   position: 1
   archived: false
-  user: two
+  household: two
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>
 
@@ -72,6 +72,6 @@ overdue_task:
   interval: 1
   position: 6
   archived: false
-  user: with_streak_bonuses
+  household: one
   created_at: <%= 1.week.ago %>
   updated_at: <%= 1.week.ago %>

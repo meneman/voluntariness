@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern unless Rails.env.test?
   before_action :authenticate_user!
   before_action :set_theme
+  before_action :ensure_current_household
 
   include Pagy::Backend
 
@@ -49,5 +50,45 @@ class ApplicationController < ActionController::Base
 
   def require_admin_or_support!
     raise Forbidden unless current_user&.admin? || current_user&.support?
+  end
+
+  def current_household
+    @current_household ||= current_user&.current_household
+  end
+  helper_method :current_household
+
+  def ensure_current_household
+    return unless user_signed_in?
+    
+    unless current_household
+      # If user has no current household, set the first one as current
+      if current_user.households.any?
+        current_user.set_current_household(current_user.households.first)
+        @current_household = nil # Reset cached value
+      else
+        # Create a default household if user has none
+        household = Household.create!(
+          name: "#{current_user.email.split('@').first.humanize}'s Household",
+          description: "Default household"
+        )
+        
+        HouseholdMembership.create!(
+          user: current_user,
+          household: household,
+          role: 'owner',
+          current_household: true
+        )
+        
+        @current_household = household
+      end
+    end
+  end
+
+  def require_household_member!
+    raise Forbidden unless current_household && current_user.households.include?(current_household)
+  end
+
+  def require_household_admin!
+    raise Forbidden unless current_user.can_manage_household?(current_household)
   end
 end
