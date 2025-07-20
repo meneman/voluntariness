@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_18_171943) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_19_094851) do
   create_table "action_participants", force: :cascade do |t|
     t.integer "action_id", null: false
     t.integer "participant_id", null: false
@@ -107,10 +107,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_171943) do
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "streak_boni_enabled"
@@ -121,8 +117,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_18_171943) do
     t.datetime "subscription_purchased_at"
     t.boolean "lifetime_access", default: false
     t.string "role", default: "user", null: false
+    t.string "firebase_uid"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["firebase_uid"], name: "index_users_on_firebase_uid", unique: true
     t.index ["role"], name: "index_users_on_role"
     t.index ["subscription_plan"], name: "index_users_on_subscription_plan"
     t.index ["subscription_status"], name: "index_users_on_subscription_status"

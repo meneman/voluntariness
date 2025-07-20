@@ -16,3 +16,7 @@ pin "@simonwep/pickr", to: "@simonwep--pickr.js" # @1.9.1
 
 pin "@kurkle/color", to: "https://ga.jspm.io/npm:@kurkle/color@0.3.2/dist/color.esm.js" # Example URL
 pin "chart.js/auto", to: "https://ga.jspm.io/npm:chart.js@4.4.3/auto/auto.js" # Example URL
+
+# Firebase - using skypack CDN which handles dependencies
+pin "firebase/app", to: "https://cdn.skypack.dev/firebase@10.7.1/app"
+pin "firebase/auth", to: "https://cdn.skypack.dev/firebase@10.7.1/auth"

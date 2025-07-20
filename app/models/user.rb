@@ -6,18 +6,11 @@ class User < ApplicationRecord
   has_many :actions, through: :tasks
   has_many :bets, through: :participants
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
-  devise :database_authenticatable,
-  :recoverable, :rememberable, :validatable, :registerable
+  # Firebase authentication - no Devise modules needed
+  validates :email, presence: true, uniqueness: true
+  validates :firebase_uid, presence: true, uniqueness: true
 
   after_create :create_default_household
-
-
-  def remember_me
-    true
-  end
 
   def premium_plan?
     subscription_plan != "free" && subscription_status == "active"

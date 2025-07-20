@@ -13,17 +13,9 @@ Rails.application.routes.draw do
     get "dashboard", to: "dashboard#index"
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]
   end
-  devise_for :users, controllers: { registrations: "registrations" }
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Firebase authentication routes (Devise removed)
   get "password/edit", to: "passwords#edit", as: "edit_password"
   patch "password/update", to: "passwords#update", as: "update_password"
-
-
-  # Enable just the routes needed for password change
-  # as :user do
-  #   get "users/edit", to: "devise/registrations#edit", as: "edit_user_registration"
-  #   put "users", to: "devise/registrations#update", as: "user_registration"
-  # end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -49,7 +41,6 @@ Rails.application.routes.draw do
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_task,  defaults: { format: :turbo_stream }
   get "/tasks/cancel", to: "tasks#cancel", as: :cancel_tasks,  defaults: { format: :turbo_stream }
 
-  # devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   resources :tasks
@@ -90,4 +81,15 @@ Rails.application.routes.draw do
 
   # Home page for authenticated users
   get "home", to: "pages#home", as: :pages_home
+
+  # Firebase authentication routes
+  get "sign_in", to: "auth#sign_in"
+  get "sign_up", to: "auth#sign_up"
+  post "auth/verify_token", to: "auth#verify_token"
+  delete "sign_out", to: "auth#sign_out"
+
+  # Firebase testing routes (remove these in production)
+  get "firebase/test", to: "firebase_test#test_config"
+  get "firebase/test_page", to: "firebase_test#test_page"
+  post "firebase/test_token", to: "firebase_test#test_token"
 end

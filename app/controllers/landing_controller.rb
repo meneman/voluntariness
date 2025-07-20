@@ -1,6 +1,6 @@
 class LandingController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:index]
-  layout 'landing'
+  skip_before_action :authenticate_user!, only: [ :index ]
+  layout "landing"
 
   def index
     # Landing page for non-authenticated users

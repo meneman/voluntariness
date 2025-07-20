@@ -65,7 +65,7 @@ group :test do
   gem "rails-controller-testing"
 end
 
-gem "devise", "~> 4.9"
+# Devise removed - using Firebase authentication
 
 gem "tailwindcss-rails", "~> 3.3.1"
 
@@ -82,3 +82,7 @@ gem "groupdate"
 gem "font-awesome-rails"
 
 gem "acts_as_list"
+
+# Firebase Authentication
+gem "google-cloud-firestore"
+gem "jwt"

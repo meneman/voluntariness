@@ -29,9 +29,31 @@ class ApplicationController < ActionController::Base
     @theme = cookies[:theme]
   end
 
-  def after_sign_in_path_for(resource)
-    pages_home_path
+  # Firebase authentication
+  def authenticate_user!
+    return if user_signed_in?
+    
+    redirect_to sign_in_path, alert: 'Please sign in to continue.'
   end
+
+  def current_user
+    return nil unless session[:user_id]
+    
+    user = User.find_by(id: session[:user_id])
+    if user
+      Rails.logger.debug "🔍 current_user: #{user.email} (ID: #{user.id}) from session[:user_id] = #{session[:user_id]}"
+    else
+      Rails.logger.warn "⚠️ current_user: No user found for session[:user_id] = #{session[:user_id]}"
+    end
+    
+    @current_user ||= user
+  end
+
+  def user_signed_in?
+    current_user.present?
+  end
+
+  helper_method :current_user, :user_signed_in?
 
   private
 
