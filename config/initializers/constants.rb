@@ -15,6 +15,9 @@ module VoluntarinessConstants
   # Action scope defaults
   STREAK_CALCULATION_DAYS = 10
   
+  # Default tasks configuration
+  DEFAULT_TASKS_CONFIG_PATH = Rails.root.join("config", "default_tasks.yml").freeze
+  
   # Obtainable useable items
   OBTAINABLE_ITEMS = [
     {

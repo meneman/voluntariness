@@ -101,6 +101,11 @@ class ApplicationController < ActionController::Base
           current_household: true
         )
 
+        # Create default tasks for the new household
+        unless DefaultTasksService.create_default_tasks_for(household)
+          Rails.logger.warn "Failed to create default tasks for auto-created household #{household.id}"
+        end
+
         @current_household = household
       end
     end

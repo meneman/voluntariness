@@ -221,3 +221,36 @@ de:
       day: "Tag"
       month: "Monat"
       year: "Jahr"
+
+  # Default tasks translations
+  default_tasks:
+    dishes:
+      title: "Geschirr spülen"
+      description: "Geschirr waschen und Küche sauber machen"
+    trash:
+      title: "Müll rausbringen"
+      description: "Mülleimer leeren und zur Sammelstelle bringen"
+    vacuum:
+      title: "Wohnzimmer saugen"
+      description: "Teppiche und Wohnbereiche staubsaugen"
+    laundry:
+      title: "Wäsche waschen"
+      description: "Wäsche waschen, trocknen und zusammenlegen"
+    bathroom:
+      title: "Badezimmer putzen"
+      description: "Toilette, Dusche, Waschbecken und Böden reinigen"
+    shopping:
+      title: "Einkaufen"
+      description: "Lebensmittel und Haushaltswaren kaufen"
+    mopping:
+      title: "Böden wischen"
+      description: "Küche, Badezimmer und andere Hartböden wischen"
+    dusting:
+      title: "Möbel abstauben"
+      description: "Tische, Regale und andere Oberflächen abstauben"
+    windows:
+      title: "Fenster putzen"
+      description: "Innen- und Außenfenster reinigen"
+    organizing:
+      title: "Lagerräume ordnen"
+      description: "Schränke, Speisekammer und Lagerräume aufräumen"

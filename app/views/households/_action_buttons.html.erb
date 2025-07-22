@@ -11,7 +11,7 @@
       </span>
     <% end %>
     <% if current_user.can_create_household? %>
-      <%= link_to "Create Household", new_household_path,
+      <%= link_to "Create Household", new_household_path,  data: { turbo_frame: "content" },
           class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
     <% else %>
       <span class="px-4 py-2 bg-indigo-400 text-white rounded-lg cursor-not-allowed" 

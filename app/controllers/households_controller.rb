@@ -39,6 +39,11 @@ class HouseholdsController < ApplicationController
       current_user.household_memberships.where.not(household: @household)
                   .update_all(current_household: false)
 
+      # Create default tasks for the new household
+      unless DefaultTasksService.create_default_tasks_for(@household)
+        Rails.logger.warn "Failed to create default tasks for household #{@household.id}"
+      end
+
       redirect_to @household, notice: "Household was successfully created."
     else
       render :new, status: :unprocessable_entity

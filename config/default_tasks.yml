@@ -1,0 +1,61 @@
+# Default tasks that are automatically created for new households
+# Each task should have: title, worth (points), interval (days), description, title_key, and description_key
+# The title_key and description_key are simple keywords used to build i18n paths: default_tasks.{key}.title/description
+
+default_tasks:
+  - title: "Dishes"
+    title_key: "dishes"
+    worth: 1
+    interval: null
+    description: "Wash dishes and clean kitchen"
+    description_key: "dishes"
+    
+  - title: "Take out trash"
+    title_key: "trash"
+    worth: 1
+    interval: 3
+    description: "Empty trash bins and take to collection point"
+    description_key: "trash"
+    
+  - title: "Vacuum living room"
+    title_key: "vacuum"
+    worth: 1
+    interval: null
+    description: "Vacuum carpets and clean living areas"
+    description_key: "vacuum"
+    
+  - title: "Laundry"
+    title_key: "laundry"
+    worth: 1
+    interval: 7
+    description: "Wash, dry, and fold clothes"
+    description_key: "laundry"
+    
+  - title: "Clean bathroom"
+    title_key: "bathroom"
+    worth: 2
+    interval: 7
+    description: "Clean toilet, shower, sink, and floors"
+    description_key: "bathroom"
+    
+  - title: "Grocery shopping"
+    title_key: "shopping"
+    worth: 1
+    interval: null
+    description: "Buy groceries and household supplies"
+    description_key: "shopping"
+    
+  - title: "Dust furniture"
+    title_key: "dusting"
+    worth: 1
+    interval: 14
+    description: "Dust tables, shelves, and other surfaces"
+    description_key: "dusting"
+    
+  - title: "Clean windows"
+    title_key: "windows"
+    worth: 2
+    interval: 30
+    description: "Clean interior and exterior windows"
+    description_key: "windows"
+    

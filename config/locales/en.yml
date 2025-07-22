@@ -177,5 +177,35 @@ en:
         contact: "Contact"
       copyright: "All rights reserved."
 
-
-
+  # Default tasks translations
+  default_tasks:
+    dishes:
+      title: "Dishes"
+      description: "Wash dishes and clean kitchen"
+    trash:
+      title: "Take out trash"
+      description: "Empty trash bins and take to collection point"
+    vacuum:
+      title: "Vacuum living room"
+      description: "Vacuum carpets and clean living areas"
+    laundry:
+      title: "Laundry"
+      description: "Wash, dry, and fold clothes"
+    bathroom:
+      title: "Clean bathroom"
+      description: "Clean toilet, shower, sink, and floors"
+    shopping:
+      title: "Grocery shopping"
+      description: "Buy groceries and household supplies"
+    mopping:
+      title: "Mop floors"
+      description: "Mop kitchen, bathroom, and other hard floors"
+    dusting:
+      title: "Dust furniture"
+      description: "Dust tables, shelves, and other surfaces"
+    windows:
+      title: "Clean windows"
+      description: "Clean interior and exterior windows"
+    organizing:
+      title: "Organize storage areas"
+      description: "Tidy up closets, pantry, and storage spaces"
