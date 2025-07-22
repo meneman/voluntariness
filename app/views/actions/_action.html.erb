@@ -13,7 +13,9 @@
       <div>
         <p class="font-medium text-slate-900 dark:text-white"><%= action.task.title %></p>
         <p class="text-sm text-slate-500 dark:text-slate-400">
-          <% if action.participants.count == 1 %>
+          <% if action.participants.count === 0%>
+              -participant deleted-
+          <% elsif action.participants.count == 1 %>
             <%= action.participants.first.name %>
           <% elsif action.participants.count == 2 %>
             <%= action.participants.map(&:name).join(' & ') %>

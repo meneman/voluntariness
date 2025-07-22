@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   get "sign_up", to: "auth#sign_up"
   post "auth/verify_token", to: "auth#verify_token"
   delete "sign_out", to: "auth#sign_out"
+  delete "auth/delete_account", to: "auth#delete_account"
 
   # Firebase testing routes (remove these in production)
   get "firebase/test", to: "firebase_test#test_config"

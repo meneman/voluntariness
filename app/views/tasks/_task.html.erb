@@ -30,9 +30,11 @@
       <!-- Participant Action Buttons -->
       <div class="mb-4">
         <div class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4 text-center">Complete Task</div>
-        <div class="grid grid-cols-2 gap-4">
-          <% @participants.each do |participant| %>
-            <% next if participant.archived %>
+        <% active_participants = @participants.reject(&:archived) %>
+        <% if active_participants.any? %>
+          <div class="grid grid-cols-2 gap-4">
+            <% @participants.each do |participant| %>
+              <% next if participant.archived %>
             <%= button_to({ controller: "actions", action: "create", method: "post", data: {task_id: task, participant_id: participant } }, { 
                    "data-action" => "click->particle#spawn click->multi-participant-timer#participantClick", 
                    "data-controller" => "color-badge", 
@@ -63,7 +65,17 @@
               </div>
             <% end %>
           <%end%>
-        </div>
+          </div>
+        <% else %>
+          <div class="text-center p-6">
+            <div class="text-slate-500 dark:text-slate-400 mb-4">
+              No participants in your household
+            </div>
+            <%= link_to "Add participants to your household", participants_path, 
+                data: { turbo: false },
+                class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors" %>
+          </div>
+        <% end %>
       </div>
     </div>
     

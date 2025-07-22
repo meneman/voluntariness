@@ -95,6 +95,49 @@ class AuthController < ApplicationController
     end
   end
 
+  # DELETE /auth/delete_account
+  def delete_account
+    Rails.logger.info "=== Account Deletion Started ==="
+    Rails.logger.info "User ID: #{current_user&.id}"
+    Rails.logger.info "User Email: #{current_user&.email}"
+    
+    if current_user
+      begin
+        # Delete all associated data
+        current_user.participants.destroy_all
+        current_user.tasks.destroy_all
+        current_user.households.destroy_all
+        
+        # Delete the user account
+        user_email = current_user.email
+        current_user.destroy!
+        
+        # Sign out the user
+        sign_out_user
+        
+        Rails.logger.info "Account deleted successfully: #{user_email}"
+        
+        render json: { 
+          success: true, 
+          message: 'Account deleted successfully' 
+        }
+      rescue => e
+        Rails.logger.error "Failed to delete account: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        
+        render json: { 
+          success: false, 
+          error: 'Failed to delete account data' 
+        }, status: :internal_server_error
+      end
+    else
+      render json: { 
+        success: false, 
+        error: 'User not found' 
+      }, status: :unauthorized
+    end
+  end
+
   private
 
   def sign_in_user(user)

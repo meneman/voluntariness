@@ -82,38 +82,28 @@
                   <p class="text-sm text-slate-400">User that owns room</p>
                 </div>
               </div>
-              <a href="<%= edit_user_registration_path(form: 'username') %>" class="inline-flex items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-slate-800">
-                <svg class="-ml-1 mr-2 h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                </svg>
-                Benutzername ändern
-              </a>
-              <a href="<%= edit_user_registration_path(form: 'password') %>" class="inline-flex items-center px-4 py-2 border border-slate-600 shadow-sm text-sm font-medium rounded-md text-slate-200 bg-slate-700 hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 focus:ring-offset-slate-800">
-                <svg class="-ml-1 mr-2 h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                </svg>
-                Passwort ändern
-              </a>
             </div>
           </turbo-frame>
-          <!-- Additional user settings can be added here -->
-          <%# <div class="pt-4 border-t border-slate-600">
-          <div class="flex items-center space-x-4 mb-4">
-            <div class="h-12 w-12 rounded-full bg-red-900 flex items-center justify-center">
-              <svg class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
+          <!-- Account Management Section -->
+          <div class="pt-4 border-t border-slate-600">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="h-12 w-12 rounded-full bg-red-900 flex items-center justify-center">
+                <svg class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-base font-medium text-slate-200">Account Management</h3>
+                <p class="text-sm text-slate-400">Delete your account and all associated data</p>
+              </div>
             </div>
-            <div>
-              <h3 class="text-base font-medium text-slate-200">Account Management</h3>
-              <p class="text-sm text-slate-400">Delete your account or change critical settings</p>
-            </div>
+            
+            <button data-action="click->account-deletion#deleteAccount" 
+                    data-controller="account-deletion"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 focus:ring-offset-slate-800 transition-colors">
+              Delete Account
+            </button>
           </div>
-          
-          
-            Manage Account
-          </a>
-        </div> %>
         </div>
       </div>
     </div>
