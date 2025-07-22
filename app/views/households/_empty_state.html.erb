@@ -1,0 +1,31 @@
+<turbo-frame id="households-list">
+  <div class="text-center py-12">
+    <svg class="mx-auto h-12 w-12 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2V7z" />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2m-6 4h4" />
+    </svg>
+    <h3 class="mt-2 text-sm font-medium text-slate-900 dark:text-white">No households</h3>
+    <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Get started by creating a household or joining one.</p>
+    <div class="mt-6 flex justify-center space-x-3">
+      <% if current_user.can_create_household? %>
+        <%= link_to "Create Household", new_household_path, 
+            class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
+      <% else %>
+        <span class="px-4 py-2 bg-indigo-400 text-white rounded-lg cursor-not-allowed" 
+              title="Maximum 5 households reached">
+          Create Household (Limit Reached)
+        </span>
+      <% end %>
+      <% if current_user.can_join_household? %>
+        <%= link_to "Join Household", join_households_path, 
+            class: "px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors duration-200",
+            data: { turbo_frame: "content" } %>
+      <% else %>
+        <span class="px-4 py-2 bg-slate-400 text-white rounded-lg cursor-not-allowed" 
+              title="Maximum 5 households reached">
+          Join Household (Limit Reached)
+        </span>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>

@@ -1,0 +1,25 @@
+<%# Update the navbar household name display %>
+<%= turbo_stream.replace "navbar-household-name" do %>
+  <span class="max-w-24 truncate"><%= current_household&.name || "No Household" %></span>
+<% end %>
+
+<%# Update the navbar household dropdown to highlight the current household %>
+<%= turbo_stream.update "household-dropdown-content" do %>
+  <%= render 'layouts/household_dropdown_content'   %>
+<% end %>
+
+
+<%# Update household action buttons if on households page %>
+<%= turbo_stream.update "household-action-buttons" do %>
+  <%= render 'households/action_buttons' %>
+<% end %>
+
+<%# Update households list if on households page %>
+<%= turbo_stream.replace "households-list" do %>
+<%= current_household&.name || "No Household" %>
+  <% if @households.any? %>
+    <%= render 'households/households_list', households: @households %>
+  <% else %>
+    <%= render 'households/empty_state' %>
+  <% end %>
+<% end %>

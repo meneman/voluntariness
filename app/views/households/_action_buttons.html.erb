@@ -1,0 +1,23 @@
+<turbo-frame id="household-action-buttons">
+  <div class="flex space-x-3">
+    <% if current_user.can_join_household? %>
+      <%= link_to "Join Household", join_households_path,
+          class: "px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors duration-200",
+          data: { turbo_frame: "content" } %>
+    <% else %>
+      <span class="px-4 py-2 bg-slate-400 text-white rounded-lg cursor-not-allowed" 
+            title="Maximum 5 households reached">
+        Join Household (Limit Reached)
+      </span>
+    <% end %>
+    <% if current_user.can_create_household? %>
+      <%= link_to "Create Household", new_household_path,
+          class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
+    <% else %>
+      <span class="px-4 py-2 bg-indigo-400 text-white rounded-lg cursor-not-allowed" 
+            title="Maximum 5 households reached">
+        Create Household (Limit Reached)
+      </span>
+    <% end %>
+  </div>
+</turbo-frame>

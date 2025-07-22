@@ -32,20 +32,20 @@ class ApplicationController < ActionController::Base
   # Firebase authentication
   def authenticate_user!
     return if user_signed_in?
-    
-    redirect_to sign_in_path, alert: 'Please sign in to continue.'
+
+    redirect_to sign_in_path, alert: "Please sign in to continue."
   end
 
   def current_user
     return nil unless session[:user_id]
-    
+
     user = User.find_by(id: session[:user_id])
     if user
       Rails.logger.debug "🔍 current_user: #{user.email} (ID: #{user.id}) from session[:user_id] = #{session[:user_id]}"
     else
       Rails.logger.warn "⚠️ current_user: No user found for session[:user_id] = #{session[:user_id]}"
     end
-    
+
     @current_user ||= user
   end
 
@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
 
   def ensure_current_household
     return unless user_signed_in?
-    
+
     unless current_household
       # If user has no current household, set the first one as current
       if current_user.households.any?
@@ -93,14 +93,14 @@ class ApplicationController < ActionController::Base
           name: "#{current_user.email.split('@').first.humanize}'s Household",
           description: "Default household"
         )
-        
+
         HouseholdMembership.create!(
           user: current_user,
           household: household,
-          role: 'owner',
+          role: "owner",
           current_household: true
         )
-        
+
         @current_household = household
       end
     end

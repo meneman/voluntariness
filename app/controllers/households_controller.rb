@@ -1,6 +1,6 @@
 class HouseholdsController < ApplicationController
-  before_action :set_household, except: [:index, :new, :create, :switch_household, :join]
-  before_action :require_household_admin!, except: [:index, :new, :create, :show, :switch_household, :join]
+  before_action :set_household, except: [ :index, :new, :create, :switch_household, :join ]
+  before_action :require_household_admin!, except: [ :index, :new, :create, :show, :switch_household, :join ]
 
   def index
     @households = current_user.households.includes(:users, :household_memberships)
@@ -25,21 +25,21 @@ class HouseholdsController < ApplicationController
     end
 
     @household = Household.new(household_params)
-    
+
     if @household.save
       # Create owner membership for current user
       HouseholdMembership.create!(
         user: current_user,
         household: @household,
-        role: 'owner',
+        role: "owner",
         current_household: true
       )
-      
+
       # Update current household for other memberships
       current_user.household_memberships.where.not(household: @household)
                   .update_all(current_household: false)
-      
-      redirect_to @household, notice: 'Household was successfully created.'
+
+      redirect_to @household, notice: "Household was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
@@ -50,7 +50,7 @@ class HouseholdsController < ApplicationController
 
   def update
     if @household.update(household_params)
-      redirect_to @household, notice: 'Household was successfully updated.'
+      redirect_to @household, notice: "Household was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -60,59 +60,66 @@ class HouseholdsController < ApplicationController
     # Only allow owner to delete household
     membership = current_user.household_memberships.find_by(household: @household)
     unless membership&.owner?
-      redirect_to households_path, alert: 'Only household owners can delete households.'
+      redirect_to households_path, alert: "Only household owners can delete households."
       return
     end
-    
+
     # Don't allow deletion if it's the user's only household
     if current_user.households.count <= 1
-      redirect_to households_path, alert: 'You cannot delete your only household.'
+      redirect_to households_path, alert: "You cannot delete your only household."
       return
     end
-    
+
     @household.destroy
-    
+
     # Set another household as current if this was the current one
     if current_household == @household
       current_user.set_current_household(current_user.households.first)
     end
-    
-    redirect_to households_path, notice: 'Household was successfully deleted.'
+
+    redirect_to households_path, notice: "Household was successfully deleted."
   end
 
   def switch_household
-    household = current_user.households.find(params[:id])
-    current_user.set_current_household(household)
-    redirect_to households_path, notice: "Switched to #{household.name}"
+    @household = current_user.households.find(params[:id])
+    @current_household = nil
+    current_user.set_current_household(@household)
+    current_user.reload # Reload user associations from database
+    @households = current_user.households.includes(:household_memberships)
+
+    respond_to do |format|
+      format.turbo_stream { render :switch, notice: "Switched to #{@household.name}" }
+      format.html { redirect_to households_path, notice: "Switched to #{@household.name}" }
+    end
   end
 
   def join
     if request.post?
       unless current_user.can_join_household?
-        flash.now[:alert] = 'You can only join a maximum of 5 households.'
+        flash.now[:alert] = "You can only join a maximum of 5 households."
         render :join
         return
       end
 
       @household = Household.find_by(invite_code: params[:invite_code])
-      
+
       if @household.nil?
-        flash.now[:alert] = 'Invalid invite code.'
+        flash.now[:alert] = "Invalid invite code."
         render :join
         return
       end
-      
+
       if current_user.households.include?(@household)
-        redirect_to @household, notice: 'You are already a member of this household.'
+        redirect_to @household, notice: "You are already a member of this household."
         return
       end
-      
+
       HouseholdMembership.create!(
         user: current_user,
         household: @household,
-        role: 'member'
+        role: "member"
       )
-      
+
       redirect_to households_path, notice: "Successfully joined #{@household.name}!"
     end
   end
@@ -130,7 +137,7 @@ class HouseholdsController < ApplicationController
   def require_household_admin!
     membership = current_user.household_memberships.find_by(household: @household)
     unless membership&.can_manage_household?
-      redirect_to households_path, alert: 'You do not have permission to manage this household.'
+      redirect_to households_path, alert: "You do not have permission to manage this household."
     end
   end
 end

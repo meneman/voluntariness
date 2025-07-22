@@ -6,20 +6,20 @@ class HouseholdMembership < ApplicationRecord
   validates :user_id, uniqueness: { scope: :household_id }
 
   scope :current, -> { where(current_household: true) }
-  scope :owners, -> { where(role: 'owner') }
-  scope :admins, -> { where(role: 'admin') }
-  scope :members, -> { where(role: 'member') }
+  scope :owners, -> { where(role: "owner") }
+  scope :admins, -> { where(role: "admin") }
+  scope :members, -> { where(role: "member") }
 
   def owner?
-    role == 'owner'
+    role == "owner"
   end
 
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def member?
-    role == 'member'
+    role == "member"
   end
 
   def can_manage_household?

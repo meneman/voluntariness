@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["button"]
   static values = { 
-    timeout: { type: Number, default: 5000 },
+    timeout: { type: Number, default: 3000 },
     actionId: Number,
     taskId: Number
   }

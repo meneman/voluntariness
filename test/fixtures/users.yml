@@ -1,7 +1,7 @@
 # Test fixtures for User model
 one:
   email: user1@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  firebase_uid: firebase_uid_1
   streak_boni_enabled: true
   streak_boni_days_threshold: 3
   overdue_bonus_enabled: true
@@ -10,7 +10,7 @@ one:
 
 two:
   email: user2@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  firebase_uid: firebase_uid_2
   streak_boni_enabled: false
   streak_boni_days_threshold: 5
   overdue_bonus_enabled: false
@@ -19,7 +19,7 @@ two:
 
 with_streak_bonuses:
   email: streakuser@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  firebase_uid: firebase_uid_3
   streak_boni_enabled: true
   streak_boni_days_threshold: 2
   overdue_bonus_enabled: true
@@ -28,7 +28,7 @@ with_streak_bonuses:
 
 no_bonuses:
   email: nobonuses@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  firebase_uid: firebase_uid_4
   streak_boni_enabled: false
   streak_boni_days_threshold: 5
   overdue_bonus_enabled: false
@@ -37,7 +37,7 @@ no_bonuses:
 
 admin:
   email: admin@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+  firebase_uid: firebase_uid_admin
   role: admin
   streak_boni_enabled: true
   streak_boni_days_threshold: 3

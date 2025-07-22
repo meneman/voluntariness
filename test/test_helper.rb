@@ -14,7 +14,20 @@ module ActiveSupport
   end
 end
 
-# Add Devise test helpers
+# Add authentication helpers for custom Firebase auth  
 class ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  def sign_in(user)
+    # Mock the Firebase auth for testing by directly setting session
+    if integration_session
+      integration_session.session[:user_id] = user.id
+      integration_session.session[:firebase_uid] = user.firebase_uid
+    end
+  end
+  
+  def sign_out
+    if integration_session
+      integration_session.session[:user_id] = nil
+      integration_session.session[:firebase_uid] = nil
+    end
+  end
 end
