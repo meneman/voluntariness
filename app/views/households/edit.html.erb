@@ -1,4 +1,59 @@
-<div>
-  <h1 class="font-bold text-4xl">Households#edit</h1>
-  <p>Find me in app/views/households/edit.html.erb</p>
+<turbo-frame id="content">
+<div class="max-w-2xl mx-auto p-6">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-6">
+    <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-6">
+      Edit Household
+    </h1>
+
+    <%= form_with model: @household, local: true do |form| %>
+      <% if @household.errors.any? %>
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-700 rounded-lg p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+                There were errors with your submission:
+              </h3>
+              <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+                <ul class="list-disc space-y-1 pl-5">
+                  <% @household.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="space-y-6">
+        <div>
+          <%= form.label :name, "Household Name", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+          <%= form.text_field :name, 
+              class: "w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white",
+              placeholder: "e.g., Smith Family Home" %>
+        </div>
+
+        <div>
+          <%= form.label :description, "Description (Optional)", class: "block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" %>
+          <%= form.text_area :description, 
+              rows: 3,
+              class: "w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:bg-slate-700 dark:text-white",
+              placeholder: "Tell others about your household..." %>
+        </div>
+      </div>
+
+      <div class="flex justify-between mt-8">
+        <%= link_to "Cancel", household_path(@household), 
+            class: "px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" %>
+        <%= form.submit "Update Household", 
+            class: "px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200" %>
+      </div>
+    <% end %>
+  </div>
 </div>
+</turbo-frame>

@@ -1,6 +1,6 @@
 class HouseholdsController < ApplicationController
   before_action :set_household, except: [:index, :new, :create, :switch_household, :join]
-  before_action :require_household_admin!, except: [:index, :show, :switch_household, :join]
+  before_action :require_household_admin!, except: [:index, :new, :create, :show, :switch_household, :join]
 
   def index
     @households = current_user.households.includes(:users, :household_memberships)

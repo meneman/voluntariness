@@ -17,6 +17,10 @@ module Voluntariness
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
     config.assets.paths << Rails.root.join("node_modules")
+    
+    # Firebase authentication providers configuration
+    # Defaults to Google and GitHub, but can be overridden in environment files
+    config.firebase_auth_providers = [ "google", "github" ]
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

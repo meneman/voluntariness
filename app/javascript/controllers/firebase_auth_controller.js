@@ -6,10 +6,7 @@ import {
   createUserWithEmailAndPassword, 
   signInWithPopup,
   GoogleAuthProvider,
-  FacebookAuthProvider,
-  TwitterAuthProvider,
   GithubAuthProvider,
-  OAuthProvider,
   signOut,
   onAuthStateChanged,
   setPersistence,
@@ -20,7 +17,8 @@ import {
 export default class extends Controller {
   static values = { 
     config: Object,
-    redirectUrl: String
+    redirectUrl: String,
+    enabledProviders: Array
   }
   
   static targets = ["email", "password", "confirmPassword", "error", "submitButton"]
@@ -60,22 +58,20 @@ export default class extends Controller {
         console.warn("Could not set Firebase persistence:", persistenceError)
       }
       
-      // Initialize authentication providers
-      this.googleProvider = new GoogleAuthProvider()
-      this.facebookProvider = new FacebookAuthProvider()
-      this.twitterProvider = new TwitterAuthProvider()
-      this.githubProvider = new GithubAuthProvider()
-      this.microsoftProvider = new OAuthProvider('microsoft.com')
-      this.appleProvider = new OAuthProvider('apple.com')
+      // Initialize enabled authentication providers
+      this.enabledProviders = this.enabledProvidersValue || ['google', 'github']
+      console.log('Enabled providers:', this.enabledProviders)
       
-      // Configure provider scopes for better user experience
-      this.googleProvider.addScope('email')
-      this.googleProvider.addScope('profile')
-      this.facebookProvider.addScope('email')
-      this.githubProvider.addScope('user:email')
-      this.microsoftProvider.addScope('mail.read')
-      this.appleProvider.addScope('email')
-      this.appleProvider.addScope('name')
+      if (this.enabledProviders.includes('google')) {
+        this.googleProvider = new GoogleAuthProvider()
+        this.googleProvider.addScope('email')
+        this.googleProvider.addScope('profile')
+      }
+      
+      if (this.enabledProviders.includes('github')) {
+        this.githubProvider = new GithubAuthProvider()
+        this.githubProvider.addScope('user:email')
+      }
       
       console.log("Firebase initialized successfully")
       
@@ -205,32 +201,22 @@ export default class extends Controller {
 
   // Handle Google sign-in
   async signInWithGoogle(event) {
+    if (!this.enabledProviders.includes('google')) {
+      console.error('Google provider is not enabled')
+      this.showError('Google sign-in is not available')
+      return
+    }
     await this.signInWithProvider(event, this.googleProvider, 'Google')
-  }
-
-  // Handle Facebook sign-in
-  async signInWithFacebook(event) {
-    await this.signInWithProvider(event, this.facebookProvider, 'Facebook')
-  }
-
-  // Handle Twitter sign-in
-  async signInWithTwitter(event) {
-    await this.signInWithProvider(event, this.twitterProvider, 'Twitter')
   }
 
   // Handle GitHub sign-in
   async signInWithGithub(event) {
+    if (!this.enabledProviders.includes('github')) {
+      console.error('GitHub provider is not enabled')
+      this.showError('GitHub sign-in is not available')
+      return
+    }
     await this.signInWithProvider(event, this.githubProvider, 'GitHub')
-  }
-
-  // Handle Microsoft sign-in
-  async signInWithMicrosoft(event) {
-    await this.signInWithProvider(event, this.microsoftProvider, 'Microsoft')
-  }
-
-  // Handle Apple sign-in
-  async signInWithApple(event) {
-    await this.signInWithProvider(event, this.appleProvider, 'Apple')
   }
 
   // Generic method for provider sign-in

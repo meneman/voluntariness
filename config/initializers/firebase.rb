@@ -19,13 +19,21 @@ class Firebase
     def configured?
       config.values.all?(&:present?)
     end
+
+    def enabled_auth_providers
+      @enabled_auth_providers ||= Rails.application.config.firebase_auth_providers || [ "google", "github" ]
+    end
+
+    def provider_enabled?(provider)
+      enabled_auth_providers.include?(provider.to_s)
+    end
   end
 end
 
 # Optional: Set up Google Cloud Firestore if needed
 if Firebase.configured?
   require "google/cloud/firestore"
-  
+
   Google::Cloud::Firestore.configure do |config|
     config.project_id = Firebase.project_id
     # We'll add more configuration as needed

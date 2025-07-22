@@ -1,12 +1,13 @@
+<turbo-frame id="content">
 <div class="max-w-4xl mx-auto p-6">
   <div class="flex justify-between items-center mb-6">
     <h1 class="text-3xl font-bold text-slate-900 dark:text-white">
       My Households
     </h1>
     <div class="flex space-x-3">
-      <%= link_to "Join Household", join_households_path, 
+      <%= link_to "Join Household", join_households_path,
           class: "px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors duration-200" %>
-      <%= link_to "Create Household", new_household_path, 
+      <%= link_to "Create Household", new_household_path,
           class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
     </div>
   </div>
@@ -81,3 +82,4 @@
     </div>
   <% end %>
 </div>
+</turbo-frame>

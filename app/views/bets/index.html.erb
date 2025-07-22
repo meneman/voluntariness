@@ -1,7 +1,6 @@
 <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
   <div class="flex justify-between items-center mb-4">
     <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Bets</h1>
-    <%= link_to "New Bet", new_bet_path, class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" %>
   </div>
 
   <div class="overflow-x-auto">
@@ -29,11 +28,12 @@
             </td>
             <td class="px-4 py-2 text-gray-800 dark:text-white"><%= bet.created_at.strftime("%m/%d/%Y") %></td>
             <td class="px-4 py-2">
-              <%= link_to "View", bet_path(bet), class: "text-blue-500 hover:text-blue-700 mr-2" %>
-              <%= link_to "Edit", edit_bet_path(bet), class: "text-green-500 hover:text-green-700 mr-2" %>
+              <%= link_to "View", bet_path(bet), class: "text-blue-500 hover:text-blue-700 mr-2", data: { turbo: false } %>
+              <%= link_to "Edit", edit_bet_path(bet), class: "text-green-500 hover:text-green-700 mr-2", data: { turbo: false } %>
               <%= link_to "Delete", bet_path(bet), method: :delete, 
                           confirm: "Are you sure?", 
-                          class: "text-red-500 hover:text-red-700" %>
+                          class: "text-red-500 hover:text-red-700",
+                          data: { turbo: false } %>
             </td>
           </tr>
         <% end %>
@@ -43,7 +43,7 @@
 
   <% if @bets.empty? %>
     <div class="text-center py-8">
-      <p class="text-gray-500 dark:text-gray-400">No bets yet. <%= link_to "Create your first bet!", new_bet_path, class: "text-blue-500 hover:text-blue-700" %></p>
+      <p class="text-gray-500 dark:text-gray-400">No bets yet.</p>
     </div>
   <% end %>
 </div>
