@@ -24,6 +24,20 @@ class TasksController < ApplicationController
     end
 
     def unarchive
+        unless current_household.can_add_task?
+            respond_to do |format|
+                format.html { 
+                    flash[:alert] = "This household already has the maximum of 30 active tasks. Cannot unarchive."
+                    redirect_to tasks_path 
+                }
+                format.turbo_stream {
+                    flash.now[:alert] = "This household already has the maximum of 30 active tasks. Cannot unarchive."
+                    render turbo_stream: turbo_stream.replace("flash", partial: "shared/flash")
+                }
+            end
+            return
+        end
+
         @task.update(archived: false)
         respond_to do |format|
             format.html { redirect_to tasks_path }
@@ -39,6 +53,20 @@ class TasksController < ApplicationController
     end
 
     def create
+        unless current_household.can_add_task?
+            respond_to do |format|
+                format.turbo_stream { 
+                    flash.now[:alert] = "This household can only have a maximum of 30 active tasks."
+                    render :new, status: :unprocessable_entity 
+                }
+                format.html { 
+                    flash[:alert] = "This household can only have a maximum of 30 active tasks."
+                    redirect_to tasks_path 
+                }
+            end
+            return
+        end
+
         @task = current_household.tasks.build(task_params)
         @participants = current_household.participants
         if @task.save

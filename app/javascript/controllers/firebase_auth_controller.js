@@ -392,12 +392,13 @@ export default class extends Controller {
 
   setLoading(loading) {
     if (this.hasSubmitButtonTarget) {
-      this.submitButtonTarget.disabled = loading
-      this.submitButtonTarget.textContent = loading ? "Please wait..." : (this.submitButtonTarget.dataset.originalText || "Submit")
-      
-      if (!this.submitButtonTarget.dataset.originalText) {
+      // Store original text when first setting loading state
+      if (loading && !this.submitButtonTarget.dataset.originalText) {
         this.submitButtonTarget.dataset.originalText = this.submitButtonTarget.textContent
       }
+      
+      this.submitButtonTarget.disabled = loading
+      this.submitButtonTarget.textContent = loading ? "Please wait..." : this.submitButtonTarget.dataset.originalText
     }
   }
 }

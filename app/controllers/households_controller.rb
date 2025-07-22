@@ -19,6 +19,11 @@ class HouseholdsController < ApplicationController
   end
 
   def create
+    unless current_user.can_create_household?
+      redirect_to households_path, alert: "You can only create a maximum of 5 households."
+      return
+    end
+
     @household = Household.new(household_params)
     
     if @household.save
@@ -78,11 +83,17 @@ class HouseholdsController < ApplicationController
   def switch_household
     household = current_user.households.find(params[:id])
     current_user.set_current_household(household)
-    redirect_to root_path, notice: "Switched to #{household.name}"
+    redirect_to households_path, notice: "Switched to #{household.name}"
   end
 
   def join
     if request.post?
+      unless current_user.can_join_household?
+        flash.now[:alert] = 'You can only join a maximum of 5 households.'
+        render :join
+        return
+      end
+
       @household = Household.find_by(invite_code: params[:invite_code])
       
       if @household.nil?
@@ -102,7 +113,7 @@ class HouseholdsController < ApplicationController
         role: 'member'
       )
       
-      redirect_to @household, notice: "Successfully joined #{@household.name}!"
+      redirect_to households_path, notice: "Successfully joined #{@household.name}!"
     end
   end
 

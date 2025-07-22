@@ -115,7 +115,8 @@
         <%= link_to "Go to Dashboard", pages_home_path, 
             class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
       <% else %>
-        <%= link_to "Switch to This Household", switch_household_household_path(@household), method: :patch,
+        <%= link_to "Switch to This Household", switch_household_household_path(@household),
+            data: { "turbo-method": "patch", "turbo-action": "replace" },
             class: "px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200" %>
       <% end %>
       

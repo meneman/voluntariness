@@ -65,6 +65,14 @@ class User < ApplicationRecord
     membership&.can_manage_household?
   end
 
+  def can_create_household?
+    households.count < 5
+  end
+
+  def can_join_household?
+    households.count < 5
+  end
+
   private
 
   def create_default_household

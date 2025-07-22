@@ -30,10 +30,20 @@
           <!-- Add Task Button -->
           <%= turbo_frame_tag "new_task", class: "contents" %>
           <div class="w-full min-w-0">
-            <%= link_to new_task_path, data: { turbo_frame: "new_task" }, class: "flex items-center justify-center bg-white dark:bg-slate-800 shadow-md rounded-lg px-6 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium min-h-[200px]" do %>
-              <div class="text-center">
-                <span class="block text-3xl font-bold mb-2">+</span>
-                <span class="text-lg"><%= t("addTask") %></span>
+            <% if current_household.can_add_task? %>
+              <%= link_to new_task_path, data: { turbo_frame: "new_task" }, class: "flex items-center justify-center bg-white dark:bg-slate-800 shadow-md rounded-lg px-6 py-8 border-2 border-dashed border-slate-300 dark:border-slate-600 hover:border-indigo-400 dark:hover:border-indigo-500 hover:shadow-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium min-h-[200px]" do %>
+                <div class="text-center">
+                  <span class="block text-3xl font-bold mb-2">+</span>
+                  <span class="text-lg"><%= t("addTask") %></span>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="flex items-center justify-center bg-slate-100 dark:bg-slate-700 shadow-md rounded-lg px-6 py-8 border-2 border-dashed border-slate-200 dark:border-slate-600 text-slate-400 dark:text-slate-500 font-medium min-h-[200px] cursor-not-allowed" title="Maximum 30 active tasks reached">
+                <div class="text-center">
+                  <span class="block text-3xl font-bold mb-2">🚫</span>
+                  <span class="text-lg">Task Limit Reached</span>
+                  <p class="text-sm mt-2">Maximum 30 active tasks</p>
+                </div>
               </div>
             <% end %>
           </div>

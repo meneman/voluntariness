@@ -85,7 +85,9 @@ Rails.application.configure do
   config.hosts = [
     "www.voluntariness.eu", # Allow the primary public domain
     "192.168.178.55",     # Allow access via the local IP
+    "15.197.162.184", # spacehip server
     "voluntariness.eu",
+    "voluntariness.duckdns.org",
     "localhost"
   ]
   #

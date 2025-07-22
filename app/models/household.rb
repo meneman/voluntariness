@@ -9,6 +9,10 @@ class Household < ApplicationRecord
   
   before_create :generate_invite_code
 
+  def can_add_task?
+    tasks.active.count < 30
+  end
+
   private
 
   def generate_invite_code
