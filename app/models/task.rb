@@ -28,6 +28,7 @@ class Task < ApplicationRecord
     end
 
     def calculate_bonus_points
+        return 0 unless household.users.first&.overdue_bonus_enabled?
         return 0 if overdue.nil?
         return 0 if overdue >= 0
 

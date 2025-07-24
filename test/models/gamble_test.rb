@@ -2,9 +2,14 @@ require "test_helper"
 
 class GambleTest < ActiveSupport::TestCase
   def setup
-    @user = users(:one)
+    @user = users(:one) 
     @participant = participants(:alice)
     @task = tasks(:dishwashing)
+    
+    # Ensure user has current household set
+    if @user.current_household.nil?
+      @user.set_current_household(households(:one))
+    end
   end
 
   test "participant can have sufficient points for gambling" do
@@ -81,6 +86,10 @@ class GambleTest < ActiveSupport::TestCase
 
   test "gambling task creation is isolated per user" do
     user_two = users(:two)
+    # Ensure user_two has current household set
+    if user_two.current_household.nil?
+      user_two.set_current_household(households(:two))
+    end
     
     # Create gambling task for first user
     gambling_task_one = Task.create!(
@@ -98,8 +107,8 @@ class GambleTest < ActiveSupport::TestCase
       description: "Point deducted for gambling"
     )
     
-    assert_equal @user, gambling_task_one.user
-    assert_equal user_two, gambling_task_two.user
+    assert_equal @user.current_household, gambling_task_one.household
+    assert_equal user_two.current_household, gambling_task_two.household
     assert_not_equal gambling_task_one, gambling_task_two
   end
 
@@ -109,7 +118,7 @@ class GambleTest < ActiveSupport::TestCase
     useable_item = UseableItem.create_from_obtainable(@participant, item_data[:name])
     
     assert_equal @participant, useable_item.participant
-    assert_equal @user, useable_item.participant.user
+    assert_includes useable_item.participant.household.users, @user
     
     # Verify it appears in participant's collection
     @participant.reload

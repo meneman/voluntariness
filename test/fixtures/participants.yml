@@ -60,6 +60,6 @@ no_bonus_participant:
   name: "Simple"
   color: "#BB8FCE"
   archived: false
-  household: one
+  household: two
   created_at: <%= 1.month.ago %>
   updated_at: <%= 1.week.ago %>

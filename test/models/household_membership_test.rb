@@ -2,8 +2,8 @@ require "test_helper"
 
 class HouseholdMembershipTest < ActiveSupport::TestCase
   test "should create membership with valid attributes" do
-    household = households(:one)
-    user = users(:two)
+    household = households(:two)
+    user = users(:one)
     
     membership = HouseholdMembership.new(
       user: user,

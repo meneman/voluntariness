@@ -70,18 +70,22 @@ class Participant < ApplicationRecord
 
 
     def streak
+        return -1 unless household.users.first&.streak_boni_enabled?
         calculate_streak
     end
 
     def on_streak
+        return false unless household.users.first&.streak_boni_enabled?
         streak_value = streak
         return false if streak_value.nil?
-        streak_value > VoluntarinessConstants::STREAK_BONI_DAYS_THRESHOLD
+        threshold = household.users.first&.streak_boni_days_threshold || VoluntarinessConstants::DEFAULT_STREAK_THRESHOLD
+        streak_value > threshold
     end
 
     def update_streak!
       current_streak = calculate_streak
-      new_on_streak = current_streak > VoluntarinessConstants::STREAK_BONI_DAYS_THRESHOLD
+      threshold = household.users.first&.streak_boni_days_threshold || VoluntarinessConstants::DEFAULT_STREAK_THRESHOLD
+      new_on_streak = household.users.first&.streak_boni_enabled? ? current_streak > threshold : false
       
       update_columns(
         streak: current_streak,

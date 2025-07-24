@@ -15,3 +15,21 @@ user_two_household_two_owner:
   household: two
   role: "owner"
   current_household: false
+
+with_streak_bonuses_household_one:
+  user: with_streak_bonuses
+  household: one
+  role: "owner"
+  current_household: true
+
+no_bonuses_household_two:
+  user: no_bonuses
+  household: two
+  role: "owner"
+  current_household: true
+
+admin_household_one:
+  user: admin
+  household: one
+  role: "owner"
+  current_household: true

@@ -16,18 +16,34 @@ end
 
 # Add authentication helpers for custom Firebase auth  
 class ActionDispatch::IntegrationTest
-  # For our custom Firebase auth, we'll set up the session properly
+  # For our custom Firebase auth, set session directly like ActionController::TestCase
   def sign_in(user)
-    # Create a session state that matches what the app expects
-    @user_for_auth = user
-    
-    # Override the session method to include our user data when accessed
-    def session
-      super.merge(user_id: @user_for_auth&.id, firebase_uid: @user_for_auth&.firebase_uid)
+    if user
+      # Initialize a request first to ensure session is available  
+      get root_path
+      # Then set session variables directly
+      session[:user_id] = user.id
+      session[:firebase_uid] = user.firebase_uid
     end
   end
   
-  def sign_out
-    @user_for_auth = nil
+  def sign_out(user = nil)
+    session[:user_id] = nil
+    session[:firebase_uid] = nil
+  end
+end
+
+# Add same helpers for ActionController::TestCase
+class ActionController::TestCase
+  def sign_in(user)
+    if user
+      session[:user_id] = user.id
+      session[:firebase_uid] = user.firebase_uid
+    end
+  end
+  
+  def sign_out(user = nil)
+    session[:user_id] = nil
+    session[:firebase_uid] = nil
   end
 end

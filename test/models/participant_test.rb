@@ -285,8 +285,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "on_streak should return false when streak equals threshold" do
     participant = participants(:alice)
-    # Streak bonuses are now controlled by constants, not user settings
-    # participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 3)
+    # Enable streak bonuses with threshold of 3
+    participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 3)
     
     # Mock streak method to return value equal to threshold
     participant.define_singleton_method(:streak) { 3 }
@@ -347,9 +347,9 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "points calculation should include streak bonuses correctly" do
     participant = participants(:alice)
-    # Streak bonuses are now controlled by constants, not user settings
-    # user = participant.household.users.first
-    # user.update(streak_boni_enabled: true, overdue_bonus_enabled: false, streak_boni_days_threshold: 1)
+    # Enable streak bonuses for this test
+    user = participant.household.users.first
+    user.update(streak_boni_enabled: true, overdue_bonus_enabled: false, streak_boni_days_threshold: 1)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -403,9 +403,9 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "points calculation should include both streak and overdue bonuses" do
     participant = participants(:alice)
-    # Bonuses are now controlled by constants, not user settings
-    # user = participant.household.users.first
-    # user.update(streak_boni_enabled: true, overdue_bonus_enabled: true, streak_boni_days_threshold: 1)
+    # Enable both bonuses for this test
+    user = participant.household.users.first
+    user.update(streak_boni_enabled: true, overdue_bonus_enabled: true, streak_boni_days_threshold: 1)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all

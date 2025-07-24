@@ -93,7 +93,7 @@ class ActionTest < ActiveSupport::TestCase
     participant = participants(:alice)
     
     # Set up participant for streak testing  
-    participant.user.update(streak_boni_enabled: true, streak_boni_days_threshold: 0)
+    participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 0)
     
     # Clear existing action_participants and create streak conditions
     participant.action_participants.destroy_all
@@ -147,7 +147,7 @@ class ActionTest < ActiveSupport::TestCase
     participant = participants(:alice)
     
     # Enable streak bonuses and set threshold to 0 so participant will be on streak
-    participant.user.update!(streak_boni_enabled: true, streak_boni_days_threshold: 0)
+    participant.household.users.first.update!(streak_boni_enabled: true, streak_boni_days_threshold: 0)
     
     # Create action_participant - the callback will set on_streak based on participant's streak
     ActionParticipant.create!(

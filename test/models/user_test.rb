@@ -18,11 +18,7 @@ class UserTest < ActiveSupport::TestCase
     assert user.errors[:firebase_uid].any?, "Firebase UID should have validation errors"
   end
 
-  test "should require valid email format" do
-    user = User.new(email: "invalid_email", firebase_uid: "firebase_test_uid")
-    assert_not user.valid?
-    assert user.errors[:email].any?, "Email should have format validation errors"
-  end
+  # Email format validation is handled by Firebase, so no local validation needed
 
   test "email should be unique" do
     existing_user = users(:one)
@@ -75,27 +71,23 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 0, user.participants.count
   end
 
-  test "remember_me should always return true" do
-    user = users(:one)
-    assert_equal true, user.remember_me
-  end
 
   test "should have default streak_boni_enabled value" do
-    user = User.create!(email: "newuser@example.com", password: "password123")
+    user = User.create!(email: "newuser@example.com", firebase_uid: "firebase_uid_new")
     # Test that the field exists and can be set
     assert_respond_to user, :streak_boni_enabled
     assert_respond_to user, :streak_boni_enabled=
   end
 
   test "should have default overdue_bonus_enabled value" do
-    user = User.create!(email: "newuser2@example.com", password: "password123")
+    user = User.create!(email: "newuser2@example.com", firebase_uid: "firebase_uid_new2")
     # Test that the field exists and can be set
     assert_respond_to user, :overdue_bonus_enabled
     assert_respond_to user, :overdue_bonus_enabled=
   end
 
   test "should have default streak_boni_days_threshold value" do
-    user = User.create!(email: "newuser3@example.com", password: "password123")
+    user = User.create!(email: "newuser3@example.com", firebase_uid: "firebase_uid_new3")
     # Test that the default value is set correctly
     assert_not_nil user.streak_boni_days_threshold
   end
@@ -115,11 +107,9 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of Numeric, user.streak_boni_days_threshold
   end
 
-  test "should respond to devise methods" do
+  test "should respond to firebase auth methods" do
     user = users(:one)
     assert_respond_to user, :email
-    assert_respond_to user, :encrypted_password
-    assert_respond_to user, :reset_password_token
-    assert_respond_to user, :remember_created_at
+    assert_respond_to user, :firebase_uid
   end
 end
