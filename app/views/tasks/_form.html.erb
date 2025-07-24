@@ -1,30 +1,79 @@
-<%= simple_form_for @task, html: { class: " p-2 mx-auto" } do |f| %>
-  <% if f.object.errors.any? %>
-    <div class="mb-4 p-4 bg-red-600 dark:text-white rounded">
-      <ul>
-        <% f.object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+
+  <%= simple_form_for @task, html: { class: "space-y-6" } do |f| %>
+    <% if f.object.errors.any? %>
+      <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg">
+        <div class="flex items-center mb-2">
+          <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <span class="font-medium">Please fix the following errors:</span>
+        </div>
+        <ul class="list-disc list-inside space-y-1">
+          <% f.object.errors.full_messages.each do |message| %>
+            <li class="text-sm"><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Task Title -->
+    <div class="space-y-2">
+      <%= f.label :title, t('forms.labels.title'), class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+      <%= f.input_field :title, 
+          class: "w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg 
+                 bg-white dark:bg-slate-700 text-slate-900 dark:text-white
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                 placeholder-slate-400 dark:placeholder-slate-500",
+          placeholder: "Enter task title..." %>
+    </div>
+
+    <!-- Worth and Interval Row -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Worth Points -->
+      <div class="space-y-2">
+        <%= f.label :worth, t('forms.labels.worth'), class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        <div class="relative">
+          <%= f.input_field :worth, 
+              type: 'number',
+              min: 1,
+              class: "w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg 
+                     bg-white dark:bg-slate-700 text-slate-900 dark:text-white
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                     placeholder-slate-400 dark:placeholder-slate-500",
+              placeholder: "Points..." %>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <span class="text-slate-500 dark:text-slate-400 text-sm">pts</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interval Days -->
+      <div class="space-y-2">
+        <%= f.label :interval, t('forms.labels.interval'), class: "block text-sm font-medium text-slate-700 dark:text-slate-300" %>
+        <div class="relative">
+          <%= f.input_field :interval, 
+              type: 'number',
+              min: 1,
+              class: "w-full p-3 border border-slate-300 dark:border-slate-600 rounded-lg 
+                     bg-white dark:bg-slate-700 text-slate-900 dark:text-white
+                     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                     placeholder-slate-400 dark:placeholder-slate-500",
+              placeholder: "Days..." %>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <span class="text-slate-500 dark:text-slate-400 text-sm">days</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex items-center space-x-3 pt-4 border-t border-slate-200 dark:border-slate-600">
+
+      <%= f.button :submit, 
+          class: "px-6 py-3 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 
+                 text-white font-bold rounded-lg transition-all duration-200
+                 disabled:opacity-50 disabled:cursor-not-allowed
+                 dark:focus:ring-blue-800" %>
     </div>
   <% end %>
-  <div class="form-inputs space-y-2">
-    <%= f.input :title, label: t('forms.labels.title'), input_html: { class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
-  </div>
-  <div class="form-inputs flex space-x-2" >
-    <%= f.input :worth, label: t('forms.labels.worth'), input_html: { type: 'number', class: "w-full p-2 h-10 dark:bg-gray-700 rounded" }, label_html: { class: "block text-gray-300" } %>
-    <%= f.input :interval, label: t('forms.labels.interval'), input_html: { type: 'number', class: "w-full p-2 dark:bg-gray-700 dark:text-white rounded" }, label_html: { class: "block text-gray-300" } %>
-  </div>
-  <div class="form-actions mt-6">
-    <%= f.button :submit, class: "w-full p-2 bg-blue-600 hover:bg-blue-700 dark:text-white font-bold rounded" %>
-  </div>
-<% end %>
-<%= form_with model: task do |form| %>
-  <% if form.object.errors.any? %>
-    <div>
-      <% form.object.errors.full_messages.each do |m| %>
-        <div> <%= m %> </div>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+
