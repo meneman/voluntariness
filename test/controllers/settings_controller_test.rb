@@ -38,6 +38,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should disable streak boni" do
     @user.update!(streak_boni_enabled: true)
+    sign_in(@user)
 
     patch toggle_streak_boni_path, params: { enabled: "0" }, as: :turbo_stream
     assert_response :success
@@ -50,6 +51,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle missing enabled parameter for streak boni" do
     @user.update!(streak_boni_enabled: true)
+    sign_in(@user)
 
     patch toggle_streak_boni_path, as: :turbo_stream
     assert_response :success
@@ -61,6 +63,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle non-boolean enabled parameter for streak boni" do
     @user.update!(streak_boni_enabled: false)
+    sign_in(@user)
 
     patch toggle_streak_boni_path, params: { enabled: "invalid" }, as: :turbo_stream
     assert_response :success
@@ -74,6 +77,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should enable overdue bonus" do
     @user.update!(overdue_bonus_enabled: false)
+    sign_in(@user)
 
     patch toggle_overdue_bonus_path, params: { enabled: "1" }, as: :turbo_stream
     assert_response :success
@@ -85,6 +89,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should disable overdue bonus" do
     @user.update!(overdue_bonus_enabled: true)
+    sign_in(@user)
 
     patch toggle_overdue_bonus_path, params: { enabled: "0" }, as: :turbo_stream
     assert_response :success
@@ -96,6 +101,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle missing enabled parameter for overdue bonus" do
     @user.update!(overdue_bonus_enabled: true)
+    sign_in(@user)
 
     patch toggle_overdue_bonus_path, as: :turbo_stream
     assert_response :success
@@ -107,6 +113,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle non-boolean enabled parameter for overdue bonus" do
     @user.update!(overdue_bonus_enabled: false)
+    sign_in(@user)
 
     patch toggle_overdue_bonus_path, params: { enabled: "invalid" }, as: :turbo_stream
     assert_response :success
@@ -121,6 +128,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should update streak bonus days threshold" do
     original_threshold = @user.streak_boni_days_threshold
     new_threshold = 7
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: new_threshold.to_s },
@@ -137,6 +145,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should enforce minimum threshold" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
     below_min = min_threshold - 1
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: below_min.to_s },
@@ -151,6 +160,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle zero threshold" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "0" },
@@ -164,6 +174,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle negative threshold" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "-5" },
@@ -177,6 +188,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should handle non-numeric threshold" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "invalid" },
@@ -192,6 +204,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should handle missing threshold parameter" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
     original_threshold = @user.streak_boni_days_threshold
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path, as: :turbo_stream
 
@@ -204,6 +217,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should accept valid high threshold" do
     high_threshold = 30
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: high_threshold.to_s },
@@ -219,6 +233,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should handle decimal threshold by truncating" do
     decimal_value = "5.7"
     expected_value = 5
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: decimal_value },
@@ -231,6 +246,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should render turbo stream response for threshold update" do
+    sign_in(@user)
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "5" },
           as: :turbo_stream
@@ -244,6 +260,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "actions respond correctly to turbo stream requests" do
     # Test that these actions work with turbo_stream format
+    sign_in(@user)
     patch toggle_streak_boni_path, params: { enabled: "1" }, as: :turbo_stream
     assert_response :success
 
@@ -257,6 +274,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should preserve other user attributes when updating settings" do
     original_email = @user.email
     original_created_at = @user.created_at
+    sign_in(@user)
 
     patch toggle_streak_boni_path, params: { enabled: "1" }, as: :turbo_stream
     assert_response :success
@@ -269,6 +287,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
   test "should handle database errors gracefully" do
     # Mock update to fail
     @user.define_singleton_method(:update) { |*args| false }
+    sign_in(@user)
 
     # Should not raise error
     assert_nothing_raised do
@@ -278,6 +297,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
 
   test "constants should be properly used" do
     min_threshold = VoluntarinessConstants::MIN_STREAK_THRESHOLD
+    sign_in(@user)
 
     patch update_streak_bonus_days_threshold_path,
           params: { days_threshold: "1" },
