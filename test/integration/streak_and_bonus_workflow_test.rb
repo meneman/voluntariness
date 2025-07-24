@@ -1,7 +1,8 @@
 require "test_helper"
 
 class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:with_streak_bonuses)  # User with bonuses enabled

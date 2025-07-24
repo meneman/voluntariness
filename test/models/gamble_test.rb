@@ -25,7 +25,7 @@ class GambleTest < ActiveSupport::TestCase
     
     # Create gambling task (negative points)
     gambling_task = Task.create!(
-      user: @user,
+      household: @user.current_household,
       title: "Gamble Bet",
       worth: -1,
       description: "Point deducted for gambling"
@@ -84,7 +84,7 @@ class GambleTest < ActiveSupport::TestCase
     
     # Create gambling task for first user
     gambling_task_one = Task.create!(
-      user: @user,
+      household: @user.current_household,
       title: "Gamble Bet",
       worth: -1,
       description: "Point deducted for gambling"
@@ -92,7 +92,7 @@ class GambleTest < ActiveSupport::TestCase
     
     # Create gambling task for second user
     gambling_task_two = Task.create!(
-      user: user_two,
+      household: user_two.current_household,
       title: "Gamble Bet",
       worth: -1,
       description: "Point deducted for gambling"
@@ -134,7 +134,7 @@ class GambleTest < ActiveSupport::TestCase
 
   test "gambling action has correct attributes" do
     gambling_task = Task.create!(
-      user: @user,
+      household: @user.current_household,
       title: "Gamble Bet",
       worth: -1,
       description: "Point deducted for gambling"
@@ -163,7 +163,7 @@ class GambleTest < ActiveSupport::TestCase
     
     # Gamble and lose points
     gambling_task = Task.create!(
-      user: @user,
+      household: @user.current_household,
       title: "Gamble Bet",
       worth: -1
     )
@@ -256,7 +256,7 @@ class GambleTest < ActiveSupport::TestCase
     3.times do |i|
       # Deduct point
       gambling_task = Task.create!(
-        user: @user,
+        household: @user.current_household,
         title: "Gamble Bet #{i + 1}",
         worth: -1
       )

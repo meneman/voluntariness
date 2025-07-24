@@ -1,30 +1,31 @@
 require "test_helper"
 
 class SettingsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
-    sign_in @user
   end
 
   test "should require authentication for all actions" do
     sign_out @user
 
     patch toggle_streak_boni_path, params: { enabled: "1" }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     patch toggle_overdue_bonus_path, params: { enabled: "1" }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     patch update_streak_bonus_days_threshold_path, params: { days_threshold: "3" }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
   end
 
   # --- Toggle Streak Boni Tests ---
 
   test "should enable streak boni" do
     @user.update!(streak_boni_enabled: false)
+    sign_in(@user)
 
     patch toggle_streak_boni_path, params: { enabled: "1" }, as: :turbo_stream
     assert_response :success

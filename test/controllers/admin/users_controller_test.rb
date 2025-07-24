@@ -1,7 +1,8 @@
 require "test_helper"
 
 class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)

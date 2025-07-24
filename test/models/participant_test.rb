@@ -5,7 +5,7 @@ class ParticipantTest < ActiveSupport::TestCase
     participant = Participant.new(
       name: "Test Participant",
       color: "#FF0000",
-      user: users(:one)
+      household: households(:one)
     )
     assert participant.valid?
   end
@@ -13,15 +13,15 @@ class ParticipantTest < ActiveSupport::TestCase
   test "should require name" do
     participant = Participant.new(
       color: "#FF0000",
-      user: users(:one)
+      household: households(:one)
     )
     assert_not participant.valid?
     assert participant.errors[:name].any?, "Name should have validation errors"
   end
 
-  test "should belong to user" do
+  test "should belong to household" do
     participant = participants(:alice)
-    assert_equal users(:one), participant.user
+    assert_equal households(:one), participant.household
   end
 
   test "should have many action_participants" do
@@ -62,7 +62,8 @@ class ParticipantTest < ActiveSupport::TestCase
     
     # Remove other components to test base points
     participant.action_participants.update_all(bonus_points: 0, on_streak: false)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     participant.bets.destroy_all  # Remove bets to test just base points
     
     total = participant.total_points.to_f
@@ -75,7 +76,8 @@ class ParticipantTest < ActiveSupport::TestCase
     # Set up specific bonus points
     bonus_amount = 5.5
     participant.action_participants.update_all(bonus_points: bonus_amount, on_streak: false)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     participant.bets.destroy_all  # Remove bets to test just bonus points calculation
     
     base_points = participant.action_participants.sum("points_earned")
@@ -87,7 +89,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "total_points should include streak bonuses when enabled" do
     participant = participants(:streak_participant)
-    participant.user.update(streak_boni_enabled: true)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true)
     
     # Set some action_participants to be on streak
     streak_aps = participant.action_participants.limit(2)
@@ -104,7 +107,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "total_points should ignore streak bonuses when disabled" do
     participant = participants(:no_bonus_participant)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     participant.action_participants.update_all(on_streak: true, bonus_points: 0)
     
     expected_total = participant.action_participants.sum("points_earned")
@@ -115,7 +119,8 @@ class ParticipantTest < ActiveSupport::TestCase
   test "total_points should handle nil bonus_points gracefully" do
     participant = participants(:alice)
     participant.action_participants.update_all(bonus_points: nil, on_streak: false)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     participant.bets.destroy_all  # Remove bets to test nil bonus points handling
     
     expected_total = participant.action_participants.sum("points_earned")
@@ -131,7 +136,8 @@ class ParticipantTest < ActiveSupport::TestCase
     participant.bets.create!(cost: 5.0, description: "Test bet", outcome: "pending")
     
     participant.action_participants.update_all(bonus_points: 0, on_streak: false)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     
     base_points = participant.action_participants.sum("points_earned")
     expected_total = base_points - 5.0  # Subtract bet cost
@@ -149,7 +155,8 @@ class ParticipantTest < ActiveSupport::TestCase
     # Set up bonus points
     bonus_amount = 10.0
     participant.action_participants.update_all(bonus_points: bonus_amount, on_streak: false)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     
     total_bonus_points = participant.action_participants.count * bonus_amount
     expected_total = total_bonus_points - 3.0  # Subtract bet cost
@@ -170,14 +177,16 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "streak should return -1 when streak bonuses are disabled" do
     participant = participants(:no_bonus_participant)
-    participant.user.update(streak_boni_enabled: false)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: false)
     
     assert_equal -1, participant.streak
   end
 
   test "streak should calculate consecutive days with actions" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true)
     
     # Clear existing action_participants and create a controlled set
     participant.action_participants.destroy_all
@@ -200,7 +209,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "streak should stop counting at first gap" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -220,7 +230,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "streak should handle multiple actions per day correctly" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -245,7 +256,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "streak should return 0 for no recent actions" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -262,7 +274,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "on_streak should return true when streak exceeds threshold" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true, streak_boni_days_threshold: 2)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 2)
     
     # Mock streak method to return a value above threshold
     participant.define_singleton_method(:streak) { 3 }
@@ -272,7 +285,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "on_streak should return false when streak equals threshold" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true, streak_boni_days_threshold: 3)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 3)
     
     # Mock streak method to return value equal to threshold
     participant.define_singleton_method(:streak) { 3 }
@@ -282,7 +296,8 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "on_streak should return false when streak is below threshold" do
     participant = participants(:alice)
-    participant.user.update(streak_boni_enabled: true, streak_boni_days_threshold: 5)
+    # Streak bonuses are now controlled by constants, not user settings
+    # participant.household.users.first.update(streak_boni_enabled: true, streak_boni_days_threshold: 5)
     
     # Mock streak method to return value below threshold
     participant.define_singleton_method(:streak) { 2 }
@@ -290,12 +305,12 @@ class ParticipantTest < ActiveSupport::TestCase
     assert_not participant.on_streak
   end
 
-  test "participant should belong to user with proper association" do
-    user = users(:one)
+  test "participant should belong to household with proper association" do
+    household = households(:one)
     participant = participants(:alice)
     
-    assert_equal user, participant.user
-    assert_includes user.participants, participant
+    assert_equal household, participant.household
+    assert_includes household.participants, participant
     
     # Test association is set up correctly (don't test actual destruction due to complex associations)
   end
@@ -316,7 +331,7 @@ class ParticipantTest < ActiveSupport::TestCase
     participant = Participant.new(
       name: "Colorful",
       color: "#00FF00",
-      user: users(:one)
+      household: households(:one)
     )
     assert participant.valid?
     assert_equal "#00FF00", participant.color
@@ -325,15 +340,16 @@ class ParticipantTest < ActiveSupport::TestCase
   test "archived should default to false" do
     participant = Participant.create!(
       name: "New Participant",
-      user: users(:one)
+      household: households(:one)
     )
     assert_equal false, participant.archived
   end
 
   test "points calculation should include streak bonuses correctly" do
     participant = participants(:alice)
-    user = participant.user
-    user.update(streak_boni_enabled: true, overdue_bonus_enabled: false, streak_boni_days_threshold: 1)
+    # Streak bonuses are now controlled by constants, not user settings
+    # user = participant.household.users.first
+    # user.update(streak_boni_enabled: true, overdue_bonus_enabled: false, streak_boni_days_threshold: 1)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -361,8 +377,9 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "points calculation should include overdue bonuses correctly" do
     participant = participants(:alice)
-    user = participant.user
-    user.update(streak_boni_enabled: false, overdue_bonus_enabled: true)
+    # Overdue bonuses are now controlled by constants, not user settings
+    # user = participant.household.users.first
+    # user.update(streak_boni_enabled: false, overdue_bonus_enabled: true)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
@@ -386,15 +403,16 @@ class ParticipantTest < ActiveSupport::TestCase
 
   test "points calculation should include both streak and overdue bonuses" do
     participant = participants(:alice)
-    user = participant.user
-    user.update(streak_boni_enabled: true, overdue_bonus_enabled: true, streak_boni_days_threshold: 1)
+    # Bonuses are now controlled by constants, not user settings
+    # user = participant.household.users.first
+    # user.update(streak_boni_enabled: true, overdue_bonus_enabled: true, streak_boni_days_threshold: 1)
     
     # Clear existing action_participants
     participant.action_participants.destroy_all
     participant.bets.destroy_all # Clear bets for clean calculation
     
     # Create task with interval to enable overdue bonus
-    task = Task.create!(title: "Overdue Task", worth: 10, interval: 7, user: user)
+    task = Task.create!(title: "Overdue Task", worth: 10, interval: 7, household: participant.household)
     
     # Mock the task to return overdue bonus
     task.define_singleton_method(:calculate_bonus_points) { 3.0 }

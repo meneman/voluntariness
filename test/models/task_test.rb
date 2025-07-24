@@ -5,32 +5,32 @@ class TaskTest < ActiveSupport::TestCase
     task = Task.new(
       title: "Test Task",
       worth: 10,
-      user: users(:one)
+      household: households(:one)
     )
     assert task.valid?
   end
 
   test "should require title" do
-    task = Task.new(worth: 10, user: users(:one))
+    task = Task.new(worth: 10, household: households(:one))
     assert_not task.valid?
     assert task.errors[:title].any?, "Title should have validation errors"
   end
 
   test "should require worth" do
-    task = Task.new(title: "Test Task", user: users(:one))
+    task = Task.new(title: "Test Task", household: households(:one))
     assert_not task.valid?
     assert task.errors[:worth].any?, "Worth should have validation errors"
   end
 
-  test "should require user" do
+  test "should require household" do
     task = Task.new(title: "Test Task", worth: 10)
     assert_not task.valid?
-    assert task.errors[:user].any?, "User should have validation errors"
+    assert task.errors[:household].any?, "Household should have validation errors"
   end
 
-  test "should belong to user" do
+  test "should belong to household" do
     task = tasks(:dishwashing)
-    assert_equal users(:one), task.user
+    assert_equal households(:one), task.household
   end
 
   test "should have many actions" do
@@ -75,7 +75,7 @@ class TaskTest < ActiveSupport::TestCase
     task = Task.create!(
       title: "New Task",
       worth: 5,
-      user: users(:one)
+      household: households(:one)
     )
     assert_not task.done_today
   end
@@ -99,7 +99,7 @@ class TaskTest < ActiveSupport::TestCase
       title: "New Task",
       worth: 10,
       interval: 3,
-      user: users(:one),
+      household: households(:one),
       created_at: 5.days.ago
     )
 
@@ -115,7 +115,7 @@ class TaskTest < ActiveSupport::TestCase
       title: "Test Task",
       worth: 10,
       interval: 1,
-      user: user,
+      household: user.current_household,
       created_at: 5.days.ago
     )
 
@@ -143,7 +143,7 @@ class TaskTest < ActiveSupport::TestCase
       title: "Overdue Task",
       worth: 20,
       interval: 1,
-      user: user,
+      household: user.current_household,
       created_at: 5.days.ago
     )
 
@@ -160,7 +160,7 @@ class TaskTest < ActiveSupport::TestCase
       title: "Overdue Task",
       worth: 10,
       interval: 1,
-      user: user
+      household: user.current_household
     )
 
     # Make the task 3 days overdue
@@ -173,11 +173,11 @@ class TaskTest < ActiveSupport::TestCase
     assert_equal expected_bonus, task.calculate_bonus_points
   end
 
-  test "should be destroyed when user is destroyed" do
-    user = users(:one)
-    task_ids = user.tasks.pluck(:id)
+  test "should be destroyed when household is destroyed" do
+    household = households(:one)
+    task_ids = household.tasks.pluck(:id)
 
-    user.destroy
+    household.destroy
 
     task_ids.each do |task_id|
       assert_nil Task.find_by(id: task_id)
@@ -188,7 +188,7 @@ class TaskTest < ActiveSupport::TestCase
     task = Task.new(
       title: "Integer Task",
       worth: 15,
-      user: users(:one)
+      household: households(:one)
     )
     assert task.valid?
     # Worth is stored as integer in database
@@ -205,7 +205,7 @@ class TaskTest < ActiveSupport::TestCase
       title: "No Interval Task",
       worth: 10,
       interval: nil,
-      user: users(:one)
+      household: households(:one)
     )
     assert task.valid?
     assert_nil task.interval

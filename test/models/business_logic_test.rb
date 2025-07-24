@@ -14,8 +14,8 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task1 = Task.create!(title: "Task 1", worth: 10, user: @user)
-    task2 = Task.create!(title: "Task 2", worth: 7, user: @user)
+    task1 = Task.create!(title: "Task 1", worth: 10, household: @user.current_household)
+    task2 = Task.create!(title: "Task 2", worth: 7, household: @user.current_household)
 
     # Mock tasks to return 0 bonus points
     task1.define_singleton_method(:calculate_bonus_points) { 0 }
@@ -37,7 +37,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Bonus Task", worth: 10, user: @user)
+    task = Task.create!(title: "Bonus Task", worth: 10, household: @user.current_household)
 
     # Mock the task to return specific bonus points
     task.define_singleton_method(:calculate_bonus_points) { 3.5 }
@@ -56,7 +56,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Streak Task", worth: 8, user: @user)
+    task = Task.create!(title: "Streak Task", worth: 8, household: @user.current_household)
 
     # Mock task to return 0 bonus points
     task.define_singleton_method(:calculate_bonus_points) { 0 }
@@ -89,7 +89,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "total points excludes streak bonuses when disabled" do
-    task = Task.create!(title: "No Streak Task", worth: 6, user: @no_bonus_user)
+    task = Task.create!(title: "No Streak Task", worth: 6, household: @no_bonus_user.current_household)
 
     # Ensure streak bonuses are disabled
     @no_bonus_user.update!(streak_boni_enabled: false)
@@ -107,7 +107,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     # Clear existing actions for predictable test
     @participant.actions.destroy_all
 
-    task = Task.create!(title: "Nil Bonus Task", worth: 5, user: @user)
+    task = Task.create!(title: "Nil Bonus Task", worth: 5, household: @user.current_household)
 
     action = Action.create!(task: task)
     action.add_participants([@participant.id])
@@ -239,7 +239,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   # --- Overdue Calculation Tests ---
 
   test "overdue calculation with recent completion" do
-    task = Task.create!(title: "Recent Task", worth: 10, interval: 3, user: @user, created_at: 1.week.ago)
+    task = Task.create!(title: "Recent Task", worth: 10, interval: 3, household: @user.current_household, created_at: 1.week.ago)
 
     # Complete task recently
     action = Action.create!(task: task, created_at: 1.day.ago)
@@ -251,7 +251,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "overdue calculation with old completion" do
-    task = Task.create!(title: "Overdue Task", worth: 10, interval: 2, user: @user, created_at: 1.week.ago)
+    task = Task.create!(title: "Overdue Task", worth: 10, interval: 2, household: @user.current_household, created_at: 1.week.ago)
 
     # Complete task in the past
     action = Action.create!(task: task, created_at: 5.days.ago)
@@ -263,7 +263,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "overdue calculation with no completions" do
-    task = Task.create!(title: "Never Done Task", worth: 10, interval: 1, user: @user, created_at: 3.days.ago)
+    task = Task.create!(title: "Never Done Task", worth: 10, interval: 1, household: @user.current_household, created_at: 3.days.ago)
 
     # No actions, should be overdue (created 3 days ago + 1 day interval = should be due 2 days ago, so -2 days overdue)
     # But the actual calculation might be different due to how Time.now.to_date works
@@ -272,7 +272,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "overdue calculation with nil interval" do
-    task = Task.create!(title: "No Interval Task", worth: 10, interval: nil, user: @user)
+    task = Task.create!(title: "No Interval Task", worth: 10, interval: nil, household: @user.current_household)
 
     assert_nil task.overdue
   end
@@ -282,7 +282,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   test "calculate_bonus_points for overdue task" do
     @user.update!(overdue_bonus_enabled: true)
 
-    task = Task.create!(title: "Bonus Task", worth: 20, interval: 1, user: @user, created_at: 1.week.ago)
+    task = Task.create!(title: "Bonus Task", worth: 20, interval: 1, household: @user.current_household, created_at: 1.week.ago)
 
     # Make task overdue by 3 days
     action = Action.create!(task: task, created_at: 4.days.ago)
@@ -297,7 +297,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   test "calculate_bonus_points returns 0 when bonus disabled" do
     @no_bonus_user.update!(overdue_bonus_enabled: false)
 
-    task = Task.create!(title: "No Bonus Task", worth: 20, interval: 1, user: @no_bonus_user, created_at: 1.week.ago)
+    task = Task.create!(title: "No Bonus Task", worth: 20, interval: 1, household: @no_bonus_user.current_household, created_at: 1.week.ago)
 
     # Make task overdue
     action = Action.create!(task: task, created_at: 5.days.ago)
@@ -309,7 +309,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   test "calculate_bonus_points returns 0 for non-overdue task" do
     @user.update!(overdue_bonus_enabled: true)
 
-    task = Task.create!(title: "Current Task", worth: 20, interval: 7, user: @user, created_at: 1.week.ago)
+    task = Task.create!(title: "Current Task", worth: 20, interval: 7, household: @user.current_household, created_at: 1.week.ago)
 
     # Complete task recently (not overdue)
     action = Action.create!(task: task, created_at: 1.day.ago)
@@ -322,7 +322,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   test "calculate_bonus_points returns 0 for task without interval" do
     @user.update!(overdue_bonus_enabled: true)
 
-    task = Task.create!(title: "No Interval Task", worth: 20, interval: nil, user: @user)
+    task = Task.create!(title: "No Interval Task", worth: 20, interval: nil, household: @user.current_household)
 
     assert_equal 0, task.calculate_bonus_points
   end
@@ -330,7 +330,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   # --- Done Today Tests ---
 
   test "done_today returns true when last action was today" do
-    task = Task.create!(title: "Today Task", worth: 10, user: @user)
+    task = Task.create!(title: "Today Task", worth: 10, household: @user.current_household)
 
     action = Action.create!(task: task, created_at: Time.current)
     action.add_participants([@participant.id])
@@ -339,7 +339,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "done_today returns false when last action was yesterday" do
-    task = Task.create!(title: "Yesterday Task", worth: 10, user: @user)
+    task = Task.create!(title: "Yesterday Task", worth: 10, household: @user.current_household)
 
     action = Action.create!(task: task, created_at: 1.day.ago)
     action.add_participants([@participant.id])
@@ -348,7 +348,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
   end
 
   test "done_today returns false when no actions exist" do
-    task = Task.create!(title: "No Actions Task", worth: 10, user: @user)
+    task = Task.create!(title: "No Actions Task", worth: 10, household: @user.current_household)
 
     assert_not task.done_today
   end
@@ -363,7 +363,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
     )
 
     # Create overdue task with a previous action to make it truly overdue
-    overdue_task = Task.create!(title: "Both Bonuses", worth: 10, interval: 1, user: @user)
+    overdue_task = Task.create!(title: "Both Bonuses", worth: 10, interval: 1, household: @user.current_household)
 
     # Create a previous action 3 days ago to make task overdue (should have been done 2 days ago)
     travel_to 3.days.ago do
@@ -440,7 +440,7 @@ class BusinessLogicTest < ActiveSupport::TestCase
 
     # Test overdue bonus calculation uses correct multiplier
     @user.update!(overdue_bonus_enabled: true)
-    task = Task.create!(title: "Constants Test", worth: 20, interval: 1, user: @user, created_at: 6.days.ago)
+    task = Task.create!(title: "Constants Test", worth: 20, interval: 1, household: @user.current_household, created_at: 6.days.ago)
 
     overdue_days = task.overdue.abs
     expected_bonus = (overdue_days * VoluntarinessConstants::OVERDUE_BONUS_MULTIPLIER).round(1)

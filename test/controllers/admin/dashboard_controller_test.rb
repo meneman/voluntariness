@@ -1,7 +1,8 @@
 require "test_helper"
 
 class Admin::DashboardControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @admin_user = users(:admin)

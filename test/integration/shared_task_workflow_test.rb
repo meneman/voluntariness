@@ -170,11 +170,8 @@ class SharedTaskWorkflowTest < ActionDispatch::IntegrationTest
   private
 
   def sign_in(user)
-    post user_session_path, params: {
-      user: {
-        email: user.email,
-        password: 'password123' # Default password from fixtures
-      }
-    }
+    # Set session directly for Firebase auth testing
+    @integration_session = Capybara::Session.new(:rack_test)
+    @integration_session.driver.browser.set_cookie("rack.session=#{CGI.escape({user_id: user.id, firebase_uid: user.firebase_uid}.to_json)}")
   end
 end

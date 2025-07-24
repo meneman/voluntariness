@@ -16,18 +16,18 @@ end
 
 # Add authentication helpers for custom Firebase auth  
 class ActionDispatch::IntegrationTest
+  # For our custom Firebase auth, we'll set up the session properly
   def sign_in(user)
-    # Mock the Firebase auth for testing by directly setting session
-    if integration_session
-      integration_session.session[:user_id] = user.id
-      integration_session.session[:firebase_uid] = user.firebase_uid
+    # Create a session state that matches what the app expects
+    @user_for_auth = user
+    
+    # Override the session method to include our user data when accessed
+    def session
+      super.merge(user_id: @user_for_auth&.id, firebase_uid: @user_for_auth&.firebase_uid)
     end
   end
   
   def sign_out
-    if integration_session
-      integration_session.session[:user_id] = nil
-      integration_session.session[:firebase_uid] = nil
-    end
+    @user_for_auth = nil
   end
 end

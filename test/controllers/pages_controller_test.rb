@@ -1,7 +1,8 @@
 require "test_helper"
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -14,13 +15,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     sign_out @user
 
     get pages_home_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get statistics_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get settings_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
   end
 
   # --- Home Action Tests ---
@@ -317,7 +318,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     # Create multiple actions
     3.times do |i|
       action = Action.create!(task: task, created_at: i.days.ago)
-      action.add_participants([participant.id])
+      action.add_participants([ participant.id ])
     end
 
     get statistics_path

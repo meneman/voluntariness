@@ -1,7 +1,8 @@
 require "test_helper"
 
 class TasksControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -14,16 +15,16 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
     sign_out @user
 
     get tasks_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get task_path(@task)
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get new_task_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     post tasks_path, params: { task: { title: "Test", worth: 10 } }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
   end
 
 
@@ -257,7 +258,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy task and its actions" do
     action = Action.create!(task: @task)
-    action.add_participants([participants(:alice).id])
+    action.add_participants([ participants(:alice).id ])
     action_id = action.id
 
     delete task_path(@task)

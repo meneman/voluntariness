@@ -1,7 +1,8 @@
 require "test_helper"
 
 class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -377,7 +378,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     sign_out @user
 
     # Create new user account
-    post user_registration_path, params: {
+    post sign_up_path, params: {
       user: {
         email: "integration@example.com",
         password: "password123",

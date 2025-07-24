@@ -27,7 +27,7 @@ class HouseholdMembershipTest < ActiveSupport::TestCase
   end
 
   test "should prevent duplicate user-household combinations" do
-    existing = household_memberships(:user_one_household_one)
+    existing = household_memberships(:user_one_household_one_owner)
     
     duplicate = HouseholdMembership.new(
       user: existing.user,

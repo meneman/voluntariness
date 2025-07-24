@@ -1,7 +1,8 @@
 require "test_helper"
 
 class ActionsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -17,16 +18,16 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     sign_out @user
 
     get actions_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get action_path(@action)
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get new_action_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     post actions_path, params: { data: { task_id: @task.id, participant_id: @participant.id } }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
   end
 
   test "should get index with pagination" do
@@ -165,11 +166,11 @@ class ActionsControllerTest < ActionDispatch::IntegrationTest
     # Create actions on previous days to build a streak
     travel_to 2.days.ago do
       action = Action.create!(task: @task)
-      action.add_participants([@participant.id])
+      action.add_participants([ @participant.id ])
     end
     travel_to 1.day.ago do
       action = Action.create!(task: @task)
-      action.add_participants([@participant.id])
+      action.add_participants([ @participant.id ])
     end
 
     # Now create an action today - this should be on_streak

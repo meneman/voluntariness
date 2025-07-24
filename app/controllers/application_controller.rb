@@ -37,6 +37,9 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
+    # In test environment, allow setting current user via instance variable
+    return @test_current_user if Rails.env.test? && @test_current_user
+    
     return nil unless session[:user_id]
 
     user = User.find_by(id: session[:user_id])

@@ -1,7 +1,8 @@
 require "test_helper"
 
 class UseableItemsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -21,8 +22,8 @@ class UseableItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create useable item" do
-    assert_difference('UseableItem.count') do
-      post useable_items_url, params: { 
+    assert_difference("UseableItem.count") do
+      post useable_items_url, params: {
         participant_id: @participant.id,
         item_name: "Magic Wand"
       }
@@ -31,7 +32,7 @@ class UseableItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy useable item" do
-    assert_difference('UseableItem.count', -1) do
+    assert_difference("UseableItem.count", -1) do
       delete useable_item_url(@useable_item)
     end
     assert_redirected_to useable_items_url(participant_id: @participant.id)

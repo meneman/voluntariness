@@ -1,7 +1,8 @@
 require "test_helper"
 
 class ParticipantsControllerTest < ActionDispatch::IntegrationTest
-  include Devise::Test::IntegrationHelpers
+  # include Devise::Test::IntegrationHelpers
+
 
   def setup
     @user = users(:one)
@@ -14,16 +15,16 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
     sign_out @user
 
     get participants_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get participant_path(@participant)
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     get new_participant_path
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
 
     post participants_path, params: { participant: { name: "Test" } }
-    assert_redirected_to new_user_session_path
+    assert_redirected_to sign_in_path
   end
 
   test "should get index" do
@@ -272,9 +273,9 @@ class ParticipantsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy participant and its action_participants" do
     action = Action.create!(task: tasks(:dishwashing))
-    action.add_participants([@participant.id])
+    action.add_participants([ @participant.id ])
     action_id = action.id
-    
+
     # Verify the action_participant exists before deletion
     assert_not_nil ActionParticipant.find_by(action_id: action_id, participant_id: @participant.id)
 

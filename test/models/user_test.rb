@@ -2,31 +2,31 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   test "should be valid with valid attributes" do
-    user = User.new(email: "test@example.com", password: "password123")
+    user = User.new(email: "test@example.com", firebase_uid: "firebase_test_uid")
     assert user.valid?
   end
 
   test "should require email" do
-    user = User.new(password: "password123")
+    user = User.new(firebase_uid: "firebase_test_uid")
     assert_not user.valid?
     assert user.errors[:email].any?, "Email should have validation errors"
   end
 
-  test "should require password" do
+  test "should require firebase_uid" do
     user = User.new(email: "test@example.com")
     assert_not user.valid?
-    assert user.errors[:password].any?, "Password should have validation errors"
+    assert user.errors[:firebase_uid].any?, "Firebase UID should have validation errors"
   end
 
   test "should require valid email format" do
-    user = User.new(email: "invalid_email", password: "password123")
+    user = User.new(email: "invalid_email", firebase_uid: "firebase_test_uid")
     assert_not user.valid?
     assert user.errors[:email].any?, "Email should have format validation errors"
   end
 
   test "email should be unique" do
     existing_user = users(:one)
-    user = User.new(email: existing_user.email, password: "password123")
+    user = User.new(email: existing_user.email, firebase_uid: "firebase_test_uid_2")
     assert_not user.valid?
     assert user.errors[:email].any?, "Email should have uniqueness validation errors"
   end
@@ -59,7 +59,7 @@ class UserTest < ActiveSupport::TestCase
     assert task_count > 0
     
     user.destroy
-    assert_equal 0, Task.where(user: user).count
+    assert_equal 0, user.households.joins(:tasks).count
   end
 
   test "should destroy dependent participants when user is deleted" do
@@ -72,7 +72,7 @@ class UserTest < ActiveSupport::TestCase
     assert participant_count > 0
     
     user.destroy
-    assert_equal 0, Participant.where(user: user).count
+    assert_equal 0, user.participants.count
   end
 
   test "remember_me should always return true" do

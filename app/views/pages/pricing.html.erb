@@ -24,11 +24,11 @@
             class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
           <%= t("landing.navigation.pricing") %>
         <% end %>
-        <%= link_to new_user_session_path, 
+        <%= link_to sign_in_path, 
             class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
           <%= t("landing.navigation.sign_in") %>
         <% end %>
-        <%= link_to new_user_registration_path, 
+        <%= link_to sign_up_path, 
             class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
           <%= t("landing.navigation.start_free") %>
           <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -109,7 +109,7 @@
         </div>
 
         <!-- CTA Button -->
-        <%= link_to new_user_registration_path, class: "block w-full text-center px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-300 font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" do %>
+        <%= link_to sign_up_path, class: "block w-full text-center px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-300 font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" do %>
           Get Started Free
         <% end %>
       </div>
@@ -223,7 +223,7 @@
       <p class="text-slate-600 dark:text-slate-300 mb-6">
         Ready to transform your household chore management?
       </p>
-      <%= link_to new_user_registration_path, class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+      <%= link_to sign_up_path, class: "inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
         Start Free Today
         <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
