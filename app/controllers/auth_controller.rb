@@ -103,10 +103,21 @@ class AuthController < ApplicationController
     
     if current_user
       begin
-        # Delete all associated data
-        current_user.participants.destroy_all
-        current_user.tasks.destroy_all
-        current_user.households.destroy_all
+        # Delete all associated data in correct order
+        Rails.logger.info "Deleting user's household memberships and associated data..."
+        
+        # Get user's households and check which ones will be empty after removing this user
+        households_to_delete = current_user.households.select { |household| household.users.count == 1 }
+        
+        # Delete household memberships first
+        current_user.household_memberships.destroy_all
+        Rails.logger.info "Household memberships deleted"
+        
+        # Delete households that are now empty (user was the only member)
+        households_to_delete.each do |household|
+          Rails.logger.info "Deleting empty household: #{household.name}"
+          household.destroy!
+        end
         
         # Delete the user account
         user_email = current_user.email

@@ -72,7 +72,7 @@ class DefaultTasksService
     unless task_data["worth"].is_a?(Integer) && task_data["worth"] > 0
       raise ConfigurationError, "Task 'worth' must be a positive integer"
     end
-    byebug
+
     unless (task_data["interval"].is_a?(Integer) && task_data["interval"] > 0) || task_data["interval"].nil?
       raise ConfigurationError, "Task 'interval' must be a positive integer"
     end

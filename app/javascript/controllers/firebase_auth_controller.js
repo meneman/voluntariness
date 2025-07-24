@@ -245,33 +245,158 @@ export default class extends Controller {
   signOutUser(event) {
     if (event) event.preventDefault()
     
-    signOut(this.auth)
-      .then(() => {
-        console.log("Firebase sign out successful")
-        
-        // Clear all local storage and session storage
-        localStorage.clear()
-        sessionStorage.clear()
-        
-        // Clear any Firebase persistence
-        if (typeof window !== 'undefined') {
-          // Clear IndexedDB (Firebase persistence)
-          if (window.indexedDB) {
-            try {
-              const deleteReq = window.indexedDB.deleteDatabase('firebaseLocalStorageDb')
-              deleteReq.onsuccess = () => console.log("Firebase IndexedDB cleared")
-            } catch (e) {
-              console.log("Could not clear Firebase IndexedDB:", e)
-            }
-          }
+    // Always clear browser storage first
+    this.clearAllStorage()
+    
+    // Try Firebase logout if client is available, but don't block on failure
+    if (this.auth) {
+      signOut(this.auth)
+        .then(() => {
+          console.log("Firebase sign out successful")
+          // The server-side sign out will be handled by the form submission
+        })
+        .catch((error) => {
+          console.log("Firebase sign out failed (but continuing):", error)
+          // Continue with backend logout regardless
+        })
+    }
+    
+    // Always proceed with backend logout regardless of Firebase client state
+    this.performBackendLogout()
+  }
+
+  // Clear all browser storage
+  clearAllStorage() {
+    console.log("Clearing all browser storage...")
+    localStorage.clear()
+    sessionStorage.clear()
+    
+    // Clear any Firebase persistence
+    if (typeof window !== 'undefined') {
+      // Clear IndexedDB (Firebase persistence)
+      if (window.indexedDB) {
+        try {
+          const deleteReq = window.indexedDB.deleteDatabase('firebaseLocalStorageDb')
+          deleteReq.onsuccess = () => console.log("Firebase IndexedDB cleared")
+        } catch (e) {
+          console.log("Could not clear Firebase IndexedDB:", e)
         }
+      }
+    }
+    
+    console.log("All browser storage cleared")
+  }
+
+  // Perform backend logout
+  performBackendLogout() {
+    fetch('/sign_out', {
+      method: 'DELETE',
+      headers: {
+        'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+      }
+    })
+    .then(() => {
+      console.log("Backend logout successful")
+      window.location.href = '/'
+    })
+    .catch((error) => {
+      console.log("Backend logout failed, redirecting anyway:", error)
+      // Even if backend fails, redirect anyway since we cleared storage
+      window.location.href = '/'
+    })
+  }
+
+  // Delete user account (requires active Firebase session)
+  async deleteAccount(event) {
+    if (event) event.preventDefault()
+    
+    // Check if Firebase user is currently signed in
+    if (!this.auth.currentUser) {
+      alert('For security, please sign in again to delete your account.')
+      window.location.href = '/sign_in'
+      return
+    }
+    
+    // Double confirmation for account deletion
+    if (!confirm('Are you sure you want to permanently delete your account? This cannot be undone.')) {
+      return
+    }
+    
+    if (!confirm('This will delete ALL your data including tasks, participants, and households. Are you absolutely sure?')) {
+      return
+    }
+    
+    this.setLoading(true)
+    
+    try {
+      console.log("Starting account deletion process...")
+      
+      // Step 1: Delete Firebase user account first
+      console.log("Deleting Firebase user account...")
+      await this.auth.currentUser.delete()
+      console.log("Firebase account deleted successfully")
+      
+      // Step 2: Delete Rails application data
+      console.log("Deleting Rails application data...")
+      const response = await fetch('/auth/delete_account', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+        }
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        console.log("Rails data deleted successfully")
         
-        console.log("All browser storage cleared")
-        // The server-side sign out will be handled by the form submission
-      })
-      .catch((error) => {
-        console.error("Sign out error:", error)
-      })
+        // Step 3: Clear all browser storage
+        this.clearAllStorage()
+        
+        // Redirect to home with success message
+        alert('Account deleted successfully')
+        window.location.href = '/'
+      } else {
+        throw new Error(data.error || 'Failed to delete Rails data')
+      }
+      
+    } catch (error) {
+      console.error("Account deletion failed:", error)
+      
+      // Handle specific Firebase errors
+      if (error.code === 'auth/requires-recent-login') {
+        alert('For security, please sign out and sign in again, then try deleting your account.')
+        window.location.href = '/sign_out'
+      } else if (error.code === 'auth/user-not-found') {
+        // Firebase user already deleted, just delete Rails data
+        console.log("Firebase user already deleted, cleaning up Rails data...")
+        try {
+          const response = await fetch('/auth/delete_account', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+            }
+          })
+          const data = await response.json()
+          if (data.success) {
+            this.clearAllStorage()
+            alert('Account deleted successfully')
+            window.location.href = '/'
+          } else {
+            throw new Error('Failed to clean up Rails data')
+          }
+        } catch (cleanupError) {
+          console.error("Cleanup failed:", cleanupError)
+          alert('Account deletion encountered errors. Please contact support.')
+        }
+      } else {
+        alert('Failed to delete account: ' + (error.message || 'Unknown error'))
+      }
+    } finally {
+      this.setLoading(false)
+    }
   }
 
   // Verify token with Rails backend
