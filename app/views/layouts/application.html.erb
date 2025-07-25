@@ -1,26 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-
+    <!-- SEO Meta Tags -->
+    <title><%= content_for(:seo_title) || seo_title %></title>
+    <meta name="description" content="<%= content_for(:seo_description) || seo_description %>">
+    <meta name="keywords" content="<%= seo_keywords %>">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<%= canonical_url %>">
     
-    <title><%= content_for(:title) || t('app.name') %></title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= canonical_url %>">
+    <meta property="og:title" content="<%= content_for(:seo_title) || seo_title %>">
+    <meta property="og:description" content="<%= content_for(:seo_description) || seo_description %>">
+    <meta property="og:image" content="<%= seo_image %>">
+    <meta property="og:site_name" content="Voluntariness">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= canonical_url %>">
+    <meta property="twitter:title" content="<%= content_for(:seo_title) || seo_title %>">
+    <meta property="twitter:description" content="<%= content_for(:seo_description) || seo_description %>">
+    <meta property="twitter:image" content="<%= seo_image %>">
+    
+    <!-- Technical Meta Tags -->
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
+    
+    <!-- Structured Data -->
+    <%= yield :structured_data %>
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <%# Preload critical resources %>
+    <link rel="preload" href="<%= asset_path('seifenblasen4.png') %>" as="image">
+    
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application.tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
 
     <%= javascript_importmap_tags %>
-    <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="print" onload="this.media='all'"">
     <meta name="view-transition" content="same-origin" />
   </head>
   <body class=" container mx-auto bg-green-200 dark:bg-slate-600 dark <%# @theme.downcase %>"  id="body" data-turbo-permanent >

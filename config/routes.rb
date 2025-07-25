@@ -89,6 +89,10 @@ Rails.application.routes.draw do
   delete "sign_out", to: "auth#sign_out"
   delete "auth/delete_account", to: "auth#delete_account"
 
+  # SEO routes
+  get "sitemap.xml", to: "sitemaps#index", format: :xml
+  get "robots.txt", to: "sitemaps#robots", format: :text
+
   # Firebase testing routes (remove these in production)
   get "firebase/test", to: "firebase_test#test_config"
   get "firebase/test_page", to: "firebase_test#test_page"
