@@ -10,7 +10,9 @@ import {
   signOut,
   onAuthStateChanged,
   setPersistence,
-  browserSessionPersistence
+  browserSessionPersistence,
+  sendEmailVerification,
+  applyActionCode
 } from "firebase/auth"
 
 // Connects to data-controller="firebase-auth"
@@ -21,7 +23,7 @@ export default class extends Controller {
     enabledProviders: Array
   }
   
-  static targets = ["email", "password", "confirmPassword", "error", "submitButton"]
+  static targets = ["email", "password", "confirmPassword", "error", "info", "submitButton"]
 
   async connect() {
     console.log("🔥 Firebase Auth controller connected!")
@@ -141,11 +143,19 @@ export default class extends Controller {
 
     this.setLoading(true)
     this.clearError()
+    this.clearInfo()
 
     try {
       console.log("Attempting Firebase sign in...")
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password)
       console.log("Firebase sign in successful")
+      
+      // Check if email is verified
+      if (!userCredential.user.emailVerified) {
+        this.showError("Please verify your email address before signing in. Check your inbox for the verification link.")
+        await signOut(this.auth) // Sign out unverified user
+        return
+      }
       
       const idToken = await userCredential.user.getIdToken()
       await this.verifyTokenOnServer(idToken)
@@ -183,14 +193,21 @@ export default class extends Controller {
 
     this.setLoading(true)
     this.clearError()
+    this.clearInfo()
 
     try {
       console.log("Attempting Firebase sign up...")
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password)
       console.log("Firebase sign up successful")
       
-      const idToken = await userCredential.user.getIdToken()
-      await this.verifyTokenOnServer(idToken)
+      // Send email verification
+      await sendEmailVerification(userCredential.user)
+      console.log("Email verification sent")
+      
+      this.showInfo("Please check your email and verify your account before signing in.")
+      
+      // Don't automatically sign in - wait for email verification
+      return
     } catch (error) {
       console.error("Sign up error:", error)
       this.handleAuthError(error)
@@ -225,6 +242,7 @@ export default class extends Controller {
     
     this.setLoading(true)
     this.clearError()
+    this.clearInfo()
     
     try {
       console.log(`Attempting ${providerName} sign in...`)
@@ -500,9 +518,20 @@ export default class extends Controller {
 
   // UI Helper methods
   showError(message) {
+    this.clearInfo() // Clear info when showing error
     if (this.hasErrorTarget) {
       this.errorTarget.textContent = message
       this.errorTarget.classList.remove("hidden")
+    } else {
+      alert(message) // Fallback
+    }
+  }
+
+  showInfo(message) {
+    this.clearError() // Clear error when showing info
+    if (this.hasInfoTarget) {
+      this.infoTarget.textContent = message
+      this.infoTarget.classList.remove("hidden")
     } else {
       alert(message) // Fallback
     }
@@ -512,6 +541,13 @@ export default class extends Controller {
     if (this.hasErrorTarget) {
       this.errorTarget.textContent = ""
       this.errorTarget.classList.add("hidden")
+    }
+  }
+
+  clearInfo() {
+    if (this.hasInfoTarget) {
+      this.infoTarget.textContent = ""
+      this.infoTarget.classList.add("hidden")
     }
   }
 
