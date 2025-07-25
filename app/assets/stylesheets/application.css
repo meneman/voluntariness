@@ -116,6 +116,8 @@
   
   .home.edit-mode .task {
     cursor: move;
+    position: relative;
+    pointer-events: none;
   }
   .home.edit-mode .task::after {
     content: "\f047";
@@ -139,14 +141,16 @@
   }
   
   .home.edit-mode .sortable-handle {
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    height: 30%;
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     display: block;
     z-index: 2;
-
+    pointer-events: all;
   }
 
 
