@@ -4,10 +4,6 @@ export default class extends Controller {
   static targets = ["participantGrid", "spinningWheel", "celebration"]
 
   connect() {
-    console.log("Gamble controller connected")
-    console.log("Element:", this.element)
-    console.log("Available targets:", this.targets)
-    
     // Add document-level event listener for wheel completion
     this.wheelCompleteHandler = this.handleWheelComplete.bind(this)
     document.addEventListener('gamble:wheel-complete', this.wheelCompleteHandler)
@@ -19,9 +15,6 @@ export default class extends Controller {
   }
 
   handleWheelComplete(event) {
-    console.log("*** DOCUMENT EVENT: Wheel complete handler called ***")
-    console.log("Event detail:", event.detail)
-    
     // Extract participant ID from the spinning section
     const participantElements = document.querySelectorAll('[data-participant-id]')
     let participantId = null
@@ -42,7 +35,6 @@ export default class extends Controller {
     }
     
     if (participantId) {
-      console.log("Advancing to results for participant:", participantId)
       
       // Use fetch with proper Turbo Stream handling
       fetch('/gamble/result', {
@@ -85,10 +77,10 @@ export default class extends Controller {
           })
         }
       }).catch(error => {
-        console.error("Error advancing to results:", error)
+        // Error handling for result advancement
       })
     } else {
-      console.error("Could not find participant ID to advance to results")
+      // Could not find participant ID to advance to results
     }
   }
 
@@ -104,15 +96,9 @@ export default class extends Controller {
   }
 
   placeBet(event) {
-    console.log("placeBet method called on form submit", event)
-    console.log("Form element:", event.target)
-    console.log("Form action:", event.target.action)
-    console.log("Form method:", event.target.method)
-    
     // Find the submit button in the form
     const submitButton = event.target.querySelector('input[type="submit"], button[type="submit"]')
     if (submitButton) {
-      console.log("Submit button found:", submitButton)
       submitButton.disabled = true
       submitButton.value = "Spinning..."
     }
@@ -121,7 +107,6 @@ export default class extends Controller {
     this.addSpinningAnimation()
     
     // Allow the form to submit
-    console.log("Allowing form submission to proceed")
   }
 
   addSpinningAnimation() {

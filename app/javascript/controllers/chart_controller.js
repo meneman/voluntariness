@@ -33,9 +33,7 @@ export default class extends Controller {
 
     // Ensure we have the canvas target and data before proceeding
     if ( !this.dataValue || !this.typeValue) {
-      console.error(
-        "Chart controller missing canvas target, data-value, or type-value.",
-      );
+      // Chart controller missing canvas target, data-value, or type-value
       return;
     }
 
@@ -46,7 +44,6 @@ export default class extends Controller {
     // Destroy the chart instance when the controller disconnects
     // to prevent memory leaks and issues with Turbo navigation
     if (this.chart) {
-      console.log("Destroying chart");
       this.chart.destroy();
       this.chart = null;
     }
@@ -63,7 +60,6 @@ export default class extends Controller {
       data: this.dataValue, // Use the data object passed from the HTML
       options: this.optionsValue, // Use the options passed from the HTML
     });
-    console.log(this.chart)
   }
 
   // // Optional: If data/options values change, re-render the chart
@@ -92,6 +88,5 @@ export default class extends Controller {
     this.chart.data = this.dataValue;
     this.chart.options = this.optionsValue;
     this.chart.update();
-    console.log("Chart updated");
   }
 }

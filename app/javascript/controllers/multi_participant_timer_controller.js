@@ -32,7 +32,7 @@ export default class extends Controller {
         this.markButtonAsSelected(button)
         this.startTimer()
       } catch (error) {
-        console.error('Failed to create action:', error)
+        // Failed to create action
         // Let the original form submission handle the error
         button.form.submit()
       }
@@ -49,7 +49,7 @@ export default class extends Controller {
         this.markButtonAsSelected(button)
         this.resetTimer()
       } catch (error) {
-        console.error('Failed to add participant:', error)
+        // Failed to add participant
       }
     }
   }

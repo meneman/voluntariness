@@ -17,10 +17,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("Spinning wheel controller connected");
-    console.log("Element:", this.element);
-    console.log("Available targets:", this.targets);
-    console.log("Section mapping:", this.sectionMapping);
   }
 
   /**
@@ -59,7 +55,6 @@ export default class extends Controller {
       section.dataset.sectionIndex = index;
     });
     
-    console.log("Section mapping created:", this.sectionMapping);
   }
 
   /**
@@ -85,7 +80,6 @@ export default class extends Controller {
     }
     
     // Fallback to random selection if no backend data
-    console.warn("No winning item from backend, using fallback");
     const items = this.itemsValue.length > 0 ? this.itemsValue : this.getDefaultItems();
     const randomIndex = Math.floor(Math.random() * items.length);
     return items[randomIndex];
@@ -100,7 +94,6 @@ export default class extends Controller {
     }
     
     // Fallback calculation if no backend angle
-    console.warn("No target angle from backend, calculating fallback");
     const winningItem = this.getWinningItem();
     const targetSection = this.sectionMapping.find(section => 
       section.item.name === winningItem.name
@@ -113,15 +106,12 @@ export default class extends Controller {
    * Handles the spin button click event.
    */
   spin() {
-    console.log("Spinning wheel spin() method called");
     this.clicks++;
 
     // Get the winning item and target angle from backend
     const winningItem = this.getWinningItem();
     const targetAngle = this.getTargetAngle();
     
-    console.log("Backend-determined winning item:", winningItem);
-    console.log("Backend-calculated target angle:", targetAngle);
     
     // Calculate base rotations (multiple full spins for effect)
     const baseRotations = this.initialDegreeValue;
@@ -133,9 +123,6 @@ export default class extends Controller {
     // Calculate total rotation to land on target
     const totalDegree = baseRotations + targetAngle + randomOffset;
 
-    console.log("Target angle:", targetAngle);
-    console.log("Random offset:", randomOffset);
-    console.log("Total rotation:", totalDegree);
 
     // Apply the rotation to the inner wheel
     this.innerWheelTarget.style.transform = `rotate(${totalDegree}deg)`;
@@ -150,13 +137,9 @@ export default class extends Controller {
 
     // Dispatch completion event after wheel stops
     setTimeout(() => {
-      console.log("Spinning wheel completed");
-      
       // Re-enable spin button
       this.spinButtonTarget.disabled = false;
       this.spinButtonTarget.style.pointerEvents = 'auto';
-      
-      console.log("Final winning item:", winningItem);
       
       // Dispatch completion event with pre-determined winning item
       document.dispatchEvent(new CustomEvent('gamble:wheel-complete', {

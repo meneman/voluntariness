@@ -1,14 +1,17 @@
 <turbo-frame id="content">
-  <div class="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="flex items-center justify-center min-h-screen px-4 sm:px-6 ">
     <div class="max-w-md w-full space-y-8">
       <!-- Header -->
       <div class="text-center">
         <div class="flex items-center justify-center mb-6">
-          <%= image_tag("seifenblasen4.png", { class: "h-12 w-12 object-contain" }) %>
           <h1 class="ml-3 text-3xl font-bold text-slate-900 dark:text-white font-serif">
             Voluntariness
           </h1>
         </div>
+        <div class="flex">
+          <%= image_tag("seifenblasen4.png", { class: "h-64 w-64 object-contain m-auto" }) %>
+                </div>
+
         <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Create your account</h2>
         <p class="text-slate-600 dark:text-slate-300">Join Voluntariness to manage your household tasks</p>
       </div>
@@ -163,7 +166,7 @@
       <div class="text-center">
         <%= link_to "← Back to Home", root_path, 
             class: "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 text-sm",
-            data: { turbo_action: "advance", turbo_frame: "content" } %>
+            data: { turbo_action: "advance", turbo: false } %>
       </div>
     </div>
   </div>
