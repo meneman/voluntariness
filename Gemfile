@@ -86,3 +86,11 @@ gem "acts_as_list"
 # Firebase Authentication
 gem "google-cloud-firestore"
 gem "jwt"
+
+gem "litestream", "~> 0.14.0"
+
+# Rate limiting and request throttling
+gem "rack-attack"
+
+# Redis not needed - using Solid Cache for single-server deployment
+# gem "redis", "~> 5.0"

@@ -229,6 +229,27 @@ GEM
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
+    litestream (0.14.0)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-aarch64-linux)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
+    litestream (0.14.0-x86_64-linux)
+      actionpack (>= 7.0)
+      actionview (>= 7.0)
+      activejob (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      sqlite3
     logger (1.7.0)
     loofah (2.24.0)
       crass (~> 1.0.2)
@@ -298,6 +319,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.13)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -343,6 +366,10 @@ GEM
     rbtree (0.4.6)
     rdoc (6.13.1)
       psych (>= 4.0.0)
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.25.1)
+      connection_pool
     regexp_parser (2.10.0)
     reline (0.6.1)
       io-console (~> 0.5)
@@ -485,11 +512,14 @@ DEPENDENCIES
   jbuilder
   jwt
   kamal
+  litestream (~> 0.14.0)
   pagy (~> 7.0)
   propshaft
   puma (>= 5.0)
+  rack-attack
   rails (~> 8.0.1)
   rails-controller-testing
+  redis (~> 5.0)
   rubocop-rails-omakase
   selenium-webdriver
   simple_form
@@ -505,4 +535,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   2.6.3
+   2.7.1

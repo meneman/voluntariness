@@ -79,6 +79,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_19_094851) do
     t.integer "household_id"
     t.index ["archived"], name: "index_participants_on_archived"
     t.index ["household_id"], name: "index_participants_on_household_id"
+    t.index ["on_streak"], name: "index_participants_on_on_streak"
   end
 
   create_table "tasks", force: :cascade do |t|
