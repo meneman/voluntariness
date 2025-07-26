@@ -1,5 +1,28 @@
 module ApplicationHelper
   include Pagy::Frontend
+  
+  def current_theme
+    return 'system' unless user_signed_in?
+    current_user.theme_preference || 'system'
+  end
+  
+  def dark_mode_class
+    return '' unless user_signed_in?
+    current_user.dark_mode? ? 'dark' : ''
+  end
+  
+  def theme_icon_class(theme)
+    case theme
+    when 'light'
+      'text-yellow-500'
+    when 'dark'
+      'text-blue-400'
+    when 'system'
+      'text-gray-600 dark:text-gray-400'
+    else
+      'text-gray-600 dark:text-gray-400'
+    end
+  end
   def render_turbo_stream_flash_messages
       turbo_stream.prepend "flash", partial: "layouts/flash"
   end

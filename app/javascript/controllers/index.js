@@ -13,6 +13,7 @@ import gambleController from "controllers/gamble_controller";
 import MultiParticipantTimerController from "controllers/multi_participant_timer_controller";
 import FirebaseAuthController from "controllers/firebase_auth_controller";
 import LandingNavbarController from "controllers/landing_navbar_controller";
+import ThemeController from "controllers/theme_controller";
 
 import Sortable from "@stimulus-components/sortable";
 
@@ -32,3 +33,4 @@ application.register("gamble", gambleController)
 application.register("multi-participant-timer", MultiParticipantTimerController)
 application.register("firebase-auth", FirebaseAuthController)
 application.register("landing-navbar", LandingNavbarController)
+application.register("theme", ThemeController)

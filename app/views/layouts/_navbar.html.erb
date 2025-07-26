@@ -1,4 +1,4 @@
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50" data-controller="navbar" data-navbar-theme-value="<%= @theme %>">
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50" data-controller="navbar">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Mobile menu button -->
@@ -50,6 +50,8 @@
 
       <!-- Right side items -->
       <div class="flex items-center space-x-2">
+        <!-- Theme Toggle -->
+        <%= render 'shared/theme_toggle' %>
         <!-- Household Selector (Hidden for now) -->
         <div class="hidden relative" data-controller="dropdown">
           <button data-action="dropdown#toggle" 

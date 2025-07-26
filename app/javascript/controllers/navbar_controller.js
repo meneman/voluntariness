@@ -6,21 +6,10 @@ export default class extends Controller {
     "menu",
     "menuIcon",
     "closeIcon",
-    "switchToggle",
-    "theme",
-    "darkbutton",
-    "lightbutton",
     "navLink",
   ];
 
-  static values = {
-    theme: String,
-  };
-
   connect() {
-    // lets have many themes one day :)
-    // this.setTheme(this.themeValue);
-    this.setTheme("dark");
     this.isMenuOpen = false;
     
     // Set up navigation event listeners
@@ -30,26 +19,6 @@ export default class extends Controller {
     this.updateActiveNavLink();
   }
 
-  setTheme(target) {
-    document.body.classList.remove("light", "dark");
-    document.body.classList.add(target);
-    // changing theme makes all cached pages useless
-  }
-
-  setDarkTheme() {
-   //this.lightbuttonTarget.classList.remove("hidden");
-    this.darkbuttonTarget.classList.add("hidden");
-    this.setTheme("dark");
-    this.toggleThemeSession("dark");
-  }
-  
-  setLightTheme() {
-    //this.lightbuttonTarget.classList.add("hidden");
-    this.darkbuttonTarget.classList.remove("hidden");
-    this.setTheme("light");
-    this.toggleThemeSession("light");
-  }
-  
   toggleShowMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     
@@ -77,19 +46,6 @@ export default class extends Controller {
         this.closeIconTarget.classList.add("hidden");
       }
     }
-  }
-
-  toggleThemeSession(theme) {
-    fetch("/toggle_theme", {
-      method: "POST",
-      body: JSON.stringify({ theme }),
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content"),
-      },
-    });
   }
 
   setupNavigationListeners() {

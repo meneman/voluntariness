@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern unless Rails.env.test? ||  Rails.env.development?
   before_action :authenticate_user!
-  before_action :set_theme
   before_action :ensure_current_household
 
   include Pagy::Backend
@@ -15,19 +14,6 @@ class ApplicationController < ActionController::Base
   rescue_from Forbidden, with: :forbidden
 
 
-  def set_theme
-    if cookies[:theme].present?
-      @theme = cookies[:theme]
-    else
-      @theme = VoluntarinessConstants::DEFAULT_THEME
-      cookies[:theme] = @theme
-    end
-  end
-
-  def toggle_theme
-    cookies[:theme] = params[:theme]
-    @theme = cookies[:theme]
-  end
 
   # Firebase authentication
   def authenticate_user!

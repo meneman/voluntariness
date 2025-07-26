@@ -1,6 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" 
+      class="<%= current_user&.dark_mode? ? 'dark' : '' %>"
+      data-theme="<%= current_user&.theme_preference || 'system' %>">
   <head>
+    <!-- FOUC Prevention Script (must be in head) -->
+    <script>
+      (function() {
+        function getTheme() {
+          // Check localStorage first
+          const stored = localStorage.getItem('theme');
+          if (stored && ['light', 'dark', 'system'].includes(stored)) {
+            return stored;
+          }
+          
+          // Fall back to server-provided theme
+          return document.documentElement.dataset.theme || 'system';
+        }
+        
+        function applyTheme(theme) {
+          const html = document.documentElement;
+          html.classList.remove('dark', 'light');
+          
+          if (theme === 'dark') {
+            html.classList.add('dark');
+          } else if (theme === 'light') {
+            html.classList.add('light');
+          } else if (theme === 'system') {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              html.classList.add('dark');
+            }
+          }
+          
+          html.dataset.theme = theme;
+        }
+        
+        // Apply theme immediately to prevent FOUC
+        applyTheme(getTheme());
+      })();
+    </script>
+
     <!-- SEO Meta Tags -->
     <title><%= content_for(:seo_title) || seo_title %></title>
     <meta name="description" content="<%= content_for(:seo_description) || seo_description %>">
@@ -47,7 +85,12 @@
     <link href="//stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="print" onload="this.media='all'"">
     <meta name="view-transition" content="same-origin" />
   </head>
-  <body class=" container mx-auto bg-green-200 dark:bg-slate-600 dark <%# @theme.downcase %>"  id="body" data-turbo-permanent >
+  <body class="container mx-auto bg-green-200 dark:bg-slate-600" 
+        id="body" 
+        data-turbo-permanent 
+        data-controller="theme" 
+        data-theme-user-id-value="<%= current_user&.id %>"
+        data-server-theme="<%= current_user&.theme_preference %>">
     <%= render "layouts/navbar" if user_signed_in? %>
     <div id="flash" class="flash">
       <%= render "layouts/action_flash" %>

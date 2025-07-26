@@ -39,7 +39,7 @@
 <% end %>
 
 <!-- Navigation Header -->
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50" data-controller="landing-navbar">
+<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md sticky top-0 z-50" data-controller="landing-navbar">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <!-- Logo -->
@@ -70,7 +70,7 @@
         <% end %>
         <% if true # Firebase registration enabled %>
           <%= link_to sign_up_path, 
-              class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
+              class: "inline-flex items-center px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105" do %>
             <%= t("landing.navigation.start_free") %>
             <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -87,7 +87,7 @@
         <% end %>
         <% if true # Firebase registration enabled %>
           <%= link_to sign_up_path, 
-              class: "inline-flex items-center px-3 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-md shadow transition-all duration-200 text-sm" do %>
+              class: "inline-flex items-center px-3 py-2 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium rounded-md transition-all duration-200 text-sm" do %>
             <%= t("landing.navigation.start_free") %>
           <% end %>
         <% end %>
@@ -171,7 +171,7 @@
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <% if true # Firebase registration enabled %>
             <%= link_to sign_up_path, 
-                class: "inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105" do %>
+                class: "inline-flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105", data: {target: "main-content"} do %>
               <%= t("landing.hero.cta.get_started") %>
               <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -184,7 +184,7 @@
           <% end %>
           
           <%= link_to sign_in_path, 
-              class: "inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-slate-800 border-2 border-blue-600 text-blue-600 dark:text-blue-400 text-lg font-semibold rounded-xl shadow-lg hover:bg-blue-50 dark:hover:bg-slate-700 transition-all duration-200 transform hover:scale-105" do %>
+              class: "inline-flex items-center justify-center px-8 py-4 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105", data: {target: "main-content"}  do %>
             <%= t("landing.hero.cta.sign_in") %>
             <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -396,7 +396,7 @@
     
     <% if true # Firebase registration enabled %>
       <%= link_to sign_up_path, 
-          class: "inline-flex items-center px-8 py-4 bg-white text-blue-600 text-lg font-semibold rounded-xl shadow-xl transition-all duration-200 transform hover:scale-105 hover:shadow-2xl" do %>
+          class: "inline-flex items-center px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105" do %>
         Get Started Free Now
         <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />

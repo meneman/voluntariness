@@ -9,6 +9,13 @@ class User < ApplicationRecord
   # Firebase authentication - no Devise modules needed
   validates :email, presence: true, uniqueness: true
   validates :firebase_uid, presence: true, uniqueness: true
+  
+  # Theme preferences
+  enum :theme_preference, { system: 'system', light: 'light', dark: 'dark' }
+  
+  def dark_mode?
+    theme_preference == 'dark'
+  end
 
   after_create :create_default_household
 

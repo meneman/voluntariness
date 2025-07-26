@@ -72,7 +72,9 @@ Rails.application.routes.draw do
   patch "/settings/toggle_overdue_bonus", to: "settings#toggle_overdue_bonus", as: :toggle_overdue_bonus
 
   patch "/settings/update_streak_bonus_days_threshold", to: "settings#update_streak_bonus_days_threshold", as: :update_streak_bonus_days_threshold
-  post "toggle_theme", to: "application#toggle_theme"
+  
+  # Theme API endpoint
+  patch '/api/theme', to: 'users#update_theme'
   
   # Pricing page
   get "pricing", to: "pages#pricing", as: :pricing

@@ -1,7 +1,5 @@
 # Application constants
 module VoluntarinessConstants
-  # Theme settings
-  DEFAULT_THEME = 'dark'.freeze
   
   # Bonus points calculation
   OVERDUE_BONUS_MULTIPLIER = 0.2
