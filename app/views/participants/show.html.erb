@@ -1,60 +1,403 @@
-<% pieChart = {   
+<% 
+  # Chart configuration for consistent dark theme styling
+  chart_options = {   
     plugins: {
-            legend: {
-                labels: {
-                    color: 'whitesmoke'
-                }
-            }
+      legend: {
+        labels: {
+          color: 'whitesmoke'
+        }
+      }
+    },
+    scales: {
+      y: {
+        ticks: {
+          color: 'whitesmoke'
         },
-  } 
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        }
+      },
+      x: {
+        ticks: {
+          color: 'whitesmoke'
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        }
+      }
+    }
+  }
 
+  # Calculate statistics
+  recent_actions = @participant.actions.includes(:task).last_five_days
+  total_actions = @participant.actions.count
+  avg_points_per_action = total_actions > 0 ? @participant.action_participants.average(:points_earned) || 0 : 0
+  
+  # Task completion data for pie chart
+  task_completion_data = Action.joins(:action_participants, :task)
+                               .where(action_participants: { participant_id: @participant.id })
+                               .group("tasks.title").count
+  
+  # Weekly activity data for line chart (last 4 weeks)
+  weekly_activity = @participant.actions.includes(:task)
+                                .where(created_at: 4.weeks.ago..Time.current)
+                                .group_by_week(:created_at, format: "%b %d")
+                                .count
+  
+  # Points earned over time (last 4 weeks)
+  points_over_time = @participant.action_participants.includes(:action)
+                                  .where(actions: { created_at: 4.weeks.ago..Time.current })
+                                  .group_by_week("actions.created_at", format: "%b %d")
+                                  .sum(:points_earned)
+  
+  # Task performance (average points by task)
+  task_performance = @participant.actions.joins(:task)
+                                 .group("tasks.title")
+                                 .average("action_participants.points_earned")
+
+  # Chart data preparation
+  task_distribution_chart_data = {
+    labels: task_completion_data.keys,
+    datasets: [{
+      label: 'Tasks Completed',
+      data: task_completion_data.values,
+      backgroundColor: [
+        'rgba(59, 130, 246, 0.8)',   # Blue
+        'rgba(16, 185, 129, 0.8)',   # Green  
+        'rgba(245, 158, 11, 0.8)',   # Yellow
+        'rgba(239, 68, 68, 0.8)',    # Red
+        'rgba(139, 92, 246, 0.8)',   # Purple
+        'rgba(249, 115, 22, 0.8)'    # Orange
+      ],
+      borderWidth: 2
+    }]
+  }.to_json
+
+  weekly_activity_chart_data = {
+    labels: weekly_activity.keys,
+    datasets: [{
+      label: 'Tasks Completed',
+      data: weekly_activity.values,
+      borderColor: 'rgba(59, 130, 246, 1)',
+      backgroundColor: 'rgba(59, 130, 246, 0.2)',
+      tension: 0.4,
+      fill: true,
+      pointRadius: 4,
+      pointHoverRadius: 6
+    }]
+  }.to_json
+
+  points_chart_data = {
+    labels: points_over_time.keys,
+    datasets: [{
+      label: 'Points Earned',
+      data: points_over_time.values,
+      borderColor: 'rgba(16, 185, 129, 1)',
+      backgroundColor: 'rgba(16, 185, 129, 0.2)',
+      tension: 0.4,
+      fill: true,
+      pointRadius: 4,
+      pointHoverRadius: 6
+    }]
+  }.to_json
+
+  task_performance_chart_data = {
+    labels: task_performance.keys,
+    datasets: [{
+      label: 'Average Points',
+      data: task_performance.values.map { |v| v.round(1) },
+      backgroundColor: 'rgba(139, 92, 246, 0.7)',
+      borderColor: 'rgba(139, 92, 246, 1)',
+      borderWidth: 1
+    }]
+  }.to_json
+
+  # Chart options
+  pie_chart_options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: 'rgb(148, 163, 184)' # slate-400
+        }
+      },
+      title: {
+        display: false
+      }
+    }
+  }.to_json
+
+  line_chart_options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'rgb(148, 163, 184)'
+        },
+        grid: {
+          color: 'rgba(148, 163, 184, 0.1)'
+        }
+      },
+      y: {
+        ticks: {
+          color: 'rgb(148, 163, 184)'
+        },
+        grid: {
+          color: 'rgba(148, 163, 184, 0.1)'
+        },
+        beginAtZero: true
+      }
+    }
+  }.to_json
+
+  bar_chart_options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false
+      },
+      title: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'rgb(148, 163, 184)'
+        },
+        grid: {
+          color: 'rgba(148, 163, 184, 0.1)'
+        }
+      },
+      y: {
+        ticks: {
+          color: 'rgb(148, 163, 184)'
+        },
+        grid: {
+          color: 'rgba(148, 163, 184, 0.1)'
+        },
+        beginAtZero: true
+      }
+    }
+  }.to_json
 %>
-<div class="p-12 flex flex-col gap-4">
+
+<div class="p-6 md:p-12 space-y-6">
   <!-- Back Button -->
   <div class="mb-4">
     <%= link_to :back, class: "inline-flex items-center text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200" do %>
       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
-      Back
+      Back to Participants
     <% end %>
   </div>
-  
-  <div class="flex flex-wrap">
-    <%= render partial: "participant", locals: {p: @participant, show_view: true} %>
-    <%= pie_chart  Action.joins(:action_participants, :task).where(action_participants: { participant_id: @participant.id }).group("tasks.title").count, donut: true, library: pieChart %>
-  </div>
-  
-  <% if @participant.useable_items.any? %>
-    <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="font-semibold text-xl">Items</h2>
-        <%= link_to "Manage Items", useable_items_path(participant_id: @participant.id), class: "text-blue-400 hover:text-blue-300 text-sm" %>
+
+  <!-- Header Section with Participant Card and Quick Stats -->
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Participant Card -->
+    <div class="flex-shrink-0">
+      <%= render partial: "participant", locals: {p: @participant, show_view: true} %>
+    </div>
+    
+    <!-- Quick Stats Cards (2x2 grid) -->
+    <div class="flex-1 grid grid-cols-2 gap-4">
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-center">
+        <div class="text-2xl font-bold text-indigo-600 dark:text-indigo-400"><%= total_actions %></div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">Total Tasks</div>
       </div>
-      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4">
+      
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-center">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400"><%= number_with_precision(avg_points_per_action, precision: 1) %></div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">Avg Points/Task</div>
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-center">
+        <div class="text-2xl font-bold text-orange-600 dark:text-orange-400"><%= recent_actions.count %></div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">Last 5 Days</div>
+      </div>
+      
+      <div class="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-sm border border-slate-200 dark:border-slate-700 text-center">
+        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400"><%= @participant.streak %></div>
+        <div class="text-sm text-slate-600 dark:text-slate-400">Current Streak</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Distribution and Performance Metrics Row -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Task Distribution Chart -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Task Distribution</h3>
+      <% if task_completion_data.any? %>
+        <div data-controller="chart"
+             data-chart-type-value="doughnut"
+             data-chart-height-value="300"
+             data-chart-data-value="<%= task_distribution_chart_data %>"
+             data-chart-options-value="<%= pie_chart_options %>">
+        </div>
+      <% else %>
+        <div class="text-center text-slate-500 dark:text-slate-400 py-8">No tasks completed yet</div>
+      <% end %>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Performance Metrics</h3>
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-slate-600 dark:text-slate-400">Base Points</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200"><%= @participant.base_points %></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-600 dark:text-slate-400">Bonus Points</span>
+          <span class="font-semibold text-orange-600 dark:text-orange-400"><%= @participant.bonus_points_total %></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-600 dark:text-slate-400">Current Streak</span>
+          <span class="font-semibold text-blue-600 dark:text-blue-400"><%= @participant.streak %> days</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-600 dark:text-slate-400">On Streak Bonus</span>
+          <span class="font-semibold <%= @participant.on_streak ? 'text-green-600 dark:text-green-400' : 'text-slate-500 dark:text-slate-400' %>">
+            <%= @participant.on_streak ? "Active" : "Inactive" %>
+          </span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-slate-600 dark:text-slate-400">Completion Rate (5d)</span>
+          <span class="font-semibold text-slate-800 dark:text-slate-200">
+            <%= recent_actions.count > 0 ? "#{recent_actions.count}/5 days" : "0/5 days" %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Weekly Activity Line Chart -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Weekly Activity</h3>
+      <% if weekly_activity.any? %>
+        <div data-controller="chart"
+             data-chart-type-value="line"
+             data-chart-height-value="300"
+             data-chart-data-value="<%= weekly_activity_chart_data %>"
+             data-chart-options-value="<%= line_chart_options %>">
+        </div>
+      <% else %>
+        <div class="text-center text-slate-500 dark:text-slate-400 py-8">No activity in the last 4 weeks</div>
+      <% end %>
+    </div>
+
+    <!-- Task Performance Bar Chart -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Average Points by Task</h3>
+      <% if task_performance.any? %>
+        <div data-controller="chart"
+             data-chart-type-value="bar"
+             data-chart-height-value="300"
+             data-chart-data-value="<%= task_performance_chart_data %>"
+             data-chart-options-value="<%= bar_chart_options %>">
+        </div>
+      <% else %>
+        <div class="text-center text-slate-500 dark:text-slate-400 py-8">No task data available</div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Points Earned Over Time -->
+  <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Points Earned Over Time</h3>
+    <% if points_over_time.any? %>
+      <div data-controller="chart"
+           data-chart-type-value="line"
+           data-chart-height-value="300"
+           data-chart-data-value="<%= points_chart_data %>"
+           data-chart-options-value="<%= line_chart_options %>">
+      </div>
+    <% else %>
+      <div class="text-center text-slate-500 dark:text-slate-400 py-8">No points earned in the last 4 weeks</div>
+    <% end %>
+  </div>
+
+  <!-- Items Section -->
+  <% if @participant.useable_items.any? %>
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Earned Items</h2>
+        <%= link_to "Manage Items", useable_items_path(participant_id: @participant.id), 
+            class: "inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium transition-colors" %>
+      </div>
+      <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
         <% @participant.useable_items.each do |item| %>
-          <div class="flex flex-col items-center p-2 rounded border border-gray-600 hover:border-gray-400 transition-colors">
-            <div class="w-12 h-12 text-yellow-400 mb-2">
+          <div class="flex flex-col items-center p-3 rounded-lg border border-slate-200 dark:border-slate-600 hover:border-indigo-300 dark:hover:border-indigo-500 transition-colors hover:shadow-md">
+            <div class="w-12 h-12 text-yellow-500 mb-2">
               <%= raw item.svg %>
             </div>
-            <span class="text-xs text-center text-gray-300"><%= item.name %></span>
+            <span class="text-xs text-center text-slate-600 dark:text-slate-300 font-medium"><%= item.name %></span>
           </div>
         <% end %>
       </div>
     </div>
   <% else %>
-    <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="font-semibold text-xl">Items</h2>
-        <%= link_to "Get Items", useable_items_path(participant_id: @participant.id), class: "text-blue-400 hover:text-blue-300 text-sm" %>
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Earned Items</h2>
+        <%= link_to "Browse Items", useable_items_path(participant_id: @participant.id), 
+            class: "inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium transition-colors" %>
       </div>
-      <p class="text-gray-400 text-center py-4">No items yet. Start earning items by completing tasks!</p>
+      <div class="text-center py-8">
+        <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+        </svg>
+        <p class="text-slate-500 dark:text-slate-400 font-medium">No items earned yet</p>
+        <p class="text-slate-400 dark:text-slate-500 text-sm mt-1">Complete tasks to start earning rewards!</p>
+      </div>
     </div>
   <% end %>
-  <div class="p-4 shadow-lg rounded bg-green-300 dark:bg-slate-800 dark:text-slate-200 text-slate-800">
-    <h2 class=" font-semibold text-xl "> History </h2>
-    <% @participant.actions.desc.each do |action| %>
-      <%= render partial: "actions/action", locals: {action: action, show_delete: true, show_timeago: true}%>
+
+  <!-- Activity History -->
+  <div class="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-lg font-semibold text-slate-800 dark:text-slate-200">Recent Activity</h2>
+      <span class="text-sm text-slate-500 dark:text-slate-400">Last <%= [@participant.actions.count, 20].min %> activities</span>
+    </div>
+    
+    <% if @participant.actions.any? %>
+      <div class="space-y-3 max-h-96 overflow-y-auto">
+        <% @participant.actions.desc.limit(20).each do |action| %>
+          <%= render partial: "actions/action", locals: {action: action, show_delete: true, show_timeago: true} %>
+        <% end %>
+      </div>
+      
+      <% if @participant.actions.count > 20 %>
+        <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-600 text-center">
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Showing 20 of <%= @participant.actions.count %> total activities
+          </p>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="text-center py-8">
+        <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <p class="text-slate-500 dark:text-slate-400 font-medium">No activity yet</p>
+        <p class="text-slate-400 dark:text-slate-500 text-sm mt-1">This participant hasn't completed any tasks</p>
+      </div>
     <% end %>
   </div>
 </div>
