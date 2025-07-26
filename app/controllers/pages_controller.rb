@@ -30,8 +30,11 @@ class PagesController < ApplicationController
     # GET /statistics
     # Gathers various data points for displaying charts and statistics.
     def statistics
+      # Get interval parameter from query string (1week, 1month, 1year, all)
+      interval = params[:interval]
+      
       # Use StatisticsService to handle complex data generation
-      service = StatisticsService.new(current_household, @participants)
+      service = StatisticsService.new(current_household, @participants, interval)
 
       @data = service.generate_task_completion_data
       @task_completion_by_participant = service.generate_task_completion_by_participant

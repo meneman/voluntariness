@@ -103,7 +103,32 @@
       <div class="grid grid-cols-1 lg:grid-cols-1 gap-8">
         <!-- Cumulative Points Chart -->
         <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6">
-          <h3 class="text-xl font-semibold mb-4 text-slate-700 dark:text-slate-200">Points Progress Over Time</h3>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <h3 class="text-xl font-semibold mb-4 sm:mb-0 text-slate-700 dark:text-slate-200">Points Progress Over Time</h3>
+            
+            <!-- Time Interval Filter Buttons -->
+            <div class="flex flex-wrap gap-2">
+              <% 
+                current_interval = params[:interval] || 'all'
+                intervals = [
+                  { key: 'all', label: 'All Time' },
+                  { key: '1year', label: '1 Year' },
+                  { key: '6months', label: '6 Months' },
+                  { key: '1month', label: '1 Month' },
+                  { key: '1week', label: '1 Week' }
+                ]
+              %>
+              <% intervals.each do |interval| %>
+                <%= link_to interval[:label], 
+                    statistics_path(interval: interval[:key]), 
+                    class: "px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 #{
+                      current_interval == interval[:key] ? 
+                        'bg-blue-600 text-white shadow-md' : 
+                        'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
+                    }" %>
+              <% end %>
+            </div>
+          </div>
           <div data-controller="chart"
               data-chart-type-value="line"
               data-chart-height-value="400"

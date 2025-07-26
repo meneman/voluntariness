@@ -1,11 +1,13 @@
 class StatisticsService
-  def initialize(household, participants = nil)
+  def initialize(household, participants = nil, interval = nil)
     @household = household
     @participants = participants || household.participants.includes(actions: :task)
+    @interval = interval
+    @date_range = calculate_date_range(interval)
   end
 
   def generate_task_completion_data
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
       .group("tasks.title", "participants.name")
@@ -17,14 +19,17 @@ class StatisticsService
       )
       .where("tasks.archived = ?", false)
       .order("tasks.title", "participants.name")
+    
+    apply_date_filter(query)
   end
 
   def generate_task_completion_by_participant
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-      .count
+    
+    apply_date_filter(query).count
   end
 
   def generate_task_completion_by_action(data)
@@ -39,55 +44,74 @@ class StatisticsService
   end
 
   def generate_points_by_participant
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-      .sum("action_participants.points_earned")
+    
+    apply_date_filter(query).sum("action_participants.points_earned")
   end
 
   def generate_task_popularity
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
       .group("tasks.title")
+    
+    apply_date_filter(query)
       .count
       .sort_by { |_, count| -count }
       .to_h
   end
 
   def generate_activity_over_time
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
-      .group_by_day(:created_at, last: 30)
-      .count
+    
+    if date_range
+      query.where(created_at: date_range).group_by_day(:created_at).count
+    else
+      query.group_by_day(:created_at, last: 30).count
+    end
   end
 
   def generate_participant_activity
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-      .group_by_day(:created_at, last: 30)
-      .count
+    
+    if date_range
+      query.where(created_at: date_range).group_by_day(:created_at).count
+    else
+      query.group_by_day(:created_at, last: 30).count
+    end
   end
 
   def generate_points_by_day
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
-      .group_by_day(:created_at, last: 30)
-      .sum("action_participants.points_earned")
+    
+    if date_range
+      query.where(created_at: date_range).group_by_day(:created_at).sum("action_participants.points_earned")
+    else
+      query.group_by_day(:created_at, last: 30).sum("action_participants.points_earned")
+    end
   end
 
   def generate_bonus_points_by_day
-    ActionParticipant
+    query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .where.not(bonus_points: nil)
-      .group_by_day(:created_at, last: 30)
-      .sum("action_participants.bonus_points")
+    
+    if date_range
+      query.where(created_at: date_range).group_by_day(:created_at).sum("action_participants.bonus_points")
+    else
+      query.group_by_day(:created_at, last: 30).sum("action_participants.bonus_points")
+    end
   end
 
   def generate_cumulative_bonus_data
@@ -103,11 +127,13 @@ class StatisticsService
       ) AS cumulative_bonus_points
     SQL
 
-    cumulative_data = ActionParticipant
+    query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .select(select_cumulative_sql)
       .where.not(bonus_points: nil)
+    
+    cumulative_data = apply_date_filter(query)
       .order("participant_name", "action_date")
 
     # Process into nested hash
@@ -133,11 +159,13 @@ class StatisticsService
       ) AS cumulative_points
     SQL
 
-    cumulative_data = ActionParticipant
+    query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
       .select(select_cumulative_sql)
       .where("action_participants.points_earned > 0")
+    
+    cumulative_data = apply_date_filter(query)
       .order("participant_name", "action_date")
 
     # Process into nested hash
@@ -192,5 +220,27 @@ class StatisticsService
 
   private
 
-  attr_reader :household, :participants
+  attr_reader :household, :participants, :interval, :date_range
+
+  def calculate_date_range(interval)
+    case interval
+    when '1week'
+      1.week.ago..Time.current
+    when '1month'
+      1.month.ago..Time.current
+    when '6months'
+      6.months.ago..Time.current
+    when '1year'
+      1.year.ago..Time.current
+    when 'all', nil
+      nil # No date filtering for 'all' or when no interval specified
+    else
+      nil
+    end
+  end
+
+  def apply_date_filter(query)
+    return query unless date_range
+    query.where(created_at: date_range)
+  end
 end
