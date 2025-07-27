@@ -8,15 +8,8 @@ class HouseholdsControllerTest < ActionDispatch::IntegrationTest
     @household_one = households(:one)
     @household_two = households(:two)
     
-    # Mock authentication by setting session directly in the test
-    session[:user_id] = @user_two.id
-    session[:firebase_uid] = @user_two.firebase_uid
-  end
-  
-  private
-  
-  def session
-    request.session
+    # Use the sign_in helper method for integration tests
+    sign_in @user_two
   end
 
   test "should get index" do
@@ -111,7 +104,7 @@ class HouseholdsControllerTest < ActionDispatch::IntegrationTest
 
   test "should join household with valid invite code" do
     # Create a new user who isn't in any household yet
-    new_user = User.create!(email: "newuser@example.com", password: "password123")
+    new_user = User.create!(email: "newuser@example.com", firebase_uid: "test_firebase_uid_1")
     sign_in new_user
     
     post join_households_path, params: { invite_code: @household_one.invite_code }
@@ -124,7 +117,7 @@ class HouseholdsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should reject invalid invite code" do
-    new_user = User.create!(email: "newuser2@example.com", password: "password123")
+    new_user = User.create!(email: "newuser2@example.com", firebase_uid: "test_firebase_uid_2")
     sign_in new_user
     
     post join_households_path, params: { invite_code: "INVALID" }

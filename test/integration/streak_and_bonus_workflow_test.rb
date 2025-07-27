@@ -11,7 +11,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "Streak Test Task",
       worth: 10,
       interval: 1,
-      user: @user
+      household: @user.current_household
     )
     sign_in @user
   end
@@ -137,7 +137,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "Overdue Task",
       worth: 20,
       interval: 1,
-      user: @user,
+      household: @user.current_household,
       created_at: 5.days.ago
     )
 
@@ -176,7 +176,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "Overdue No Bonus Task",
       worth: 15,
       interval: 1,
-      user: @user,
+      household: @user.current_household,
       created_at: 3.days.ago
     )
 
@@ -250,7 +250,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "Settings Overdue Task",
       worth: 12,
       interval: 1,
-      user: @user,
+      household: @user.current_household,
       created_at: 2.days.ago
     )
 
@@ -370,7 +370,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "No Interval Task",
       worth: 8,
       interval: nil,
-      user: @user,
+      household: @user.current_household,
       created_at: 10.days.ago
     )
 
@@ -403,7 +403,7 @@ class StreakAndBonusWorkflowTest < ActionDispatch::IntegrationTest
       title: "Stats Overdue Task",
       worth: 20,
       interval: 1,
-      user: @user,
+      household: @user.current_household,
       created_at: 3.days.ago
     )
 

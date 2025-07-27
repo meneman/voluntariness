@@ -138,7 +138,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
       title: "Overdue Task",
       worth: 20,
       interval: 1,
-      user: @user,
+      household: @user.current_household,
       created_at: 3.days.ago
     )
 
@@ -184,7 +184,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     task = Task.create!(
       title: "Participant Test Task",
       worth: 8,
-      user: @user
+      household: @user.current_household
     )
 
     # Participant completes task
@@ -250,7 +250,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     task = Task.create!(
       title: "Multi-Participant Task",
       worth: 5,
-      user: @user
+      household: @user.current_household
     )
 
     # Each participant completes the task
@@ -287,7 +287,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
       title: "Daily Task",
       worth: 3,
       interval: 1,
-      user: @user
+      household: @user.current_household
     )
 
     # Complete task today
@@ -321,7 +321,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     )
 
     # Create and complete task
-    task = Task.create!(title: "Settings Test", worth: 10, user: @user)
+    task = Task.create!(title: "Settings Test", worth: 10, household: @user.current_household)
 
     post actions_path, params: {
       data: {
@@ -357,7 +357,7 @@ class TaskManagementWorkflowTest < ActionDispatch::IntegrationTest
     assert_equal 3, @user.streak_boni_days_threshold
 
     # Complete another task to see if settings take effect
-    task2 = Task.create!(title: "Settings Test 2", worth: 10, user: @user)
+    task2 = Task.create!(title: "Settings Test 2", worth: 10, household: @user.current_household)
 
     post actions_path, params: {
       data: {

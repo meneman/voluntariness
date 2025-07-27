@@ -179,7 +179,7 @@ class StatisticsServiceTest < ActiveSupport::TestCase
     zero_worth_task = Task.create!(
       title: "Zero Worth Task",
       worth: 0,
-      user: @user
+      household: @user.current_household
     )
 
     action1 = Action.create!(task: zero_worth_task)
@@ -189,7 +189,7 @@ class StatisticsServiceTest < ActiveSupport::TestCase
     negative_worth_task = Task.create!(
       title: "Negative Worth Task",
       worth: -5,
-      user: @user
+      household: @user.current_household
     )
 
     action2 = Action.create!(task: negative_worth_task)

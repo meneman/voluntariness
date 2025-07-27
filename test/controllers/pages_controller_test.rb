@@ -193,9 +193,9 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   test "statistics should handle users with no data" do
     # Clear all user data
     # First destroy actions through participants, then destroy participants and tasks
-    @user.participants.each { |p| p.actions.destroy_all }
-    @user.participants.destroy_all
-    @user.tasks.destroy_all
+    @user.current_household.participants.each { |p| p.actions.destroy_all }
+    @user.current_household.participants.destroy_all
+    @user.current_household.tasks.destroy_all
 
     get statistics_path
     assert_response :success
@@ -276,7 +276,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   # --- Edge Cases ---
 
   test "should handle missing participants gracefully" do
-    @user.participants.destroy_all
+    @user.current_household.participants.destroy_all
 
     get pages_home_path
     assert_response :success
@@ -286,7 +286,7 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should handle missing tasks gracefully" do
-    @user.tasks.destroy_all
+    @user.current_household.tasks.destroy_all
 
     get pages_home_path
     assert_response :success
@@ -312,8 +312,8 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
   test "statistics should handle complex data relationships" do
     # Create some complex data relationships
-    task = Task.create!(title: "Complex Task", worth: 10, user: @user)
-    participant = Participant.create!(name: "Complex Participant", user: @user)
+    task = Task.create!(title: "Complex Task", worth: 10, household: @user.current_household)
+    participant = Participant.create!(name: "Complex Participant", household: @user.current_household)
 
     # Create multiple actions
     3.times do |i|
@@ -340,11 +340,11 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     tasks = assigns(:tasks)
 
     participants.each do |participant|
-      assert_equal @user, participant.user
+      assert_equal @user.current_household, participant.household
     end
 
     tasks.each do |task|
-      assert_equal @user, task.user
+      assert_equal @user.current_household, task.household
     end
   end
 

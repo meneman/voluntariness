@@ -260,7 +260,7 @@ class TaskManagementSystemTest < ApplicationSystemTestCase
     task2 = Task.create!(
       title: "Second Task",
       worth: 8,
-      user: @user
+      household: @user.current_household
     )
 
     visit root_path

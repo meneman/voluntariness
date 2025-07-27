@@ -151,7 +151,7 @@ class SharedTaskWorkflowTest < ActionDispatch::IntegrationTest
     participant_ids = [@alice.id, @bob.id]
     
     # Ensure all participants belong to the current user
-    participants = Participant.where(id: participant_ids, user: @user)
+    participants = Participant.where(id: participant_ids, household: @user.current_household)
     assert_equal 2, participants.count
     
     post actions_path, params: {
@@ -163,15 +163,9 @@ class SharedTaskWorkflowTest < ActionDispatch::IntegrationTest
     
     action = Action.last
     action.participants.each do |participant|
-      assert_equal @user, participant.user
+      assert_equal @user.current_household, participant.household
     end
   end
 
-  private
-
-  def sign_in(user)
-    # Set session directly for Firebase auth testing
-    @integration_session = Capybara::Session.new(:rack_test)
-    @integration_session.driver.browser.set_cookie("rack.session=#{CGI.escape({user_id: user.id, firebase_uid: user.firebase_uid}.to_json)}")
-  end
+  # Use the sign_in method from test_helper.rb
 end

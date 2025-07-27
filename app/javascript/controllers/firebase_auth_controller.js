@@ -10,7 +10,7 @@ import {
   signOut,
   onAuthStateChanged,
   setPersistence,
-  browserSessionPersistence,
+  browserLocalPersistence,
   sendEmailVerification,
   applyActionCode
 } from "firebase/auth"
@@ -46,10 +46,10 @@ export default class extends Controller {
       this.app = initializeApp(this.configValue)
       this.auth = getAuth(this.app)
       
-      // Set Firebase persistence to SESSION only (not LOCAL)
-      // This prevents Firebase from persisting login across browser sessions
+      // Set Firebase persistence to LOCAL storage
+      // This allows Firebase to persist login across browser sessions
       try {
-        await setPersistence(this.auth, browserSessionPersistence)
+        await setPersistence(this.auth, browserLocalPersistence)
       } catch (persistenceError) {
         // Could not set Firebase persistence
       }
