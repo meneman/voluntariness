@@ -26,16 +26,37 @@ class ApplicationController < ActionController::Base
     # In test environment, allow setting current user via instance variable
     return @test_current_user if Rails.env.test? && @test_current_user
 
-    return nil unless session[:user_id]
+    return @current_user if @current_user
 
-    user = User.find_by(id: session[:user_id])
-    if user
-      Rails.logger.debug "🔍 current_user: #{user.email} (ID: #{user.id}) from session[:user_id] = #{session[:user_id]}"
-    else
-      Rails.logger.warn "⚠️ current_user: No user found for session[:user_id] = #{session[:user_id]}"
+    # Check session first
+    if session[:user_id]
+      user = User.find_by(id: session[:user_id])
+      if user
+        Rails.logger.debug "🔍 current_user: #{user.email} (ID: #{user.id}) from session[:user_id] = #{session[:user_id]}"
+        @current_user = user
+        return @current_user
+      else
+        Rails.logger.warn "⚠️ current_user: No user found for session[:user_id] = #{session[:user_id]}"
+      end
     end
 
-    @current_user ||= user
+    # Check remember me cookie if no session
+    if cookies.signed[:remember_token].present?
+      user = User.find_by(remember_token: cookies.signed[:remember_token])
+      if user&.remember_token_valid?
+        Rails.logger.info "🍪 current_user: #{user.email} (ID: #{user.id}) from remember token"
+        # Restore session
+        session[:user_id] = user.id
+        session[:firebase_uid] = user.firebase_uid
+        @current_user = user
+        return @current_user
+      else
+        Rails.logger.warn "⚠️ Invalid or expired remember token, clearing cookie"
+        cookies.delete(:remember_token)
+      end
+    end
+
+    @current_user = nil
   end
 
   def user_signed_in?

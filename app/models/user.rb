@@ -80,6 +80,20 @@ class User < ApplicationRecord
     households.count < 5
   end
 
+  def remember_me!
+    self.remember_token = SecureRandom.urlsafe_base64
+    self.remember_created_at = Time.current
+    save!
+  end
+
+  def forget_me!
+    update!(remember_token: nil, remember_created_at: nil)
+  end
+
+  def remember_token_valid?
+    remember_token.present?
+  end
+
   private
 
   def create_default_household

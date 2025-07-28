@@ -57,6 +57,11 @@ class AuthController < ApplicationController
       Rails.logger.info "🔐 User signed in to session: #{session[:user_id]}"
       Rails.logger.info "🔐 Session firebase_uid: #{session[:firebase_uid]}"
 
+      # Always set remember me cookie for persistent login
+      user.remember_me!
+      cookies.permanent.signed[:remember_token] = user.remember_token
+      Rails.logger.info "🍪 Remember token set for user: #{user.email}"
+
       response_data = {
         success: true,
         user: {
@@ -158,6 +163,16 @@ class AuthController < ApplicationController
   end
 
   def sign_out_user
+    # Clear remember token if user exists
+    if @current_user
+      @current_user.forget_me!
+      Rails.logger.info "🗑️ Remember token cleared for user: #{@current_user.email}"
+    end
+    
+    # Clear cookies
+    cookies.delete(:remember_token)
+    
+    # Clear session
     session[:user_id] = nil
     session[:firebase_uid] = nil
     @current_user = nil

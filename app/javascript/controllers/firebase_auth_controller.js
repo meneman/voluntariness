@@ -419,7 +419,10 @@ export default class extends Controller {
         'Content-Type': 'application/json',
         'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
       },
-      body: JSON.stringify({ id_token: idToken })
+      body: JSON.stringify({ 
+        id_token: idToken,
+        remember_me: '1'
+      })
     })
     .then(response => {
       // Server response received

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_26_091300) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_28_173506) do
   create_table "action_participants", force: :cascade do |t|
     t.integer "action_id", null: false
     t.integer "participant_id", null: false
@@ -120,8 +120,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_26_091300) do
     t.string "role", default: "user", null: false
     t.string "firebase_uid"
     t.string "theme_preference", default: "system"
+    t.string "remember_token"
+    t.datetime "remember_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["firebase_uid"], name: "index_users_on_firebase_uid", unique: true
+    t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["role"], name: "index_users_on_role"
     t.index ["subscription_plan"], name: "index_users_on_subscription_plan"
     t.index ["subscription_status"], name: "index_users_on_subscription_status"
