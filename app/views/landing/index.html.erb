@@ -38,96 +38,6 @@
 </script>
 <% end %>
 
-<!-- Navigation Header -->
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md sticky top-0 z-50" data-controller="landing-navbar">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
-      <!-- Logo -->
-      <div class="flex items-center space-x-3">
-        <div class="relative">
-          <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
-        </div>
-        <%= link_to root_path, data: { turbo_frame: "main_content" }, class: "font-bold text-xl text-slate-900 dark:text-white font-serif" do %>
-          Voluntariness
-        <% end %>
-      </div>
-      
-      <!-- Desktop Navigation Links -->
-      <div class="hidden md:flex items-center space-x-6">
-        <%= link_to root_path, 
-            data: { turbo_frame: "main_content" },
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.about") %>
-        <% end %>
-        <%= link_to pricing_path, 
-            data: { turbo_frame: "main_content" },
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.pricing") %>
-        <% end %>
-        <%= link_to sign_in_path, 
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.sign_in") %>
-        <% end %>
-        <% if true # Firebase registration enabled %>
-          <%= link_to sign_up_path, 
-              class: "inline-flex items-center px-6 py-3 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105" do %>
-            <%= t("landing.navigation.start_free") %>
-            <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          <% end %>
-        <% end %>
-      </div>
-
-      <!-- Mobile Auth Buttons & Burger Menu -->
-      <div class="flex items-center space-x-3 md:hidden">
-        <%= link_to sign_in_path, 
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200 text-sm" do %>
-          <%= t("landing.navigation.sign_in") %>
-        <% end %>
-        <% if true # Firebase registration enabled %>
-          <%= link_to sign_up_path, 
-              class: "inline-flex items-center px-3 py-2 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium rounded-md transition-all duration-200 text-sm" do %>
-            <%= t("landing.navigation.start_free") %>
-          <% end %>
-        <% end %>
-        
-        <!-- Burger Menu Button -->
-        <button data-action="landing-navbar#toggleMenu" 
-                class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200" 
-                aria-controls="mobile-menu" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <!-- Hamburger icon -->
-          <svg data-landing-navbar-target="menuIcon" class="block h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-          <!-- Close icon -->
-          <svg data-landing-navbar-target="closeIcon" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- Mobile menu -->
-    <div data-landing-navbar-target="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md">
-      <div class="px-2 pt-2 pb-3 space-y-1">
-        <%= link_to root_path, 
-            data: { turbo_frame: "main_content", action: "landing-navbar#closeMenu" },
-            class: "block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200" do %>
-          <%= t("landing.navigation.about") %>
-        <% end %>
-        <%= link_to pricing_path, 
-            data: { turbo_frame: "main_content", action: "landing-navbar#closeMenu" },
-            class: "block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200" do %>
-          <%= t("landing.navigation.pricing") %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<%= turbo_frame_tag "main_content" do %>
 <!-- Hero Section -->
 <section class="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
   <!-- Background decoration -->
@@ -171,7 +81,8 @@
         <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
           <% if true # Firebase registration enabled %>
             <%= link_to sign_up_path, 
-                class: "inline-flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105", data: {target: "main_content"} do %>
+                data: { turbo: false },
+                class: "inline-flex items-center justify-center px-8 py-4 border-2 border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105" do %>
               <%= t("landing.hero.cta.get_started") %>
               <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -184,7 +95,8 @@
           <% end %>
           
           <%= link_to sign_in_path, 
-              class: "inline-flex items-center justify-center px-8 py-4 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105", data: {target: "main_content"}  do %>
+              data: { turbo: false },
+              class: "inline-flex items-center justify-center px-8 py-4 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105" do %>
             <%= t("landing.hero.cta.sign_in") %>
             <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -396,6 +308,7 @@
     
     <% if true # Firebase registration enabled %>
       <%= link_to sign_up_path, 
+          data: { turbo: false },
           class: "inline-flex items-center px-8 py-4 border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg font-semibold rounded-xl transition-all duration-200 transform hover:scale-105" do %>
         Get Started Free Now
         <svg class="ml-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -433,7 +346,7 @@
         <h3 class="font-semibold mb-4">Product</h3>
         <ul class="space-y-2 text-slate-300">
           <li><%= link_to "Features", "#", class: "hover:text-white transition-colors" %></li>
-          <li><%= link_to "Pricing", pricing_path, class: "hover:text-white transition-colors" %></li>
+          <li><%= link_to "Pricing", pricing_path, data: { turbo: false }, class: "hover:text-white transition-colors" %></li>
           <li><%= link_to "How it Works", "#", class: "hover:text-white transition-colors" %></li>
         </ul>
       </div>
@@ -452,4 +365,3 @@
     </div>
   </div>
 </footer>
-<% end %>

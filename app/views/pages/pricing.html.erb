@@ -1,49 +1,8 @@
 <% content_for :seo_title, "Pricing - Free Household Task Management | Voluntariness" %>
 <% content_for :seo_description, "Choose between our free household task management or upgrade to ad-free lifetime for just $8. No subscriptions, just simple one-time pricing." %>
 
-<!-- Navigation Header -->
-<nav class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
-  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
-      <!-- Logo -->
-      <div class="flex items-center space-x-3">
-        <div class="relative">
-          <%= image_tag("seifenblasen4.png", { class: "h-10 w-10 object-contain" }) %>
-        </div>
-        <%= link_to root_path, data: { turbo_frame: "main_content" }, class: "font-bold text-xl text-slate-900 dark:text-white font-serif" do %>
-          Voluntariness
-        <% end %>
-      </div>
-      
-      <!-- Navigation Links -->
-      <div class="flex items-center space-x-4">
-        <%= link_to root_path, 
-            data: { turbo_frame: "main_content" },
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.about") %>
-        <% end %>
-        <%= link_to pricing_path, 
-            data: { turbo_frame: "main_content" },
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.pricing") %>
-        <% end %>
-        <%= link_to sign_in_path, 
-            class: "text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors duration-200" do %>
-          <%= t("landing.navigation.sign_in") %>
-        <% end %>
-        <%= link_to sign_up_path, 
-            class: "inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105" do %>
-          <%= t("landing.navigation.start_free") %>
-          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</nav>
 
-<%= turbo_frame_tag "main_content" do %>
+
 <!-- Pricing Page -->
 <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
   <div class="container mx-auto px-4 py-16">
@@ -112,7 +71,7 @@
         </div>
 
         <!-- CTA Button -->
-        <%= link_to sign_up_path, class: "block w-full text-center px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-300 font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" do %>
+        <%= link_to sign_up_path, data: { turbo: "false" }, class: "block w-full text-center px-6 py-3 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-300 font-semibold rounded-lg border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors duration-200" do %>
           Get Started Free
         <% end %>
       </div>
@@ -235,4 +194,3 @@
     </div>
   </div>
 </div>
-<% end %>

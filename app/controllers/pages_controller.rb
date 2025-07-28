@@ -89,7 +89,7 @@ class PagesController < ApplicationController
     # Displays the pricing page with subscription tiers.
     def pricing
       respond_to do |format|
-        format.html { }         # Renders views/pages/pricing.html.erb
+        format.html { render layout: 'landing' }         # Renders views/pages/pricing.html.erb
         format.turbo_stream { } # Renders views/pages/pricing.turbo_stream.erb if needed
       end
     end

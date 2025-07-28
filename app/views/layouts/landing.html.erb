@@ -39,7 +39,10 @@
     <div id="flash" class="flash">
       <%= render "layouts/action_flash" %>
     </div>
-    <%= yield %>
+
+    <%= render "shared/landing_navigation" %>
+      <%= yield %>
+
     
     <!-- Load JavaScript after page content -->
     <%= javascript_importmap_tags %>
