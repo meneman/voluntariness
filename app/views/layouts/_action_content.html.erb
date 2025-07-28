@@ -1,0 +1,50 @@
+<%= turbo_frame_tag "action_content_#{message.id}" do %>
+  <!-- Action Content with horizontal layout -->
+  <div class="p-3">
+    <div class="flex items-center justify-between">
+      <!-- Undo Button on the left -->
+      <div class="flex-shrink-0">
+        <%= button_to action_path(message), method: :delete, 
+            class: "flex items-center justify-center space-x-1 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200",
+            form_class: "inline" do %>
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+          </svg>
+          <span><%= t('buttons.undo') %></span>
+        <% end %>
+      </div>
+      
+      <!-- Action information on the right -->
+      <div class="flex items-center space-x-2 flex-1 ml-3">
+        <!-- Display participants avatars -->
+        <div class="flex -space-x-1">
+          <% message.participants.each_with_index do |participant, index| %>
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow-sm border-2 border-white dark:border-slate-800" 
+                 style="background-color: <%= participant.color || '#6366f1' %>; color: white; z-index: <%= 10 - index %>;">
+              <%= participant.avatar %>
+            </div>
+          <% end %>
+        </div>
+        <div class="flex-1">
+          <p class="text-sm font-medium text-slate-900 dark:text-white"><%= message.task.title %></p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">
+            <% if message.participants.count == 1 %>
+              <%= message.participants.first.name %>
+            <% elsif message.participants.count == 2 %>
+              <%= message.participants.map(&:name).join(' & ') %>
+            <% else %>
+              <%= message.participants.first.name %> +<%= message.participants.count - 1 %> others
+            <% end %>
+            • <%= I18n.l(message.created_at, :format => "%d.%m.%y") %>
+          </p>
+        </div>
+        <div class="text-right">
+          <p class="text-sm font-medium text-green-600 dark:text-green-400">+<%= message.task.worth %> points</p>
+          <% if message.bonus_points && message.bonus_points > 0 %>
+            <p class="text-xs text-slate-500 dark:text-slate-400">+<%= message.bonus_points %> bonus!</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
