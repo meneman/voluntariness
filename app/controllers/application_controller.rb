@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern unless Rails.env.test? ||  Rails.env.development?
+  allow_browser versions: { safari: 16.4, firefox: 121, ie: false } unless Rails.env.test? ||  Rails.env.development?
   before_action :authenticate_user!
   before_action :ensure_current_household
+  after_action :track_page_view
 
   include Pagy::Backend
 
@@ -127,5 +128,22 @@ class ApplicationController < ActionController::Base
 
   def require_household_admin!
     raise Forbidden unless current_user.can_manage_household?(current_household)
+  end
+
+  # PostHog server-side tracking
+  def track_page_view
+    return unless user_signed_in? && PosthogConfig.enabled?
+    return if request.xhr? # Skip AJAX requests
+    return unless response.successful? # Only track successful page loads
+
+    PosthogService.track(current_user.id, "$pageview", {
+      '$current_url': request.url,
+      '$pathname': request.path,
+      '$referrer': request.referer,
+      'page_title': "Voluntariness",
+      'user_agent': request.user_agent,
+      'household_id': current_household&.id,
+      'household_name': current_household&.name
+    })
   end
 end

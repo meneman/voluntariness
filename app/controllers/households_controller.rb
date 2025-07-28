@@ -44,6 +44,29 @@ class HouseholdsController < ApplicationController
         Rails.logger.warn "Failed to create default tasks for household #{@household.id}"
       end
 
+      # Track household creation in PostHog
+      is_first_household = current_user.households.count == 1
+      PosthogService.track(current_user.id, 'household_created', {
+        household_id: @household.id,
+        household_name: @household.name,
+        user_total_households: current_user.households.count,
+        default_tasks_created: @household.tasks.count,
+        is_first_household: is_first_household
+      })
+      
+      # Track first household creation and onboarding completion
+      if is_first_household
+        PosthogService.track(current_user.id, 'first_household_created', {
+          household_name: @household.name,
+          days_since_signup: (Time.current - current_user.created_at) / 1.day
+        })
+        
+        PosthogService.track(current_user.id, 'onboarding_completed', {
+          completion_time_days: (Time.current - current_user.created_at) / 1.day,
+          default_tasks_created: @household.tasks.count
+        })
+      end
+
       redirect_to @household, notice: "Household was successfully created."
     else
       render :new, status: :unprocessable_entity

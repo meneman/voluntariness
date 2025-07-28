@@ -84,7 +84,8 @@
   
   .home.edit-mode .edit-section {
     display: flex;
-    
+    z-index: 100;
+    pointer-events: all;
   }
   .home.edit-mode .edit-section form {
     z-index: 3;

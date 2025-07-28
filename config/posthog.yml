@@ -1,0 +1,23 @@
+# PostHog Configuration
+# Environment-specific settings for PostHog analytics
+
+development:
+  enabled: true
+  project_key: "<%= Rails.application.credentials.posthog&.project_key %>"
+  api_host: "<%= Rails.application.credentials.posthog&.api_host || 'https://eu.i.posthog.com' %>"
+  ui_host: "<%= Rails.application.credentials.posthog&.ui_host || 'https://eu.posthog.com' %>"
+  debug: true
+
+test:
+  enabled: false
+  project_key: "<%= Rails.application.credentials.posthog&.project_key %>"
+  api_host: "<%= Rails.application.credentials.posthog&.api_host || 'https://eu.i.posthog.com' %>"
+  ui_host: "<%= Rails.application.credentials.posthog&.ui_host || 'https://eu.posthog.com' %>"
+  debug: false
+
+production:
+  enabled: true
+  project_key: "<%= Rails.application.credentials.posthog&.project_key || ENV['POSTHOG_PROJECT_KEY'] %>"
+  api_host: "<%= Rails.application.credentials.posthog&.api_host || ENV['POSTHOG_API_HOST'] || 'https://eu.i.posthog.com' %>"
+  ui_host: "<%= Rails.application.credentials.posthog&.ui_host || ENV['POSTHOG_UI_HOST'] || 'https://eu.posthog.com' %>"
+  debug: false

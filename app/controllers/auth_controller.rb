@@ -62,6 +62,25 @@ class AuthController < ApplicationController
       cookies.permanent.signed[:remember_token] = user.remember_token
       Rails.logger.info "🍪 Remember token set for user: #{user.email}"
 
+      # Track user sign-in in PostHog
+      was_new_user = user.created_at > 5.minutes.ago
+      PosthogService.track(user.id, was_new_user ? 'user_signed_up' : 'user_signed_in', {
+        email: user.email,
+        provider: decoded_token['firebase']&.dig('sign_in_provider') || 'firebase',
+        is_new_user: was_new_user,
+        total_households: user.households.count,
+        theme_preference: user.theme_preference
+      })
+
+      # Identify user in PostHog with properties
+      PosthogService.identify(user.id, {
+        email: user.email,
+        plan: user.plan_display_name,
+        theme_preference: user.theme_preference,
+        created_at: user.created_at.iso8601,
+        total_households: user.households.count
+      })
+
       response_data = {
         success: true,
         user: {

@@ -42,6 +42,35 @@ class ActionsController < ApplicationController
         if @action.save
             @action.add_participants(participant_ids, bonus_points: bonus_points)
             
+            # Track task completion in PostHog
+            user_total_completed_tasks = current_user.households.joins(participants: :actions).count
+            is_first_task = user_total_completed_tasks == 1
+            
+            participants.each do |participant|
+                PosthogService.track(current_user.id, 'task_completed', {
+                    task_id: @task.id,
+                    task_title: @task.title,
+                    task_worth: @task.worth,
+                    task_interval: @task.interval,
+                    participant_id: participant.id,
+                    participant_name: participant.name,
+                    bonus_points: bonus_points,
+                    household_id: current_household.id,
+                    total_participants: participants.count,
+                    is_first_task: is_first_task
+                })
+            end
+            
+            # Track first task completion milestone
+            if is_first_task
+                PosthogService.track(current_user.id, 'first_task_completed', {
+                    task_title: @task.title,
+                    task_worth: @task.worth,
+                    days_since_signup: (Time.current - current_user.created_at) / 1.day,
+                    participant_name: participants.first.name
+                })
+            end
+            
             respond_to do |format|
                 format.html { redirect_to root_path, notice: t("flash.quote_created") }
                 format.turbo_stream { flash.now[:action_flash] = @action }

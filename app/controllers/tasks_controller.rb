@@ -70,6 +70,16 @@ class TasksController < ApplicationController
         @task = current_household.tasks.build(task_params)
         @participants = current_household.participants
         if @task.save
+            # Track task creation
+            PosthogService.track(current_user.id, 'task_created', {
+                task_title: @task.title,
+                task_worth: @task.worth,
+                task_interval: @task.interval,
+                household_id: current_household.id,
+                household_name: current_household.name,
+                total_active_tasks: current_household.tasks.active.count
+            })
+            
             respond_to do |format|
                 format.turbo_stream { }
                 format.html { redirect_to @task }

@@ -36,12 +36,22 @@ export default class extends Controller {
   }
   
   setTheme(theme) {
+    const previousTheme = this.getCurrentTheme();
     this.applyTheme(theme);
     this.storeTheme(theme);
     this.updateIcons();
     
+    // Track theme change with PostHog (client-side for immediate feedback)
+    if (typeof posthog !== 'undefined') {
+      posthog.capture('theme_changed', {
+        new_theme: theme,
+        previous_theme: previousTheme,
+        source: 'client_immediate'
+      });
+    }
+    
     // Dispatch custom event for other controllers
-    this.dispatch('changed', { detail: { theme } });
+    this.dispatch('changed', { detail: { theme, previousTheme } });
   }
   
   applyTheme(theme) {

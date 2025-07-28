@@ -30,6 +30,15 @@ class ParticipantsController < ApplicationController
         @participant = current_household.participants.build(participant_params)
 
         if @participant.save
+            # Track participant creation
+            PosthogService.track(current_user.id, 'participant_created', {
+                participant_name: @participant.name,
+                participant_color: @participant.color,
+                household_id: current_household.id,
+                household_name: current_household.name,
+                total_participants: current_household.participants.count
+            })
+            
             respond_to do |format|
                 format.html { redirect_to participants_path, notice: t("flash.participant_created") }
                 format.turbo_stream { }

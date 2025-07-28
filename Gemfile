@@ -92,5 +92,8 @@ gem "litestream", "~> 0.14.0"
 # Rate limiting and request throttling
 gem "rack-attack"
 
+# PostHog analytics
+gem "posthog-ruby"
+
 # Redis not needed - using Solid Cache for single-server deployment
 # gem "redis", "~> 5.0"
