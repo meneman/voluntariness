@@ -268,6 +268,8 @@ class StatisticsServiceTest < ActiveSupport::TestCase
 
   test "should handle user with no actions" do
     user_with_no_actions = users(:two)
+    # Ensure user has a current household
+    user_with_no_actions.set_current_household(households(:two))
     # Clear any existing actions by going through participants
     user_with_no_actions.participants.each { |p| p.action_participants.destroy_all }
 
@@ -288,6 +290,8 @@ class StatisticsServiceTest < ActiveSupport::TestCase
 
   test "should handle user with no participants" do
     user_with_no_participants = users(:two)
+    # Ensure user has a current household
+    user_with_no_participants.set_current_household(households(:two))
     user_with_no_participants.participants.each(&:destroy)
 
     service = StatisticsService.new(user_with_no_participants)
@@ -303,14 +307,26 @@ class StatisticsServiceTest < ActiveSupport::TestCase
 
   test "should scope all queries to user's data only" do
     user_two = users(:two)
+    
+    # Set user_two's current household to household two (different from user one)
+    user_two.set_current_household(households(:two))
     service_two = StatisticsService.new(user_two)
 
-    # User one should not see user two's data
-    result = @service.generate_task_completion_by_participant
-    user_two_participant_names = user_two.participants.pluck(:name)
+    # User one's results should only include household one participants
+    result_user_one = @service.generate_task_completion_by_participant
+    user_one_household_participant_names = @user.current_household.participants.pluck(:name)
 
-    result.keys.each do |participant_name|
-      assert_not_includes user_two_participant_names, participant_name
+    # User two's results should only include household two participants  
+    result_user_two = service_two.generate_task_completion_by_participant
+    user_two_household_participant_names = user_two.current_household.participants.pluck(:name)
+
+    # Verify each user only sees their own household's participants
+    result_user_one.keys.each do |participant_name|
+      assert_includes user_one_household_participant_names, participant_name
+    end
+
+    result_user_two.keys.each do |participant_name|
+      assert_includes user_two_household_participant_names, participant_name
     end
   end
 end

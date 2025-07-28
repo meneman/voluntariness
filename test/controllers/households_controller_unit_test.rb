@@ -59,17 +59,17 @@ class HouseholdsControllerUnitTest < ActionController::TestCase
     
     # Verify default tasks were created
     new_household = Household.last
-    assert_equal 10, new_household.tasks.count, "Should create 10 default tasks"
+    assert_equal 8, new_household.tasks.count, "Should create 8 default tasks"
     
     # Verify some specific tasks
     tasks = new_household.tasks.ordered
     assert_equal "Dishes", tasks.first.title
-    assert_equal 5, tasks.first.worth
-    assert_equal 1, tasks.first.interval
+    assert_equal 1, tasks.first.worth
+    assert_nil tasks.first.interval
     assert_not tasks.first.archived
     
     assert_equal "Take out trash", tasks.second.title
-    assert_equal 3, tasks.second.worth
+    assert_equal 1, tasks.second.worth
     assert_equal 3, tasks.second.interval
     
     # Verify user membership

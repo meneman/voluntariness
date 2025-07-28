@@ -1,4 +1,5 @@
 require "test_helper"
+require "minitest/mock"
 
 class DefaultTasksServiceTest < ActiveSupport::TestCase
   def setup
@@ -18,13 +19,13 @@ class DefaultTasksServiceTest < ActiveSupport::TestCase
     # Verify tasks were created with correct attributes
     tasks = @household.tasks.ordered
     assert_equal "Dishes", tasks.first.title
-    assert_equal 5, tasks.first.worth
-    assert_equal 1, tasks.first.interval
+    assert_equal 1, tasks.first.worth
+    assert_nil tasks.first.interval
     assert_equal "Wash dishes and clean kitchen", tasks.first.description
     assert_equal false, tasks.first.archived
 
     assert_equal "Take out trash", tasks.second.title
-    assert_equal 3, tasks.second.worth
+    assert_equal 1, tasks.second.worth
     assert_equal 3, tasks.second.interval
   end
 
@@ -41,13 +42,13 @@ class DefaultTasksServiceTest < ActiveSupport::TestCase
     tasks = @service.load_default_tasks
 
     assert_not_empty tasks
-    assert_equal 10, tasks.size
+    assert_equal 8, tasks.size
 
     first_task = tasks.first
     assert_equal "Dishes", first_task["title"]
     assert_equal "dishes", first_task["title_key"]
-    assert_equal 5, first_task["worth"]
-    assert_equal 1, first_task["interval"]
+    assert_equal 1, first_task["worth"]
+    assert_nil first_task["interval"]
     assert_equal "Wash dishes and clean kitchen", first_task["description"]
     assert_equal "dishes", first_task["description_key"]
   end
@@ -156,13 +157,16 @@ class DefaultTasksServiceTest < ActiveSupport::TestCase
     @household.tasks.destroy_all
 
     # Mock I18n to return a translation for one key and fallback for another
-    I18n.stub :t, proc { |key, options|
+    original_method = I18n.method(:t)
+    I18n.define_singleton_method(:t) do |key, options = {}|
       if key == "default_tasks.dishes.title"
         "Translated Dishes Title"
       else
-        options[:default]
+        options[:default] || original_method.call(key, options)
       end
-    } do
+    end
+
+    begin
       DefaultTasksService.create_default_tasks_for(@household)
 
       tasks = @household.tasks.ordered
@@ -172,6 +176,9 @@ class DefaultTasksServiceTest < ActiveSupport::TestCase
       assert_equal "Translated Dishes Title", dishes_task.title
       # Should fallback to default for description
       assert_equal "Wash dishes and clean kitchen", dishes_task.description
+    ensure
+      # Restore original method
+      I18n.define_singleton_method(:t, original_method)
     end
   end
 

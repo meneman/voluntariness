@@ -7,8 +7,8 @@ class HouseholdsControllerSimpleTest < ActionDispatch::IntegrationTest
     household_one = households(:one) 
     household_two = households(:two)
     
-    # Set up initial session manually for this test
-    get households_path, headers: {}, session: { user_id: user_two.id, firebase_uid: user_two.firebase_uid }
+    # Sign in the user
+    sign_in(user_two)
     
     # Set initial household
     user_two.set_current_household(household_one)
@@ -17,7 +17,7 @@ class HouseholdsControllerSimpleTest < ActionDispatch::IntegrationTest
     assert_equal household_one, user_two.current_household
     
     # Switch to household_two
-    patch switch_household_household_path(household_two), session: { user_id: user_two.id, firebase_uid: user_two.firebase_uid }
+    patch switch_household_household_path(household_two)
     
     # Reload user to get fresh data
     user_two.reload

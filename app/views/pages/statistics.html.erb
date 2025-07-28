@@ -107,7 +107,7 @@
             <h3 class="text-xl font-semibold mb-4 sm:mb-0 text-slate-700 dark:text-slate-200">Points Progress Over Time</h3>
             
             <!-- Time Interval Filter Buttons -->
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 hidden">
               <% 
                 current_interval = params[:interval] || 'all'
                 intervals = [

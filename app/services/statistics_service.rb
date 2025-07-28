@@ -1,7 +1,14 @@
 class StatisticsService
-  def initialize(household, participants = nil, interval = nil)
-    @household = household
-    @participants = participants || household.participants.includes(actions: :task)
+  def initialize(user_or_household, participants = nil, interval = nil)
+    if user_or_household.is_a?(User)
+      @user = user_or_household
+      @household = user_or_household.current_household
+      raise ArgumentError, "User must have a current household" if @household.nil?
+    else
+      @household = user_or_household
+      @user = nil
+    end
+    @participants = participants || @household.participants.includes(actions: :task)
     @interval = interval
     @date_range = calculate_date_range(interval)
   end
@@ -220,7 +227,7 @@ class StatisticsService
 
   private
 
-  attr_reader :household, :participants, :interval, :date_range
+  attr_reader :user, :household, :participants, :interval, :date_range
 
   def calculate_date_range(interval)
     case interval
