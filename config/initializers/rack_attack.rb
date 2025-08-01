@@ -10,6 +10,11 @@ class Rack::Attack
     "127.0.0.1" == req.ip || "::1" == req.ip
   end
 
+  # Safelist asset requests to reduce noise
+  safelist("asset requests") do |req|
+    req.path.start_with?("/assets/")
+  end
+
   # Safelist your server IP and any trusted monitoring/health check IPs
   safelist("allow from trusted IPs") do |req|
     # Add your server IP or monitoring service IPs here
@@ -98,11 +103,16 @@ class Rack::Attack
     ]
   end
 
-  # Log blocked and throttled requests in development
+  # Log blocked and throttled requests in development (excluding routine safelisted requests)
   if Rails.env.development?
     ActiveSupport::Notifications.subscribe("rack.attack") do |name, start, finish, request_id, payload|
       req = payload[:request]
-      puts "[Rack::Attack] #{req.env["rack.attack.match_discriminator"]} #{req.env["rack.attack.matched"]}"
+      match_type = req.env["rack.attack.matched"]
+      
+      # Only log throttles and blocks, not routine safelisted requests
+      if match_type && !match_type.include?("allow")
+        puts "[Rack::Attack] #{req.env["rack.attack.match_discriminator"]} #{match_type}"
+      end
     end
   end
 end

@@ -9,6 +9,8 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+@import "flash_animations.css";
+
 /* Landing page styles */
 .bg-grid-pattern {
   background-image: 

@@ -4,14 +4,15 @@
     <div class="flex items-center justify-between">
       <!-- Undo Button on the left -->
       <div class="flex-shrink-0">
-        <%= button_to action_path(message), method: :delete, 
-            class: "flex items-center justify-center space-x-1 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200",
-            form_class: "inline" do %>
+        <button type="button"
+                class="flex items-center justify-center space-x-1 px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-600 rounded-lg transition-colors duration-200"
+                data-action="click->flash-undo#triggerBreakAndFall"
+                data-flash-undo-delete-url-value="<%= action_path(message) %>">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
           </svg>
           <span><%= t('buttons.undo') %></span>
-        <% end %>
+        </button>
       </div>
       
       <!-- Action information on the right -->

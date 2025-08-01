@@ -1,0 +1,62 @@
+/* Flash Card Animation Enhancements */
+
+/* Base styles for flash cards */
+.flash__message [data-flash-undo-target="card"] {
+  transition: transform 0.1s ease-out;
+}
+
+/* Hover effect for undo button */
+.flash__message button:hover {
+  transform: scale(1.05);
+}
+
+/* Optional: Add a subtle glow effect during animation */
+.flash__message [data-flash-undo-target="card"].animating {
+  box-shadow: 
+    0 0 20px rgba(239, 68, 68, 0.3),
+    0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Add slight perspective to make 3D rotation more noticeable */
+.flash__message {
+  perspective: 1000px;
+}
+
+/* Smooth entry animation for new flash messages */
+.flash__message {
+  animation: slideInFromTop 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: top center;
+}
+
+@keyframes slideInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) scale(0.9);
+  }
+  70% {
+    transform: translateY(10px) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Optional: Add particle effect placeholders */
+.flash__message::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(45deg, transparent, rgba(34, 197, 94, 0.1), transparent);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.flash__message:hover::before {
+  opacity: 1;
+}
