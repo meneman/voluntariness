@@ -91,6 +91,11 @@ Rails.application.routes.draw do
   delete "sign_out", to: "auth#sign_out"
   delete "auth/delete_account", to: "auth#delete_account"
 
+  # Legal pages
+  get "impressum", to: "impressum#index", as: :impressum
+  get "terms", to: "legal#terms", as: :terms
+  get "privacy", to: "legal#privacy", as: :privacy
+  
   # SEO routes
   get "sitemap.xml", to: "sitemaps#index", format: :xml
   get "robots.txt", to: "sitemaps#robots", format: :text

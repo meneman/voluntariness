@@ -91,6 +91,30 @@
                    placeholder="Confirm your password">
           </div>
 
+          <!-- Terms Acceptance Checkbox (Required for German/EU law) -->
+          <div class="flex items-start space-x-3">
+            <input type="checkbox" 
+                   id="terms-agreement"
+                   name="terms-agreement"
+                   data-firebase-auth-target="termsCheckbox"
+                   required 
+                   class="mt-1 h-4 w-4 text-blue-600 border-slate-300 dark:border-slate-600 
+                          rounded focus:ring-blue-500 dark:focus:ring-blue-400
+                          bg-white dark:bg-slate-700">
+            <label for="terms-agreement" class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              I agree to the 
+              <%= link_to "Terms of Service (AGB)", terms_path, 
+                  target: "_blank",
+                  class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %> 
+              and 
+              <%= link_to "Privacy Policy", privacy_path, 
+                  target: "_blank", 
+                  class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline" %>.
+              I understand that my data will be processed according to the Privacy Policy.
+              <span class="text-red-500">*</span>
+            </label>
+          </div>
+
           <!-- Submit Button -->
           <button type="submit" 
                   data-firebase-auth-target="submitButton"
@@ -143,12 +167,6 @@
           </div>
 
 
-          <!-- Terms Notice -->
-          <div class="text-center">
-            <p class="text-xs text-slate-500 dark:text-slate-400">
-              By creating an account, you agree to our Terms of Service and Privacy Policy
-            </p>
-          </div>
 
           <!-- Sign In Link -->
           <div class="text-center">
