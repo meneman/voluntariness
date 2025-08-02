@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   get "pages/statistics", as: :statistics
   get "pages/gambling", as: :gambling
+  get "pages/chatgpt_data", as: :chatgpt_data
 
   # Gamble routes
   get "gamble", to: "gamble#index", as: :gamble

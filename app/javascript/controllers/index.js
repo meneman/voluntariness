@@ -14,6 +14,7 @@ import MultiParticipantTimerController from "controllers/multi_participant_timer
 import FirebaseAuthController from "controllers/firebase_auth_controller";
 import LandingNavbarController from "controllers/landing_navbar_controller";
 import ThemeController from "controllers/theme_controller";
+import ChatgptDataController from "controllers/chatgpt_data_controller";
 
 import Sortable from "@stimulus-components/sortable";
 
@@ -34,3 +35,4 @@ application.register("multi-participant-timer", MultiParticipantTimerController)
 application.register("firebase-auth", FirebaseAuthController)
 application.register("landing-navbar", LandingNavbarController)
 application.register("theme", ThemeController)
+application.register("chatgpt-data", ChatgptDataController)

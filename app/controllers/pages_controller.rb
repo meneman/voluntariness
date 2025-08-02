@@ -8,8 +8,8 @@ class PagesController < ApplicationController
     # Set @participants and @tasks instance variables for most actions,
     # loading either all or only active ones based on params[:active].
     # Excludes the :home action as it has specific loading logic.
-    before_action :set_participants, except: [ :home, :pricing ]
-    before_action :set_tasks, except: [ :home, :pricing  ]
+    before_action :set_participants, except: [ :home, :pricing, :chatgpt_data ]
+    before_action :set_tasks, except: [ :home, :pricing, :chatgpt_data ]
 
     # --- Actions ---
 
@@ -93,6 +93,17 @@ class PagesController < ApplicationController
       respond_to do |format|
         format.html { render layout: 'landing' }         # Renders views/pages/pricing.html.erb
         format.turbo_stream { } # Renders views/pages/pricing.turbo_stream.erb if needed
+      end
+    end
+
+    # GET /chatgpt_data
+    # Displays the ChatGPT prompt data for household analysis
+    def chatgpt_data
+      @chatgpt_prompt = current_household.participants_data_for_chatgpt
+
+      respond_to do |format|
+        format.html { }         # Renders views/pages/chatgpt_data.html.erb
+        format.turbo_stream { } # Renders views/pages/chatgpt_data.turbo_stream.erb if needed
       end
     end
 

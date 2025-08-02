@@ -1,0 +1,73 @@
+<turbo-frame id="content">
+  <div class="container mx-auto p-6">
+    <div class="bg-white rounded-lg shadow-lg p-6" data-controller="chatgpt-data">
+      <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">ChatGPT Analysis Data</h1>
+        <div class="flex space-x-3">
+          <button 
+            id="toggle-data-btn"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200"
+            data-action="click->chatgpt-data#toggleData"
+          >
+            Show Data
+          </button>
+          <button 
+            id="copy-data-btn"
+            class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 hidden"
+            data-action="click->chatgpt-data#copyData"
+          >
+            Copy to Clipboard
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <p class="text-gray-600 leading-relaxed">
+          This feature generates a comprehensive analysis prompt for ChatGPT based on your household's task completion data. 
+          The data includes participant performance metrics, task completion patterns, and detailed breakdowns that can help 
+          ChatGPT provide insights and suggestions for improving your household task management.
+        </p>
+      </div>
+
+      <div 
+        id="data-container" 
+        class="hidden"
+        data-chatgpt-data-target="container"
+      >
+        <div class="mb-4">
+          <h2 class="text-xl font-semibold text-gray-700 mb-2">ChatGPT Prompt Data:</h2>
+          <p class="text-sm text-gray-500 mb-3">
+            Copy the text below and paste it into ChatGPT for personalized household management insights.
+          </p>
+        </div>
+
+        <div class="relative">
+          <pre 
+            id="chatgpt-prompt" 
+            class="bg-gray-100 border border-gray-300 rounded-lg p-4 text-sm text-gray-800 whitespace-pre-wrap overflow-x-auto max-h-96 overflow-y-auto"
+            data-chatgpt-data-target="data"
+          ><%= @chatgpt_prompt %></pre>
+          
+          <div class="absolute top-2 right-2">
+            <button 
+              class="bg-gray-500 hover:bg-gray-600 text-white text-xs font-medium py-1 px-2 rounded transition-colors duration-200"
+              data-action="click->chatgpt-data#copyData"
+            >
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h3 class="text-sm font-semibold text-blue-800 mb-2">How to Use:</h3>
+          <ol class="text-sm text-blue-700 space-y-1 list-decimal list-inside">
+            <li>Click "Copy to Clipboard" to copy the prompt data</li>
+            <li>Open ChatGPT in your browser or app</li>
+            <li>Paste the copied text into ChatGPT</li>
+            <li>Review ChatGPT's analysis and recommendations</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</turbo-frame>
