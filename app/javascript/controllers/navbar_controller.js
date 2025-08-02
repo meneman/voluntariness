@@ -22,18 +22,15 @@ export default class extends Controller {
   toggleShowMenu() {
     this.isMenuOpen = !this.isMenuOpen;
     
-    // Toggle menu visibility with animation
+    // Toggle menu visibility with CSS transitions
     if (this.isMenuOpen) {
-      this.menuTarget.classList.remove("hidden");
-      // Add a small delay to allow the element to render before animating
-      setTimeout(() => {
-        this.menuTarget.classList.add("animate-slideDown");
-      }, 10);
+      // Show menu
+      this.menuTarget.classList.remove("opacity-0", "-translate-y-2", "pointer-events-none");
+      this.menuTarget.classList.add("opacity-100", "translate-y-0", "pointer-events-auto");
     } else {
-      this.menuTarget.classList.remove("animate-slideDown");
-      setTimeout(() => {
-        this.menuTarget.classList.add("hidden");
-      }, 200);
+      // Hide menu
+      this.menuTarget.classList.remove("opacity-100", "translate-y-0", "pointer-events-auto");
+      this.menuTarget.classList.add("opacity-0", "-translate-y-2", "pointer-events-none");
     }
     
     // Toggle icons
