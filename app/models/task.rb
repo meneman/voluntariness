@@ -11,6 +11,7 @@ class Task < ApplicationRecord
     scope :ordered, -> { order(position: :asc) }
 
     after_update_commit :update_participant_points_if_worth_changed
+    after_update_commit :delete_if_archived_without_actions
 
     def done_today
         return false unless actions.last
@@ -56,5 +57,13 @@ class Task < ApplicationRecord
                                           .distinct
 
         broadcast_multiple_participants_points(affected_participants)
+    end
+
+    def delete_if_archived_without_actions
+        return unless saved_change_to_archived?
+        return unless archived?
+        return if actions.exists?
+
+        destroy
     end
 end

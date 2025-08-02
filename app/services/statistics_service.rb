@@ -28,7 +28,7 @@ class StatisticsService
       )
       .where("tasks.archived = ?", false)
       .order("tasks.title", "participants.name")
-    
+
     apply_date_filter(query)
   end
 
@@ -37,7 +37,7 @@ class StatisticsService
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-    
+
     apply_date_filter(query).count
   end
 
@@ -57,7 +57,7 @@ class StatisticsService
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-    
+
     apply_date_filter(query).sum("action_participants.points_earned")
   end
 
@@ -69,7 +69,7 @@ class StatisticsService
       .then { |query| apply_date_filter(query) }
       .group("tasks.title", "tasks.position")
       .count
-    
+
     # Group by title and sum counts, keeping track of position
     result = {}
     task_data.each do |(title, position), count|
@@ -79,11 +79,11 @@ class StatisticsService
         result[title] = { count: count, position: position }
       end
     end
-    
+
     # Sort by position and return hash with title => count
     result
       .sort_by { |_, data| data[:position] || Float::INFINITY }
-      .map { |title, data| [title, data[:count]] }
+      .map { |title, data| [ title, data[:count] ] }
       .to_h
   end
 
@@ -91,7 +91,7 @@ class StatisticsService
     query = ActionParticipant
       .joins(:participant)
       .where(participants: { household_id: household.id })
-    
+
     if date_range
       query.where(created_at: date_range).group_by_day(:created_at).count
     else
@@ -104,7 +104,7 @@ class StatisticsService
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .group("participants.name")
-    
+
     if date_range
       query.where(created_at: date_range).group_by_day(:created_at).count
     else
@@ -116,7 +116,7 @@ class StatisticsService
     query = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
-    
+
     if date_range
       query.where(created_at: date_range).group_by_day(:created_at).sum("action_participants.points_earned")
     else
@@ -129,7 +129,7 @@ class StatisticsService
       .joins(:participant)
       .where(participants: { household_id: household.id })
       .where.not(bonus_points: nil)
-    
+
     if date_range
       query.where(created_at: date_range).group_by_day(:created_at).sum("action_participants.bonus_points")
     else
@@ -299,7 +299,7 @@ class StatisticsService
 
     chart_labels = all_dates.map { |date| date.strftime("%d %b") }
     chart_cumulative_data = Hash.new { |h, k| h[k] = {} }
-    
+
     # Get participants from the input data keys
     participant_names = cumulative_points_by_participant_day.keys
 
