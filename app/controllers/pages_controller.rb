@@ -34,7 +34,7 @@ class PagesController < ApplicationController
       interval = params[:interval]
       start_date = params[:start_date]
       end_date = params[:end_date]
-      
+
       # Use StatisticsService to handle complex data generation
       service = StatisticsService.new(current_household, @participants, interval, start_date, end_date)
 
@@ -91,7 +91,7 @@ class PagesController < ApplicationController
     # Displays the pricing page with subscription tiers.
     def pricing
       respond_to do |format|
-        format.html { render layout: 'landing' }         # Renders views/pages/pricing.html.erb
+        format.html { render layout: "landing" }         # Renders views/pages/pricing.html.erb
         format.turbo_stream { } # Renders views/pages/pricing.turbo_stream.erb if needed
       end
     end
@@ -99,7 +99,13 @@ class PagesController < ApplicationController
     # GET /chatgpt_data
     # Displays the ChatGPT prompt data for household analysis
     def chatgpt_data
-      @chatgpt_prompt = current_household.participants_data_for_chatgpt
+      begin
+        @chatgpt_prompt = ChatGptPromptService.new(current_household).generate_prompt
+      rescue StandardError => e
+        Rails.logger.error "ChatGPT prompt generation failed: #{e.message}"
+        @chatgpt_prompt = "Error generating ChatGPT prompt. Please try again later."
+        flash.now[:alert] = "Unable to generate analysis data at this time."
+      end
 
       respond_to do |format|
         format.html { }         # Renders views/pages/chatgpt_data.html.erb

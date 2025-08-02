@@ -20,7 +20,7 @@
     <!-- Tasks Grid -->
     <div class="w-full">
       <%= turbo_frame_tag "tasks_list_home", class:"contents" do  %>
-        <div data-controller="sortable" data-sortable-handle-value=".sortable-handle" data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div data-controller="sortable" data-sortable-handle-value=".sortable-handle" data-sortable-resource-name-value="task" data-sortable-animation-value="150" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4">
           <% @tasks.each do |task| %>
             <div class="w-full min-w-0">
               <%= render partial: "tasks/task", locals: { participants: @participants, task: task }%>
