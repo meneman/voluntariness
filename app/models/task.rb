@@ -1,4 +1,6 @@
 class Task < ApplicationRecord
+    include ParticipantPointsBroadcaster
+    
     belongs_to :household
     has_many :actions, dependent: :destroy
     validates :title, presence: true
@@ -53,26 +55,6 @@ class Task < ApplicationRecord
                                           .where(actions: { task_id: id })
                                           .distinct
 
-        affected_participants.find_each do |participant|
-            participant.reload # Ensure fresh data
-            broadcast_replace_to "participants_points",
-                target: "points_for_#{participant.id}",
-                partial: "pages/points",
-                locals: {
-                    animate: true,
-                    id: participant.id,
-                    total_points: participant.total_points,
-                    base_points: participant.base_points,
-                    bonus_points_total: participant.bonus_points_total
-                }
-
-            broadcast_replace_to "participants_points",
-                target: "bonus_points_for_#{participant.id}",
-                partial: "participants/bonus_points",
-                locals: {
-                    id: participant.id,
-                    bonus_points_total: participant.bonus_points_total
-                }
-        end
+        broadcast_multiple_participants_points(affected_participants)
     end
 end

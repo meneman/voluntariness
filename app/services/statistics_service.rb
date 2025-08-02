@@ -60,14 +60,28 @@ class StatisticsService
   end
 
   def generate_task_popularity
-    query = ActionParticipant
+    # Get task completion counts with position for sorting
+    task_data = ActionParticipant
       .joins(:participant, action: :task)
       .where(participants: { household_id: household.id })
-      .group("tasks.title")
-    
-    apply_date_filter(query)
+      .then { |query| apply_date_filter(query) }
+      .group("tasks.title", "tasks.position")
       .count
-      .sort_by { |_, count| -count }
+    
+    # Group by title and sum counts, keeping track of position
+    result = {}
+    task_data.each do |(title, position), count|
+      if result[title]
+        result[title][:count] += count
+      else
+        result[title] = { count: count, position: position }
+      end
+    end
+    
+    # Sort by position and return hash with title => count
+    result
+      .sort_by { |_, data| data[:position] || Float::INFINITY }
+      .map { |title, data| [title, data[:count]] }
       .to_h
   end
 
