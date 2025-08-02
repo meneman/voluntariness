@@ -106,27 +106,48 @@
           <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <h3 class="text-xl font-semibold mb-4 sm:mb-0 text-slate-700 dark:text-slate-200">Points Progress Over Time</h3>
             
-            <!-- Time Interval Filter Buttons -->
-            <div class="flex flex-wrap gap-2 hidden">
-              <% 
-                current_interval = params[:interval] || 'all'
-                intervals = [
-                  { key: 'all', label: 'All Time' },
-                  { key: '1year', label: '1 Year' },
-                  { key: '6months', label: '6 Months' },
-                  { key: '1month', label: '1 Month' },
-                  { key: '1week', label: '1 Week' }
-                ]
-              %>
-              <% intervals.each do |interval| %>
-                <%= link_to interval[:label], 
-                    statistics_path(interval: interval[:key]), 
-                    class: "px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 #{
-                      current_interval == interval[:key] ? 
-                        'bg-blue-600 text-white shadow-md' : 
-                        'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
-                    }" %>
-              <% end %>
+            <!-- Time Interval Filter Buttons and Custom Date Range -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <!-- Preset Interval Buttons -->
+              <div class="flex flex-wrap gap-2">
+                <% 
+                  current_interval = params[:interval] || 'all'
+                  intervals = [
+                    { key: 'all', label: 'All Time' },
+                    { key: '1year', label: '1 Year' },
+                    { key: '6months', label: '6 Months' },
+                    { key: '1month', label: '1 Month' },
+                    { key: '1week', label: '1 Week' }
+                  ]
+                %>
+                <% intervals.each do |interval| %>
+                  <%= link_to interval[:label], 
+                      statistics_path(interval: interval[:key]), 
+                      class: "px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 #{
+                        current_interval == interval[:key] ? 
+                          'bg-blue-600 text-white shadow-md' : 
+                          'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600'
+                      }" %>
+                <% end %>
+              </div>
+              
+              <!-- Custom Date Range -->
+              <div class="flex items-center gap-2 border-l border-slate-300 dark:border-slate-600 pl-4">
+                <span class="text-sm text-slate-600 dark:text-slate-400 whitespace-nowrap">Custom Range:</span>
+                <%= form_with url: statistics_path, method: :get, local: true, class: "flex items-center gap-2", data: { controller: "date-range-submit" } do |form| %>
+                  <%= form.date_field :start_date, 
+                      value: params[:start_date], 
+                      class: "px-2 py-1 text-xs border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300",
+                      data: { date_range_submit_target: "startDate", action: "blur->date-range-submit#checkAndSubmit" },
+                      placeholder: "Start date" %>
+                  <span class="text-slate-500 dark:text-slate-400">to</span>
+                  <%= form.date_field :end_date, 
+                      value: params[:end_date], 
+                      class: "px-2 py-1 text-xs border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300",
+                      data: { date_range_submit_target: "endDate", action: "blur->date-range-submit#checkAndSubmit" },
+                      placeholder: "End date" %>
+                <% end %>
+              </div>
             </div>
           </div>
           <div data-controller="chart"

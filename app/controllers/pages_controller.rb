@@ -32,9 +32,11 @@ class PagesController < ApplicationController
     def statistics
       # Get interval parameter from query string (1week, 1month, 1year, all)
       interval = params[:interval]
+      start_date = params[:start_date]
+      end_date = params[:end_date]
       
       # Use StatisticsService to handle complex data generation
-      service = StatisticsService.new(current_household, @participants, interval)
+      service = StatisticsService.new(current_household, @participants, interval, start_date, end_date)
 
       @data = service.generate_task_completion_data
       @task_completion_by_participant = service.generate_task_completion_by_participant
